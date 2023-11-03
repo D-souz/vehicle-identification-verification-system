@@ -9,9 +9,9 @@ const CrmPage = lazy(() => import("./pages/dashboard/crm"));
 const ProjectPage = lazy(() => import("./pages/dashboard/project"));
 const BankingPage = lazy(() => import("./pages/dashboard/banking"));
 
-const Login = lazy(() => import("./pages/auth/login"));
+// const Login = lazy(() => import("./pages/auth/login"));
 const Login2 = lazy(() => import("./pages/auth/login2"));
-const Login3 = lazy(() => import("./pages/auth/login3"));
+// const Login3 = lazy(() => import("./pages/auth/login3"));
 const Register = lazy(() => import("./pages/auth/register"));
 const Register2 = lazy(() => import("./pages/auth/register2"));
 const Register3 = lazy(() => import("./pages/auth/register3"));
@@ -112,30 +112,30 @@ function App() {
   return (
     <main className="App  relative">
       <Routes>
-        <Route
+        {/* <Route
           path="/"
           element={
             <Suspense fallback={<Loading />}>
               <Login />
             </Suspense>
           }
-        />
+        /> */}
         <Route
-          path="/login2"
+          path="/"
           element={
             <Suspense fallback={<Loading />}>
               <Login2 />
             </Suspense>
           }
         />
-        <Route
+        {/* <Route
           path="/login3"
           element={
             <Suspense fallback={<Loading />}>
               <Login3 />
             </Suspense>
           }
-        />
+        /> */}
         <Route
           path="/register"
           element={

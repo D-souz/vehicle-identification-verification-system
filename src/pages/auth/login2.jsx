@@ -7,6 +7,7 @@ import useDarkMode from "@/hooks/useDarkMode";
 // image import
 import LogoWhite from "@/assets/images/logo/logo-white.svg";
 import Logo from "@/assets/images/logo/logo.svg";
+import logo from "@/assets/images/logo/logo-1.png"
 import bgImage from "@/assets/images/all-img/login-bg.png";
 
 const login2 = () => {
@@ -31,7 +32,7 @@ const login2 = () => {
                 <div className="text-center 2xl:mb-10 mb-4">
                   <h4 className="font-medium">Sign in</h4>
                   <div className="text-slate-500 dark:text-slate-400 text-base">
-                    Sign in to your account to start using Dashcode
+                    Sign in to your account to start using the application
                   </div>
                 </div>
                 <LoginForm />
@@ -40,9 +41,9 @@ const login2 = () => {
                     Or continue with
                   </div>
                 </div>
-                <div className="max-w-[242px] mx-auto mt-8 w-full">
+                {/* <div className="max-w-[242px] mx-auto mt-8 w-full">
                   <Social />
-                </div>
+                </div> */}
                 <div className="md:max-w-[345px] mt-6 mx-auto font-normal text-slate-500 dark:text-slate-400mt-12 uppercase text-sm">
                   Don’t have an account?{" "}
                   <Link
@@ -54,7 +55,7 @@ const login2 = () => {
                 </div>
               </div>
               <div className="auth-footer text-center">
-                Copyright 2021, Dashcode All Rights Reserved.
+                Copyright 2021, D'souza All Rights Reserved.
               </div>
             </div>
           </div>
@@ -66,14 +67,16 @@ const login2 = () => {
           >
             <div className="flex flex-col h-full justify-center">
               <div className="flex-1 flex flex-col justify-center items-center">
-                <Link to="/">
-                  <img src={LogoWhite} alt="" className="mb-10" />
+                <Link to="/" >
+                  <img src={logo} alt="System logo" />
                 </Link>
+                <div className="text-center text-white fw-bold" style={{fontSize: "20px"}}>Welcome to the Vehicle Identification and Verification System</div>
               </div>
+              
               <div>
                 <div className="black-500-title max-w-[525px] mx-auto pb-20 text-center">
-                  Unlock your Project
-                  <span className="text-white font-bold">performance</span>
+                Unlock a New Era of Vehicle Management and Security
+                  {/* <span className="text-white font-bold">performance</span> */}
                 </div>
               </div>
             </div>

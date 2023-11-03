@@ -1,4 +1,100 @@
 export const menuItems = [
+  // {
+  //   isHeadr: true,
+  //   title: "menu",
+  // },
+
+  // {
+  //   title: "Dashboard",
+  //   icon: "heroicons-outline:home",
+  //   isOpen: true,
+  //   isHide: true,
+  //   child: [
+  //     {
+  //       childtitle: "Analytics Dashboard",
+  //       childlink: "dashboard",
+  //     },
+  //     {
+  //       childtitle: "Ecommerce Dashboard",
+  //       childlink: "ecommerce",
+  //     },
+  //     {
+  //       childtitle: "Project  Dashbaord",
+  //       childlink: "project",
+  //     },
+  //     {
+  //       childtitle: " CRM Dashbaord",
+  //       childlink: "crm",
+  //     },
+  //     {
+  //       childtitle: "Banking Dashboard",
+  //       childlink: "banking",
+  //     },
+  //   ],
+  // },
+  // {
+  //   title: "changelog",
+  //   icon: "heroicons:arrow-trending-up",
+  //   link: "changelog",
+  //   isHide: false,
+  //   badge: "1.0.0",
+  // },
+  // {
+  //   isHeadr: true,
+  //   title: "apps",
+  // },
+
+  // {
+  //   title: "Chat",
+  //   isHide: true,
+  //   icon: "heroicons-outline:chat",
+  //   link: "chat",
+  // },
+
+  // {
+  //   title: "Email",
+  //   isHide: true,
+  //   icon: "heroicons-outline:mail",
+  //   link: "email",
+  // },
+
+  // {
+  //   title: "Kanban",
+  //   isHide: true,
+  //   icon: "heroicons-outline:view-boards",
+  //   link: "kanban",
+  // },
+  // {
+  //   title: "Calender",
+  //   isHide: true,
+  //   icon: "heroicons-outline:calendar",
+  //   link: "calender",
+  // },
+
+  // {
+  //   title: "Todo",
+  //   isHide: true,
+  //   icon: "heroicons-outline:clipboard-check",
+  //   link: "todo",
+  // },
+
+  // {
+  //   title: "Projects",
+  //   icon: "heroicons-outline:document",
+  //   link: "#",
+  //   isHide: true,
+  //   child: [
+  //     {
+  //       childtitle: "Projects",
+  //       childlink: "projects",
+  //     },
+  //     {
+  //       childtitle: "Project Details",
+  //       childlink: "project-details",
+  //     },
+  //   ],
+  // },
+  // pages go here 
   {
     isHeadr: true,
     title: "menu",
@@ -6,94 +102,49 @@ export const menuItems = [
 
   {
     title: "Dashboard",
+    isHide: true,
     icon: "heroicons-outline:home",
-    isOpen: true,
-    isHide: true,
-    child: [
-      {
-        childtitle: "Analytics Dashboard",
-        childlink: "dashboard",
-      },
-      {
-        childtitle: "Ecommerce Dashboard",
-        childlink: "ecommerce",
-      },
-      {
-        childtitle: "Project  Dashbaord",
-        childlink: "project",
-      },
-      {
-        childtitle: " CRM Dashbaord",
-        childlink: "crm",
-      },
-      {
-        childtitle: "Banking Dashboard",
-        childlink: "banking",
-      },
-    ],
-  },
-  {
-    title: "changelog",
-    icon: "heroicons:arrow-trending-up",
-    link: "changelog",
-    isHide: false,
-    badge: "1.0.0",
-  },
-  {
-    isHeadr: true,
-    title: "apps",
+    link: "dashboard",
   },
 
   {
-    title: "Chat",
+    title: "Vehicle Registration",
     isHide: true,
-    icon: "heroicons-outline:chat",
-    link: "chat",
-  },
-
-  {
-    title: "Email",
-    isHide: true,
-    icon: "heroicons-outline:mail",
+    icon: "heroicons-outline:identification",
     link: "email",
   },
 
   {
-    title: "Kanban",
+    title: "Scan QR code",
     isHide: true,
-    icon: "heroicons-outline:view-boards",
+    icon: "ic:round-qr-code-scanner",
     link: "kanban",
   },
   {
-    title: "Calender",
+    title: "Manage team",
     isHide: true,
-    icon: "heroicons-outline:calendar",
+    icon: "heroicons-outline:user-group",
     link: "calender",
   },
-
   {
-    title: "Todo",
+    title: "Enrollees",
     isHide: true,
-    icon: "heroicons-outline:clipboard-check",
+    icon: "heroicons-outline:user",
     link: "todo",
   },
-
   {
-    title: "Projects",
-    icon: "heroicons-outline:document",
-    link: "#",
+    title: "Reports",
     isHide: true,
-    child: [
-      {
-        childtitle: "Projects",
-        childlink: "projects",
-      },
-      {
-        childtitle: "Project Details",
-        childlink: "project-details",
-      },
-    ],
+    icon: "mdi:report-box-outline",
+    link: "todo",
   },
+  {
+    title: "Logout",
+    isHide: true,
+    icon: "tabler:logout-2",
+    link: "chat",
+  },
+  
   {
     isHeadr: true,
     title: "Pages",
