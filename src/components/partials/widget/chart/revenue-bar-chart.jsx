@@ -8,17 +8,17 @@ const RevenueBarChart = ({ height = 400 }) => {
   const [isRtl] = useRtl();
   const series = [
     {
-      name: "Net Profit",
+      name: "Vehicles granted access",
       data: [44, 55, 57, 56, 61, 58, 63, 60, 66],
     },
     {
-      name: "Revenue",
+      name: "Vehicles exiting",
       data: [76, 85, 101, 98, 87, 105, 91, 114, 94],
     },
-    {
-      name: "Free Cash Flow",
-      data: [35, 41, 36, 26, 45, 48, 52, 53, 41],
-    },
+    // {
+    //   name: "Free Cash Flow",
+    //   data: [35, 41, 36, 26, 45, 48, 52, 53, 41],
+    // },
   ];
   const options = {
     chart: {
@@ -56,7 +56,7 @@ const RevenueBarChart = ({ height = 400 }) => {
       },
     },
     title: {
-      text: "Revenue Report",
+      text: "Access Report",
       align: "left",
 
       offsetX: isRtl ? "0%" : 0,

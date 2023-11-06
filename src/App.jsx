@@ -4,7 +4,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 // home pages  & dashboard
 //import Dashboard from "./pages/dashboard";
 const Dashboard = lazy(() => import("./pages/dashboard"));
-const Ecommerce = lazy(() => import("./pages/dashboard/ecommerce"));
+const VehicleRegistartion = lazy(() => import("./pages/dashboard/registervehicle"));
 const CrmPage = lazy(() => import("./pages/dashboard/crm"));
 const ProjectPage = lazy(() => import("./pages/dashboard/project"));
 const BankingPage = lazy(() => import("./pages/dashboard/banking"));
@@ -210,7 +210,7 @@ function App() {
         />
         <Route path="/*" element={<Layout />}>
           <Route path="dashboard" element={<Dashboard />} />
-          <Route path="ecommerce" element={<Ecommerce />} />
+          <Route path="register-vehicle" element={<VehicleRegistartion />} />
           <Route path="crm" element={<CrmPage />} />
           <Route path="project" element={<ProjectPage />} />
           <Route path="banking" element={<BankingPage />} />

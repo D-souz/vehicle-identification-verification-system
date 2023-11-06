@@ -12,24 +12,25 @@ import {
   usePagination,
 } from "react-table";
 import GlobalFilter from "./GlobalFilter";
+import Modal from "../../../components/ui/Modal";
 
 const COLUMNS = [
   {
-    Header: "Id",
+    Header: "VehicleId",
     accessor: "id",
     Cell: (row) => {
       return <span>{row?.cell?.value}</span>;
     },
   },
   {
-    Header: "Order",
-    accessor: "order",
+    Header: "category",
+    accessor: "category",
     Cell: (row) => {
       return <span>#{row?.cell?.value}</span>;
     },
   },
   {
-    Header: "customer",
+    Header: "owner",
     accessor: "customer",
     Cell: (row) => {
       return (
@@ -57,20 +58,20 @@ const COLUMNS = [
       return <span>{row?.cell?.value}</span>;
     },
   },
-  {
-    Header: "quantity",
-    accessor: "quantity",
-    Cell: (row) => {
-      return <span>{row?.cell?.value}</span>;
-    },
-  },
-  {
-    Header: "amount",
-    accessor: "amount",
-    Cell: (row) => {
-      return <span>{row?.cell?.value}</span>;
-    },
-  },
+  // {
+  //   Header: "quantity",
+  //   accessor: "quantity",
+  //   Cell: (row) => {
+  //     return <span>{row?.cell?.value}</span>;
+  //   },
+  // },
+  // {
+  //   Header: "amount",
+  //   accessor: "amount",
+  //   Cell: (row) => {
+  //     return <span>{row?.cell?.value}</span>;
+  //   },
+  // },
   {
     Header: "status",
     accessor: "status",
@@ -186,6 +187,7 @@ const ExamapleOne = () => {
   const columns = useMemo(() => COLUMNS, []);
   const data = useMemo(() => advancedTable, []);
 
+
   const tableInstance = useTable(
     {
       columns,
@@ -240,9 +242,15 @@ const ExamapleOne = () => {
     <>
       <Card noborder>
         <div className="md:flex justify-between items-center mb-6">
-          <h4 className="card-title">Advanced Table</h4>
+          <h4 className="card-title">Vehicles Registrated</h4>
           <div>
-            <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
+            <div>
+              <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
+            </div>
+            <div>
+              <button>Register</button>
+              <button>Generate qrcode</button>
+            </div>
           </div>
         </div>
         <div className="overflow-x-auto -mx-6">
@@ -308,7 +316,7 @@ const ExamapleOne = () => {
               <span>
                 <input
                   type="number"
-                  className=" form-control py-2"
+                  className=" form-control py-2 px-2"
                   defaultValue={pageIndex + 1}
                   onChange={(e) => {
                     const pageNumber = e.target.value

@@ -13,8 +13,8 @@ import {
 
 const COLUMNS = [
   {
-    Header: "company",
-    accessor: "company",
+    Header: "owner",
+    accessor: "owner",
     Cell: (row) => {
       return (
         <span className="flex items-center">
@@ -47,8 +47,8 @@ const COLUMNS = [
     },
   },
   {
-    Header: "sales",
-    accessor: "sales",
+    Header: "vehicle id",
+    accessor: "vehicle id",
     Cell: (row) => {
       return (
         <div className="flex space-x-6 items-center rtl:space-x-reverse">
@@ -69,15 +69,15 @@ const COLUMNS = [
     },
   },
   {
-    Header: "views",
-    accessor: "views",
+    Header: "date",
+    accessor: "date",
     Cell: (row) => {
       return <span>{row?.cell?.value}</span>;
     },
   },
   {
-    Header: "revenue",
-    accessor: "revenue",
+    Header: "entries",
+    accessor: "entries",
     Cell: (row) => {
       return <span>{row?.cell?.value}</span>;
     },

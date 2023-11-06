@@ -206,13 +206,19 @@ const shapeLine3 = {
 const statistics = [
   {
     name: shapeLine1,
-    title: "Totel revenue",
+    title: "Total enrolles",
+    count: "3,258",
+    bg: "bg-[#E5F9FF] dark:bg-slate-900	",
+  },
+  {
+    name: shapeLine1,
+    title: "Agents",
     count: "3,564",
     bg: "bg-[#E5F9FF] dark:bg-slate-900	",
   },
   {
     name: shapeLine2,
-    title: "Products sold",
+    title: "Registered vehicles",
     count: "564",
     bg: "bg-[#FFEDE5] dark:bg-slate-900	",
   },

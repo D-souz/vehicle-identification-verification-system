@@ -111,7 +111,7 @@ export const menuItems = [
     title: "Vehicle Registration",
     isHide: true,
     icon: "heroicons-outline:identification",
-    link: "email",
+    link: "register-vehicle",
   },
 
   {
