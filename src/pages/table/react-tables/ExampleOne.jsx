@@ -12,39 +12,42 @@ import {
   usePagination,
 } from "react-table";
 import GlobalFilter from "./GlobalFilter";
-import Modal from "../../../components/ui/Modal";
+import Button from "@/components/ui/Button";
+import Modal from "@/components/ui/Modal";
+import Textinput from "@/components/ui/Textinput";
+import MultiValidation from "../../forms/form-validation/multiple-rules";
 
 const COLUMNS = [
   {
-    Header: "VehicleId",
-    accessor: "id",
+    Header: "vin",
+    accessor: "vin",
     Cell: (row) => {
       return <span>{row?.cell?.value}</span>;
     },
   },
   {
-    Header: "category",
-    accessor: "category",
+    Header: "number plate",
+    accessor: "numberplate",
     Cell: (row) => {
       return <span>#{row?.cell?.value}</span>;
     },
   },
   {
     Header: "owner",
-    accessor: "customer",
+    accessor: "owner                                                                        ",
     Cell: (row) => {
       return (
         <div>
           <span className="inline-flex items-center">
             <span className="w-7 h-7 rounded-full ltr:mr-3 rtl:ml-3 flex-none bg-slate-600">
-              <img
+              {/* <img
                 src={row?.cell?.value.image}
                 alt=""
                 className="object-cover w-full h-full rounded-full"
-              />
+              /> */}
             </span>
             <span className="text-sm text-slate-600 dark:text-slate-300 capitalize">
-              {row?.cell?.value.name}
+              {/* {row?.cell?.value.name} */}
             </span>
           </span>
         </div>
@@ -52,19 +55,19 @@ const COLUMNS = [
     },
   },
   {
-    Header: "date",
+    Header: "date of registration",
     accessor: "date",
     Cell: (row) => {
       return <span>{row?.cell?.value}</span>;
     },
   },
-  // {
-  //   Header: "quantity",
-  //   accessor: "quantity",
-  //   Cell: (row) => {
-  //     return <span>{row?.cell?.value}</span>;
-  //   },
-  // },
+  {
+    Header: "model",
+    accessor: "model",
+    Cell: (row) => {
+      return <span>{row?.cell?.value}</span>;
+    },
+  },
   // {
   //   Header: "amount",
   //   accessor: "amount",
@@ -239,17 +242,34 @@ const ExamapleOne = () => {
 
   const { globalFilter, pageIndex, pageSize } = state;
   return (
+    
     <>
       <Card noborder>
         <div className="md:flex justify-between items-center mb-6">
           <h4 className="card-title">Vehicles Registrated</h4>
-          <div>
-            <div>
+          <div className="row">
+            <div className="col-8">
               <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
             </div>
-            <div>
-              <button>Register</button>
-              <button>Generate qrcode</button>
+            <div className="col-4">
+               <Modal
+                  title="Enrollee registration form"
+                  label="Register"
+                  labelClass="btn-outline-secondary"
+                  uncontrol
+                  // footerContent={
+                  //   <Button
+                  //     text="Accept"
+                  //     className="btn-dark "
+                  //     onClick={() => {
+                  //       alert("use Control Modal");
+                  //     }}
+                  //   />
+                    
+                  // }
+                  >
+                  <MultiValidation />
+                </Modal>
             </div>
           </div>
         </div>

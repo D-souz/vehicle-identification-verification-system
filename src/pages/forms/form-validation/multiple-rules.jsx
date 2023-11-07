@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState, useEffect} from "react";
 import Textinput from "@/components/ui/Textinput";
+import Card from "../../../components/ui/Card";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import Fileinput from "@/components/ui/Fileinput";
+import DropZone from "../file-input/DropZone";
 
 const FormValidationSchema = yup
   .object({
@@ -29,6 +32,8 @@ const MultiValidation = () => {
     console.log(data);
   };
 
+    // intiating state for the image uploader
+    const [selectedFiles, setSelectedFiles] = useState([]); 
   return (
     <div>
       <form
@@ -41,13 +46,7 @@ const MultiValidation = () => {
           type="email"
           register={register}
           error={errors.email}
-        />
-        <Textinput
-          name="password"
-          label="password"
-          type="password"
-          register={register}
-          error={errors.password}
+          placeholder="Enter email...."
         />
         <Textinput
           name="username"
@@ -55,15 +54,62 @@ const MultiValidation = () => {
           type="text"
           register={register}
           error={errors.username}
+          placeholder="Enter fullname...."
         />
         <Textinput
-          name="confirmpassword"
-          label="confirmpassword"
-          type="password"
+          name="telephone"
+          label="telephone"
+          type="text"
           register={register}
-          error={errors.confirmpassword}
+          error={errors.telephone}
+          placeholder="Enter phone number"
         />
-
+        <Textinput
+          name="address"
+          label="address"
+          type="text"
+          register={register}
+          error={errors.address}
+          placeholder="Enter the address"
+        />
+        <Textinput
+          name="nationalid"
+          label="national identification number"
+          type="text"
+          register={register}
+          error={errors.nationalid}
+          placeholder="Enter the NIN"
+        />
+        <Textinput
+          name="vehicleid"
+          label="vehicle identification number"
+          type="text"
+          register={register}
+          error={errors.vehicleid}
+          placeholder="Enter the VIN"
+        />
+        <Textinput
+          name="numberplate"
+          label="number plate"
+          type="text"
+          register={register}
+          error={errors.numberplate}
+          placeholder="Enter plate number"
+        />
+        <Textinput
+          name="model"
+          label="model"
+          type="text"
+          register={register}
+          error={errors.model}
+          placeholder="Enter vehicle model"
+        />
+        <Fileinput 
+          selectedFiles={selectedFiles}
+          name="enrolleeImages"
+          multiple
+          preview
+        />
         <div className="lg:col-span-2 col-span-1">
           <div className="ltr:text-right rtl:text-left">
             <button className="btn btn-dark  text-center">Submit</button>

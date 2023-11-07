@@ -5,10 +5,17 @@ import Modal from "@/components/ui/Modal";
 import Textinput from "@/components/ui/Textinput";
 
 const ModalPage = () => {
+
+  const alerttext = (txt)=>{
+    alert(txt);
+  }
+
+
   return (
     <div className="grid xl:grid-cols-2 grid-cols-1 gap-5">
       <Card title="Basic Modal">
         <div className=" space-xy-5">
+          
           <Modal
             title="Basic Modal"
             label="Basic Modal"
@@ -18,9 +25,7 @@ const ModalPage = () => {
               <Button
                 text="Accept"
                 className="btn-dark "
-                onClick={() => {
-                  alert("use Control Modal");
-                }}
+                onClick={() => alerttext('hello')}
               />
             }
           >
@@ -28,12 +33,12 @@ const ModalPage = () => {
               Lorem ipsum dolor sit.
             </h4>
             <div className="text-base text-slate-600 dark:text-slate-300">
-              Oat cake ice cream candy chocolate cake chocolate cake cotton
-              candy dragée apple pie. Brownie carrot cake candy canes bonbon
-              fruitcake topping halvah. Cake sweet roll cake cheesecake cookie
-              chocolate cake liquorice.
+              fdgfhjkl
             </div>
           </Modal>
+
+
+
           <Modal
             title="Vertically center"
             label="Vertically center"
@@ -451,6 +456,7 @@ const ModalPage = () => {
                   alert("use Control Modal");
                 }}
               />
+              
             }
           >
             <h4 className="font-medium text-lg mb-3 text-slate-900">

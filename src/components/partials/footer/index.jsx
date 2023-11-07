@@ -23,7 +23,7 @@ const Footer = ({ className = "custom-class" }) => {
           <div className="ltr:md:text-right rtl:md:text-end text-center text-sm">
             Hand-crafted & Made by{" "}
             <a
-              href="https://D-souz.github.io"
+              href="https://github.com/D-souz"
               target="_blank"
               className="text-primary-500 font-semibold"
             >
