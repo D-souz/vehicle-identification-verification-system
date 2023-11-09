@@ -118,13 +118,13 @@ export const menuItems = [
     title: "Scan QR code",
     isHide: true,
     icon: "ic:round-qr-code-scanner",
-    link: "kanban",
+    link: "scan",
   },
   {
     title: "Manage team",
     isHide: true,
     icon: "heroicons-outline:user-group",
-    link: "calender",
+    link: "agents",
   },
   {
     title: "Enrollees",

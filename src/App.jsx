@@ -5,7 +5,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 //import Dashboard from "./pages/dashboard";
 const Dashboard = lazy(() => import("./pages/dashboard"));
 const VehicleRegistartion = lazy(() => import("./pages/dashboard/registervehicle"));
-const CrmPage = lazy(() => import("./pages/dashboard/crm"));
+const ScanPage = lazy(() => import("./pages/dashboard/scan"));
 const ProjectPage = lazy(() => import("./pages/dashboard/project"));
 const BankingPage = lazy(() => import("./pages/dashboard/banking"));
 
@@ -102,11 +102,19 @@ const TodoPage = lazy(() => import("./pages/app/todo"));
 const EmailPage = lazy(() => import("./pages/app/email"));
 const ChatPage = lazy(() => import("./pages/app/chat"));
 const ProjectPostPage = lazy(() => import("./pages/app/projects"));
+
+// enrollees detail page
+const EnrolleeDetailsPage = lazy(() =>
+  import("./pages/app/enrollees/enrollees-details")
+);
+
 const ProjectDetailsPage = lazy(() =>
   import("./pages/app/projects/project-details")
 );
 const KanbanPage = lazy(() => import("./pages/app/kanban"));
-const CalenderPage = lazy(() => import("./pages/app/calender"));
+// const CalenderPage = lazy(() => import("./pages/app/calender"));
+const AgentsPage = lazy(() => import("./pages/app/agents/agents"));
+const AgentsDetailsPage = lazy(() => import("./pages/app/agents/agentsDetails"));
 import Loading from "@/components/Loading";
 function App() {
   return (
@@ -211,7 +219,12 @@ function App() {
         <Route path="/*" element={<Layout />}>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="register-vehicle" element={<VehicleRegistartion />} />
-          <Route path="crm" element={<CrmPage />} />
+          <Route path={"enrollee-details/:id"} element={<EnrolleeDetailsPage />} />
+          <Route path={"enrollee-details"} element={<EnrolleeDetailsPage />} />
+          <Route path="scan" element={<ScanPage />} />
+          <Route path={"agents"} element={<AgentsPage/>} />
+          <Route path={"agents-details/:id"} element={<AgentsDetailsPage/>} />
+          <Route path={"agents-details"} element={<AgentsDetailsPage/>} />
           <Route path="project" element={<ProjectPage />} />
           <Route path="banking" element={<BankingPage />} />
           {/* App pages */}
@@ -222,7 +235,7 @@ function App() {
           <Route path={"projects/:id"} element={<ProjectDetailsPage />} />
           <Route path="project-details" element={<ProjectDetailsPage />} />
           <Route path="kanban" element={<KanbanPage />} />
-          <Route path="calender" element={<CalenderPage />} />
+          {/* <Route path="calender" element={<CalenderPage />} /> */}
           {/* Components pages */}
           <Route path="button" element={<Button />} />
           <Route path="dropdown" element={<Dropdown />} />

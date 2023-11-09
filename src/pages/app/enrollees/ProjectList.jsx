@@ -1,9 +1,12 @@
-import React, { useState, useMemo } from "react";
-import { advancedTable } from "../../../constant/table-data";
+import React, { useState, useMemo, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Card from "@/components/ui/Card";
 import Icon from "@/components/ui/Icon";
 import Dropdown from "@/components/ui/Dropdown";
+import ProgressBar from "@/components/ui/ProgressBar";
 import { Menu } from "@headlessui/react";
+import { removeProject, updateProject } from "./store";
+import { useNavigate } from "react-router-dom";
 import {
   useTable,
   useRowSelect,
@@ -11,121 +14,111 @@ import {
   useGlobalFilter,
   usePagination,
 } from "react-table";
-import GlobalFilter from "./GlobalFilter";
-// import Button from "@/components/ui/Button";
-import Modal from "@/components/ui/Modal";
-// import Textinput from "@/components/ui/Textinput";
-import MultiValidation from "../../forms/form-validation/multiple-rules";
-import { Link } from "react-router-dom";
 
-const COLUMNS = [
-  {
-    Header: "vin",
-    accessor: "vin",
-    Cell: (row) => {
-      return <span>{row?.cell?.value}</span>;
+const ProjectList = ({ projects }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const COLUMNS = [
+    {
+      Header: "Name",
+      accessor: "name",
+      Cell: (row) => {
+        return (
+          <div className="flex space-x-3 items-center text-left rtl:space-x-reverse">
+            <div className="flex-none">
+              <div className="h-10 w-10 rounded-full text-sm bg-[#E0EAFF] dark:bg-slate-700 flex flex-col items-center justify-center font-medium -tracking-[1px]">
+                {row?.cell?.value.charAt(0) +
+                  row?.cell?.value.charAt(row?.cell?.value.length - 1)}
+              </div>
+            </div>
+            <div className="flex-1 font-medium text-sm leading-4 whitespace-nowrap">
+              {row?.cell?.value.length > 20
+                ? row?.cell?.value.substring(0, 20) + "..."
+                : row?.cell?.value}
+            </div>
+          </div>
+        );
+      },
     },
-  },
-  {
-    Header: "number plate",
-    accessor: "numberplate",
-    Cell: (row) => {
-      return <span>#{row?.cell?.value}</span>;
+    {
+      Header: "Start Date",
+      accessor: "startDate",
+      Cell: (row) => {
+        return <span>{row?.cell?.value}</span>;
+      },
     },
-  },
-  {
-    Header: "owner",
-    accessor: "owner                                                                        ",
-    Cell: (row) => {
-      return (
-        <div>
-          <span className="inline-flex items-center">
-            <span className="w-7 h-7 rounded-full ltr:mr-3 rtl:ml-3 flex-none bg-slate-600">
-              {/* <img
-                src={row?.cell?.value.image}
-                alt=""
-                className="object-cover w-full h-full rounded-full"
-              /> */}
-            </span>
-            <span className="text-sm text-slate-600 dark:text-slate-300 capitalize">
-              {/* {row?.cell?.value.name} */}
+    {
+      Header: "End Date",
+      accessor: "endDate",
+      Cell: (row) => {
+        return <div>{row?.cell?.value}</div>;
+      },
+    },
+    {
+      Header: "assignee",
+      accessor: "assignee",
+      Cell: (row) => {
+        return (
+          <div>
+            <div className="flex justify-end sm:justify-start lg:justify-end xl:justify-start -space-x-1 rtl:space-x-reverse">
+              {row?.cell?.value.map((user, userIndex) => (
+                <div
+                  className="h-6 w-6 rounded-full ring-1 ring-slate-100"
+                  key={userIndex}
+                >
+                  <img
+                    src={user.image}
+                    alt={user.label}
+                    className="w-full h-full rounded-full"
+                  />
+                </div>
+              ))}
+              <div className="bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-300 text-xs ring-2 ring-slate-100 dark:ring-slate-700 rounded-full h-6 w-6 flex flex-col justify-center items-center">
+                +2
+              </div>
+            </div>
+          </div>
+        );
+      },
+    },
+    {
+      Header: "Status",
+      accessor: "progress",
+      Cell: (row) => {
+        return (
+          <span className="min-w-[220px] block">
+            <ProgressBar value={row?.cell?.value} className="bg-primary-500" />
+            <span className="flex justify-between text-xs text-slate-500 dark:text-slate-400 mb-1 font-medium mt-3">
+              12/15 Task Completed
             </span>
           </span>
-        </div>
-      );
+        );
+      },
     },
-  },
-  {
-    Header: "date of registration",
-    accessor: "date",
-    Cell: (row) => {
-      return <span>{row?.cell?.value}</span>;
-    },
-  },
-  {
-    Header: "model",
-    accessor: "model",
-    Cell: (row) => {
-      return <span>{row?.cell?.value}</span>;
-    },
-  },
-  // {
-  //   Header: "amount",
-  //   accessor: "amount",
-  //   Cell: (row) => {
-  //     return <span>{row?.cell?.value}</span>;
-  //   },
-  // },
-  {
-    Header: "status",
-    accessor: "status",
-    Cell: (row) => {
-      return (
-        <span className="block w-full">
-          <span
-            className={` inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25 ${
-              row?.cell?.value === "paid"
-                ? "text-success-500 bg-success-500"
-                : ""
-            } 
-            ${
-              row?.cell?.value === "due"
-                ? "text-warning-500 bg-warning-500"
-                : ""
-            }
-            ${
-              row?.cell?.value === "cancled"
-                ? "text-danger-500 bg-danger-500"
-                : ""
-            }
-            
-             `}
-          >
-            {row?.cell?.value}
-          </span>
-        </span>
-      );
-    },
-  },
-  {
-    Header: "action",
-    accessor: "action",
-    Cell: (row) => {
-      return (
-        <div>
-          <Dropdown
-            classMenuItems="right-0 w-[140px] top-[110%] "
-            label={
-              <span className="text-xl text-center block w-full">
-                <Icon icon="heroicons-outline:dots-vertical" />
-              </span>
-            }
-          >
-            <div className="divide-y divide-slate-100 dark:divide-slate-800">
-              {actions.map((item, i) => (
-                <Menu.Item key={i}>
-                  <div
-                    className={`
+
+    {
+      Header: "action",
+      accessor: "action",
+      Cell: (row) => {
+        return (
+          <div>
+            <Dropdown
+              classMenuItems="right-0 w-[140px] top-[110%] "
+              label={
+                <span className="text-xl text-center block w-full">
+                  <Icon icon="heroicons-outline:dots-vertical" />
+                </span>
+              }
+            >
+              <div className="divide-y divide-slate-100 dark:divide-slate-800">
+                {actions.map((item, i) => (
+                  <Menu.Item
+                    key={i}
+                    onClick={() => item.doit(row?.row?.original)}
+                  >
+                    <div
+                      className={`
                 
                   ${
                     item.name === "delete"
@@ -134,66 +127,41 @@ const COLUMNS = [
                   }
                    w-full border-b border-b-gray-500 border-opacity-10 px-4 py-2 text-sm  last:mb-0 cursor-pointer 
                    first:rounded-t last:rounded-b flex  space-x-2 items-center rtl:space-x-reverse `}
-                  >
-                    <span className="text-base">
-                      <Icon icon={item.icon} />
-                    </span>
-                    <span>
-                      {item.name}
-                      {/* { item.name === "view" ? <Link to="enrollee-details"></Link> : item.name === "edit" ? <Link to="enrollee-details"></Link> : item.name} */}
-                    </span>
-                  </div>
-                </Menu.Item>
-              ))}
-            </div>
-          </Dropdown>
-        </div>
-      );
+                    >
+                      <span className="text-base">
+                        <Icon icon={item.icon} />
+                      </span>
+                      <span>{item.name}</span>
+                    </div>
+                  </Menu.Item>
+                ))}
+              </div>
+            </Dropdown>
+          </div>
+        );
+      },
     },
-  },
-];
+  ];
+  const actions = [
+    {
+      name: "view",
+      icon: "heroicons-outline:eye",
+      doit: (item) => navigate(`/projects/${item.id}`),
+    },
+    {
+      name: "edit",
+      icon: "heroicons:pencil-square",
+      doit: (item) => dispatch(updateProject(item)),
+    },
+    {
+      name: "delete",
+      icon: "heroicons-outline:trash",
+      doit: (item) => dispatch(removeProject(item.id)),
+    },
+  ];
 
-const actions = [
-  {
-    name: "view",
-    icon: "heroicons-outline:eye",
-  },
-  {
-    name: "edit",
-    icon: "heroicons:pencil-square",
-  },
-  {
-    name: "delete",
-    icon: "heroicons-outline:trash",
-  },
-];
-
-const IndeterminateCheckbox = React.forwardRef(
-  ({ indeterminate, ...rest }, ref) => {
-    const defaultRef = React.useRef();
-    const resolvedRef = ref || defaultRef;
-
-    React.useEffect(() => {
-      resolvedRef.current.indeterminate = indeterminate;
-    }, [resolvedRef, indeterminate]);
-
-    return (
-      <>
-        <input
-          type="checkbox"
-          ref={resolvedRef}
-          {...rest}
-          className="table-checkbox"
-        />
-      </>
-    );
-  }
-);
-
-const ExamapleOne = () => {
   const columns = useMemo(() => COLUMNS, []);
-  const data = useMemo(() => advancedTable, []);
-
+  const data = useMemo(() => projects, [projects]);
 
   const tableInstance = useTable(
     {
@@ -204,26 +172,7 @@ const ExamapleOne = () => {
     useGlobalFilter,
     useSortBy,
     usePagination,
-    useRowSelect,
-
-    (hooks) => {
-      hooks.visibleColumns.push((columns) => [
-        {
-          id: "selection",
-          Header: ({ getToggleAllRowsSelectedProps }) => (
-            <div>
-              <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
-            </div>
-          ),
-          Cell: ({ row }) => (
-            <div>
-              <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
-            </div>
-          ),
-        },
-        ...columns,
-      ]);
-    }
+    useRowSelect
   );
   const {
     getTableProps,
@@ -246,36 +195,10 @@ const ExamapleOne = () => {
 
   const { globalFilter, pageIndex, pageSize } = state;
   return (
-    
     <>
       <Card noborder>
         <div className="md:flex justify-between items-center mb-6">
-          <h4 className="card-title">Vehicles Registrated</h4>
-          <div className="row">
-            <div className="col-8">
-              <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
-            </div>
-            <div className="col-4">
-               <Modal
-                  title="Enrollee registration form"
-                  label="Register"
-                  labelClass="btn-outline-secondary"
-                  uncontrol
-                  // footerContent={
-                  //   <Button
-                  //     text="Accept"
-                  //     className="btn-dark "
-                  //     onClick={() => {
-                  //       alert("use Control Modal");
-                  //     }}
-                  //   />
-                    
-                  // }
-                  >
-                  <MultiValidation />
-                </Modal>
-            </div>
-          </div>
+          <h4 className="card-title">Project List</h4>
         </div>
         <div className="overflow-x-auto -mx-6">
           <div className="inline-block min-w-full align-middle">
@@ -284,7 +207,7 @@ const ExamapleOne = () => {
                 className="min-w-full divide-y divide-slate-100 table-fixed dark:divide-slate-700"
                 {...getTableProps}
               >
-                <thead className=" border-t border-slate-100 dark:border-slate-800">
+                <thead className=" bg-slate-100 dark:bg-slate-700">
                   {headerGroups.map((headerGroup) => (
                     <tr {...headerGroup.getHeaderGroupProps()}>
                       {headerGroup.headers.map((column) => (
@@ -315,7 +238,10 @@ const ExamapleOne = () => {
                   {page.map((row) => {
                     prepareRow(row);
                     return (
-                      <tr {...row.getRowProps()}>
+                      <tr
+                        {...row.getRowProps()}
+                        className=" even:bg-slate-100 dark:even:bg-slate-700"
+                      >
                         {row.cells.map((cell) => {
                           return (
                             <td {...cell.getCellProps()} className="table-td">
@@ -340,7 +266,7 @@ const ExamapleOne = () => {
               <span>
                 <input
                   type="number"
-                  className=" form-control py-2 px-2"
+                  className=" form-control py-2"
                   defaultValue={pageIndex + 1}
                   onChange={(e) => {
                     const pageNumber = e.target.value
@@ -379,7 +305,7 @@ const ExamapleOne = () => {
                   className={` ${
                     pageIdx === pageIndex
                       ? "bg-slate-900 dark:bg-slate-600  dark:text-slate-200 text-white font-medium "
-                      : "bg-slate-100 dark:bg-slate-700 dark:text-slate-400 text-slate-900  font-normal  "
+                      : "bg-slate-100  dark:text-slate-400 text-slate-900  font-normal "
                   }    text-sm rounded leading-[16px] flex h-6 w-6 items-center justify-center transition-all duration-150`}
                   onClick={() => gotoPage(pageIdx)}
                 >
@@ -405,4 +331,4 @@ const ExamapleOne = () => {
   );
 };
 
-export default ExamapleOne;
+export default ProjectList;
