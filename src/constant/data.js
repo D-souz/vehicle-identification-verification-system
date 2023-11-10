@@ -130,7 +130,7 @@ export const menuItems = [
     title: "Enrollees",
     isHide: true,
     icon: "heroicons-outline:user",
-    link: "todo",
+    link: "enrollees",
   },
   {
     title: "Reports",

@@ -16,7 +16,8 @@ import GlobalFilter from "./GlobalFilter";
 import Modal from "@/components/ui/Modal";
 // import Textinput from "@/components/ui/Textinput";
 import MultiValidation from "../../forms/form-validation/multiple-rules";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
 
 const COLUMNS = [
   {
@@ -110,6 +111,7 @@ const COLUMNS = [
   {
     Header: "action",
     accessor: "action",
+    // link: "/enrollee-details",
     Cell: (row) => {
       return (
         <div>
@@ -121,31 +123,36 @@ const COLUMNS = [
               </span>
             }
           >
-            <div className="divide-y divide-slate-100 dark:divide-slate-800">
-              {actions.map((item, i) => (
-                <Menu.Item key={i}>
-                  <div
-                    className={`
-                
-                  ${
-                    item.name === "delete"
-                      ? "bg-danger-500 text-danger-500 bg-opacity-30   hover:bg-opacity-100 hover:text-white"
-                      : "hover:bg-slate-900 hover:text-white dark:hover:bg-slate-600 dark:hover:bg-opacity-50"
-                  }
-                   w-full border-b border-b-gray-500 border-opacity-10 px-4 py-2 text-sm  last:mb-0 cursor-pointer 
-                   first:rounded-t last:rounded-b flex  space-x-2 items-center rtl:space-x-reverse `}
-                  >
-                    <span className="text-base">
-                      <Icon icon={item.icon} />
-                    </span>
-                    <span>
-                      {item.name}
-                      {/* { item.name === "view" ? <Link to="enrollee-details"></Link> : item.name === "edit" ? <Link to="enrollee-details"></Link> : item.name} */}
-                    </span>
-                  </div>
-                </Menu.Item>
-              ))}
-            </div>
+            {/* <Link to="/enrollee-details"> */}
+              <div className="divide-y divide-slate-100 dark:divide-slate-800">
+                {actions.map((item, i) => (
+                  <Menu.Item key={i}>
+                    <div
+                      className={`
+                  
+                    ${
+                      item.name === "delete"
+                        ? "bg-danger-500 text-danger-500 bg-opacity-30   hover:bg-opacity-100 hover:text-white"
+                        : "hover:bg-slate-900 hover:text-white dark:hover:bg-slate-600 dark:hover:bg-opacity-50"
+                    }
+                    w-full border-b border-b-gray-500 border-opacity-10 px-4 py-2 text-sm  last:mb-0 cursor-pointer 
+                    first:rounded-t last:rounded-b flex  space-x-2 items-center rtl:space-x-reverse `}
+                    >
+                    
+                      <span className="text-base">
+                        <Icon icon={item.icon} />
+                      </span>
+                      <span>
+                        {item.name} 
+                        {/* {item.link} */}
+                        {/* { item.name === "view" ? <Link to="enrollee-details"></Link> : item.name === "edit" ? <Link to="enrollee-details"></Link> : item.name} */}
+                      </span>
+                     </div>
+                  </Menu.Item>
+                ))}
+              </div>
+            
+            {/* </Link> */}
           </Dropdown>
         </div>
       );
@@ -157,10 +164,12 @@ const actions = [
   {
     name: "view",
     icon: "heroicons-outline:eye",
+    // link: "/enrollee-details"
   },
   {
     name: "edit",
     icon: "heroicons:pencil-square",
+    // link: "/enrollee-details"
   },
   {
     name: "delete",
@@ -193,7 +202,7 @@ const IndeterminateCheckbox = React.forwardRef(
 const ExamapleOne = () => {
   const columns = useMemo(() => COLUMNS, []);
   const data = useMemo(() => advancedTable, []);
-
+  // const navigate = useNavigate();
 
   const tableInstance = useTable(
     {
@@ -259,18 +268,8 @@ const ExamapleOne = () => {
                <Modal
                   title="Enrollee registration form"
                   label="Register"
-                  labelClass="btn-outline-secondary"
+                  labelClass="btn btn-primary py-2"
                   uncontrol
-                  // footerContent={
-                  //   <Button
-                  //     text="Accept"
-                  //     className="btn-dark "
-                  //     onClick={() => {
-                  //       alert("use Control Modal");
-                  //     }}
-                  //   />
-                    
-                  // }
                   >
                   <MultiValidation />
                 </Modal>

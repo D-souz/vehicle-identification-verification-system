@@ -12,15 +12,15 @@ const Dropdown = ({
   items = [
     {
       label: "Action",
-      link: "#",
+      link: "/enrollee-details",
     },
     {
       label: "Another action",
-      link: "#",
+      link: "/enrollee-details",
     },
     {
       label: "Something else here",
-      link: "#",
+      link: "/enrollee-details",
     },
   ],
   classItem = "px-4 py-2",

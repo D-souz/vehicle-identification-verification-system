@@ -1,35 +1,37 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import useWidth from "@/hooks/useWidth";
-import Button from "@/components/ui/Button";
-import ProjectGrid from "./ProjectGrid";
-import ProjectList from "./ProjectList";
-import GridLoading from "@/components/skeleton/Grid";
-import TableLoading from "@/components/skeleton/Table";
-import { toggleAddModal } from "./store";
-import AddProject from "./AddProject";
+// import { useSelector, useDispatch } from "react-redux";
+// import useWidth from "@/hooks/useWidth";
+// import Button from "@/components/ui/Button";
+// import ProjectGrid from "./ProjectGrid";
+// import ProjectList from "./ProjectList";
+// import GridLoading from "@/components/skeleton/Grid";
+// import TableLoading from "@/components/skeleton/Table";
+// import { toggleAddModal } from "./store";
+// import AddProject from "./AddProject";
 import { ToastContainer } from "react-toastify";
-import EditProject from "./EditProject";
+// import EditProject from "./EditProject";
+import ExampleTwo from "../../table/react-tables/ExampleTwo";
 
-const ProjectPostPage = () => {
-  const [filler, setfiller] = useState("grid");
-  const { width, breakpoints } = useWidth();
-  const [isLoaded, setIsLoaded] = useState(false);
+const EnrolleesPage = () => {
+  // const [filler, setfiller] = useState("grid");
+  // const { width, breakpoints } = useWidth();
+  // const [isLoaded, setIsLoaded] = useState(false);
 
-  const { projects } = useSelector((state) => state.project);
-  const dispatch = useDispatch();
+  // const { projects } = useSelector((state) => state.project);
+  // const dispatch = useDispatch();
 
-  useEffect(() => {
-    setIsLoaded(true);
-    setTimeout(() => {
-      setIsLoaded(false);
-    }, 1500);
-  }, [filler]);
+  // useEffect(() => {
+  //   setIsLoaded(true);
+  //   setTimeout(() => {
+  //     setIsLoaded(false);
+  //   }, 1500);
+  // }, [filler]);
 
   return (
     <div>
       <ToastContainer />
-      <div className="flex flex-wrap justify-between items-center mb-4">
+      <ExampleTwo />
+      {/* <div className="flex flex-wrap justify-between items-center mb-4">
         <h4 className="font-medium lg:text-2xl text-xl capitalize text-slate-900 inline-block ltr:pr-4 rtl:pl-4">
           Project
         </h4>
@@ -97,9 +99,9 @@ const ProjectPostPage = () => {
         </div>
       )}
       <AddProject />
-      <EditProject />
+      <EditProject /> */}
     </div>
   );
 };
 
-export default ProjectPostPage;
+export default EnrolleesPage;

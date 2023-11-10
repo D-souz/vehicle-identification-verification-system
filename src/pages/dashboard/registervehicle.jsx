@@ -15,6 +15,7 @@ import Card from "@/components/ui/Card";
 // import Products from "../../components/partials/widget/products";
 import HomeBredCurbs from "./HomeBredCurbs";
 import ExampleOne from "../table/react-tables/ExampleOne";
+// import ExampleTwo from "../table/react-tables/ExampleTwo";
 
 
 const VehicleRegistartion = () => {
@@ -28,7 +29,7 @@ const VehicleRegistartion = () => {
       as well as a qr code qenerator */}
 
       <ExampleOne />
-    
+      {/* <ExampleTwo /> */}
 
       {/* <div className="grid grid-cols-12 gap-5 mb-5">
         <div className="2xl:col-span-3 lg:col-span-4 col-span-12">

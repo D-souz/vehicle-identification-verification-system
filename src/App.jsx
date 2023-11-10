@@ -104,6 +104,9 @@ const ChatPage = lazy(() => import("./pages/app/chat"));
 const ProjectPostPage = lazy(() => import("./pages/app/projects"));
 
 // enrollees detail page
+const EnrolleesPage = lazy(() =>
+  import("./pages/app/enrollees/enrollees")
+);
 const EnrolleeDetailsPage = lazy(() =>
   import("./pages/app/enrollees/enrollees-details")
 );
@@ -219,6 +222,7 @@ function App() {
         <Route path="/*" element={<Layout />}>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="register-vehicle" element={<VehicleRegistartion />} />
+          <Route path={"enrollees"} element={<EnrolleesPage />} />
           <Route path={"enrollee-details/:id"} element={<EnrolleeDetailsPage />} />
           <Route path={"enrollee-details"} element={<EnrolleeDetailsPage />} />
           <Route path="scan" element={<ScanPage />} />

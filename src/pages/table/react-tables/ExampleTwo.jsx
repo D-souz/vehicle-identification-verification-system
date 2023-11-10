@@ -11,61 +11,65 @@ import {
   usePagination,
 } from "react-table";
 import GlobalFilter from "./GlobalFilter";
+import { Link } from "react-router-dom";
+import Modal from "@/components/ui/Modal";
+import MultiValidation from "../../forms/form-validation/multiple-rules";
+import Button from "@/components/ui/Button";
 
 const COLUMNS = [
   {
-    Header: "Id",
-    accessor: "id",
+    Header: "vin",
+    accessor: "vin",
     Cell: (row) => {
       return <span>{row?.cell?.value}</span>;
     },
   },
   {
-    Header: "Order",
-    accessor: "order",
-    Cell: (row) => {
-      return <span>#{row?.cell?.value}</span>;
-    },
-  },
-  {
-    Header: "customer",
-    accessor: "customer",
+    Header: "name",
+    accessor: "name",
     Cell: (row) => {
       return (
         <div>
           <span className="inline-flex items-center">
-            <span className="w-7 h-7 rounded-full ltr:mr-3 rtl:ml-3 flex-none bg-slate-600">
+            {/* <span className="w-7 h-7 rounded-full ltr:mr-3 rtl:ml-3 flex-none bg-slate-600">
               <img
                 src={row?.cell?.value.image}
                 alt=""
                 className="object-cover w-full h-full rounded-full"
-              />
-            </span>
-            <span className="text-sm text-slate-600 dark:text-slate-300 capitalize">
+                />
+            </span> */}
+            {/* <span className="text-sm text-slate-600 dark:text-slate-300 capitalize">
               {row?.cell?.value.name}
-            </span>
+            </span> */}
           </span>
         </div>
       );
     },
   },
   {
-    Header: "date",
+    Header: "contact",
+    accessor: "contact",
+    Cell: (row) => {
+      return <span>#{row?.cell?.value}</span>;
+    },
+  },
+  {
+    Header: "registration date",
     accessor: "date",
     Cell: (row) => {
       return <span>{row?.cell?.value}</span>;
     },
   },
   {
-    Header: "quantity",
-    accessor: "quantity",
+    Header: "email",
+    accessor: "email",
     Cell: (row) => {
       return <span>{row?.cell?.value}</span>;
     },
   },
   {
-    Header: "amount",
-    accessor: "amount",
+    Header: "location",
+    accessor: "location",
     Cell: (row) => {
       return <span>{row?.cell?.value}</span>;
     },
@@ -107,16 +111,20 @@ const COLUMNS = [
     Cell: (row) => {
       return (
         <div className="flex space-x-3 rtl:space-x-reverse">
-          <Tooltip content="View" placement="top" arrow animation="shift-away">
-            <button className="action-btn" type="button">
-              <Icon icon="heroicons:eye" />
-            </button>
-          </Tooltip>
-          <Tooltip content="Edit" placement="top" arrow animation="shift-away">
-            <button className="action-btn" type="button">
-              <Icon icon="heroicons:pencil-square" />
-            </button>
-          </Tooltip>
+          <Link to="/enrollee-details">
+            <Tooltip content="View" placement="top" arrow animation="shift-away">
+              <button className="action-btn" type="button">
+                <Icon icon="heroicons:eye" />
+              </button>
+            </Tooltip>
+          </Link>
+          <Link to="/enrollee-details">
+            <Tooltip content="Edit" placement="top" arrow animation="shift-away">
+              <button className="action-btn" type="button">
+                <Icon icon="heroicons:pencil-square" />
+              </button>
+            </Tooltip>
+          </Link>
           <Tooltip
             content="Delete"
             placement="top"
@@ -156,7 +164,7 @@ const IndeterminateCheckbox = React.forwardRef(
   }
 );
 
-const ExampleTwo = ({ title = "Advanced Table Two" }) => {
+const ExampleTwo = ({ title = "Enrollees" }) => {
   const columns = useMemo(() => COLUMNS, []);
   const data = useMemo(() => advancedTable, []);
 
@@ -215,8 +223,27 @@ const ExampleTwo = ({ title = "Advanced Table Two" }) => {
       <Card>
         <div className="md:flex justify-between items-center mb-6">
           <h4 className="card-title">{title}</h4>
-          <div>
-            <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
+          <div className="row">
+            <div className="col-6">
+              <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
+            </div>
+            <div className="col-6">
+              <div className="d-flex flex-row  justify-content-around">
+                <div>
+                  <Modal
+                    title="Enrollee registration form"
+                    label="Add enrollee"
+                    labelClass="btn btn-primary p-2"  
+                    uncontrol
+                  >
+                    <MultiValidation />
+                  </Modal>
+                </div>
+                <div>
+                  <button type="button" className="btn btn-outline-secondary p-2" style={{color:"#94a3b8"}}>Download</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div className="overflow-x-auto -mx-6">
