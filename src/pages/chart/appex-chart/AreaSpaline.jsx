@@ -1,14 +1,16 @@
 import React from "react";
 import Chart from "react-apexcharts";
 import useDarkMode from "@/hooks/useDarkMode";
-
+// "#475569"
 const AreaSpaLine = () => {
   const [isDark] = useDarkMode();
   const series = [
     {
+      name: "successful verifications",
       data: [31, 40, 28, 51, 42, 109, 100],
     },
     {
+      name: "failed verifications",
       data: [11, 32, 45, 32, 34, 52, 41],
     },
   ];

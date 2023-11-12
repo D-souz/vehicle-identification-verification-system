@@ -10,10 +10,10 @@ const buttons = [
       title: "Overview",
     //   icon: "heroicons-outline:home",
     },
-    {
-      title: "Vehicle details",
-    //   icon: "heroicons-outline:user",
-    },
+    // {
+    //   title: "Vehicle details",
+    // //   icon: "heroicons-outline:user",
+    // },
     {
       title: "History",
     //   icon: "heroicons-outline:chat-alt-2",

@@ -114,12 +114,12 @@ export const menuItems = [
     link: "register-vehicle",
   },
 
-  {
-    title: "Scan QR code",
-    isHide: true,
-    icon: "ic:round-qr-code-scanner",
-    link: "scan",
-  },
+  // {
+  //   title: "Scan QR code",
+  //   isHide: true,
+  //   icon: "ic:round-qr-code-scanner",
+  //   link: "scan",
+  // },
   {
     title: "Manage team",
     isHide: true,
@@ -136,13 +136,13 @@ export const menuItems = [
     title: "Reports",
     isHide: true,
     icon: "mdi:report-box-outline",
-    link: "todo",
+    link: "reports",
   },
   {
     title: "Logout",
     isHide: true,
     icon: "tabler:logout-2",
-    link: "chat",
+    link: "#",
   },
   
   {

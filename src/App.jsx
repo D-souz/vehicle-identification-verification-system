@@ -115,7 +115,7 @@ const ProjectDetailsPage = lazy(() =>
   import("./pages/app/projects/project-details")
 );
 const KanbanPage = lazy(() => import("./pages/app/kanban"));
-// const CalenderPage = lazy(() => import("./pages/app/calender"));
+const ReportsPage = lazy(() => import("./pages/app/reports/reports"));
 const AgentsPage = lazy(() => import("./pages/app/agents/agents"));
 const AgentsDetailsPage = lazy(() => import("./pages/app/agents/agentsDetails"));
 import Loading from "@/components/Loading";
@@ -239,7 +239,7 @@ function App() {
           <Route path={"projects/:id"} element={<ProjectDetailsPage />} />
           <Route path="project-details" element={<ProjectDetailsPage />} />
           <Route path="kanban" element={<KanbanPage />} />
-          {/* <Route path="calender" element={<CalenderPage />} /> */}
+          <Route path="reports" element={<ReportsPage />} />
           {/* Components pages */}
           <Route path="button" element={<Button />} />
           <Route path="dropdown" element={<Dropdown />} />
