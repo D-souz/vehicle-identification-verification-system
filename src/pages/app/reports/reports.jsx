@@ -3,7 +3,7 @@ import Card from "@/components/ui/Card";
 import AreaSpaLine from "../../chart/appex-chart/AreaSpaline";
 import TransactionsTable from "../../../components/partials/Table/transactions";
 import EnrolleesTable from "./enrolleesTable";
-import AgentsTable from "./AgentsTable";
+import AgentsTable from "./agentsTable";
 import RecentEnrolleesTable from "./recentScans";
 
 const ReportsPage = () => {

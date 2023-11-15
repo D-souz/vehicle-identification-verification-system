@@ -125,7 +125,7 @@ const AgentsDetailsPage = () => {
                   </div>
                 </li>
 
-                <li className="flex space-x-3 rtl:space-x-reverse">
+                {/* <li className="flex space-x-3 rtl:space-x-reverse">
                   <div className="flex-none text-2xl text-slate-600 dark:text-slate-300">
                     <Icon icon="mdi:location" />
                   </div>
@@ -137,7 +137,7 @@ const AgentsDetailsPage = () => {
                       Home# 320/N, Road# 71/B, Mohakhali, Dhaka-1207, Bangladesh
                     </div>
                   </div>
-                </li>
+                </li> */}
               </ul>
             </Card>
           </div>

@@ -75,6 +75,15 @@ const RegForm = () => {
         error={errors.password}
         className="h-[48px]"
       />
+      <Textinput
+        name="confirmpassword"
+        label="Comfirm passwrod"
+        type="password"
+        placeholder=" Confirm your password"
+        register={register}
+        error={errors.password}
+        className="h-[48px]"
+      />
       <Checkbox
         label="You accept our Terms and Conditions and Privacy Policy"
         value={checked}

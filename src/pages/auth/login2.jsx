@@ -55,7 +55,7 @@ const login2 = () => {
                 </div>
               </div>
               <div className="auth-footer text-center">
-                Copyright 2021, D'souza All Rights Reserved.
+                Copyright 2023, D'souza All Rights Reserved.
               </div>
             </div>
           </div>
@@ -75,7 +75,7 @@ const login2 = () => {
               
               <div>
                 <div className="black-500-title max-w-[525px] mx-auto pb-20 text-center">
-                Unlock a New Era of Vehicle Management and Security
+                  Unlock a New Era of Management and Security
                   {/* <span className="text-white font-bold">performance</span> */}
                 </div>
               </div>

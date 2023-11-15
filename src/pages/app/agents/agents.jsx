@@ -45,7 +45,7 @@ const AgentsPage = () => {
                 <div className="col-6">
 
                   <div className="d-flex flex-row ">
-                    <div className="pt-1"><Icon icon="ic:outline-email" /></div>
+                    <div className="pt-1 pb-2"><Icon icon="ic:outline-email" /></div>
                     <div className="pl-4">kareneboyette@armyspy.com</div>
                   </div>
 
@@ -58,13 +58,13 @@ const AgentsPage = () => {
                 <div className="col-6">
 
                   <div className="d-flex flex-row ">
-                    <div className="pt-1"><Icon icon="mdi:location" /></div>
-                    <div className="pl-4"><p>location</p></div>
+                    <div className="pt-1">status: <span className="text-success">active</span></div>
+                    {/* <div className="pl-4"><p>active</p></div> */}
                   </div>
 
                   <div className="d-flex flex-row ">
-                    <div className="pt-1"><Icon icon="bx:qr-scan" /></div>
-                    <div className="pl-4"><p>12 Scans</p></div>
+                    <div className="pt-1">Role: Security officer</div>
+                    {/* <div className="pl-4"><p>12 Scans</p></div> */}
                   </div>
                 </div>
 

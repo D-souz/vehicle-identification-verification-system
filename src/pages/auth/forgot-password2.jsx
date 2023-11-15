@@ -27,7 +27,7 @@ const ForgotPass2 = () => {
               <div className="text-center 2xl:mb-10 mb-5">
                 <h4 className="font-medium mb-4">Forgot Your Password?</h4>
                 <div className="text-slate-500 dark:text-slate-400 text-base">
-                  Reset Password with Dashcode.
+                  Reset Password with VIVS.
                 </div>
               </div>
               <div className="font-normal text-base text-slate-500 dark:text-slate-400 text-center px-2 bg-slate-100 dark:bg-slate-600 rounded py-3 mb-4 mt-10">
@@ -58,17 +58,18 @@ const ForgotPass2 = () => {
           }}
         >
           <div className="flex flex-col h-full justify-center">
-            <div className="flex-1 flex flex-col justify-center items-center">
-              <Link to="/">
+            <div className="text-center text-white fw-bold display-5">
+              {/* <Link to="/">
                 <img src={LogoWhite} alt="" className="mb-10" />
-              </Link>
+              </Link> */}
+               Unlock a New Era of Management and Security
             </div>
-            <div>
+            {/* <div>
               <div className="black-500-title max-w-[525px] mx-auto pb-20 text-center">
                 Unlock your Project
                 <span className="text-white font-bold">performance</span>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

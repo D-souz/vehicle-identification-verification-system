@@ -260,7 +260,7 @@ const EnrolleesTable = () => {
               <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
             </div>
             <div className="col-4 pt-1 text-end">
-              <Link to="#" className="text-primary">
+              <Link to="/most-scanned" className="text-primary">
                 See All
               </Link>
             </div>

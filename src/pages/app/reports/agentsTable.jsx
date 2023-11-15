@@ -11,7 +11,7 @@ import {
   useGlobalFilter,
   usePagination,
 } from "react-table";
-import GlobalFilter from "../../../pages/table/react-tables/GlobalFilter";
+import GlobalFilter from "../../table/react-tables/GlobalFilter";
 import { Link } from "react-router-dom";
 
 const COLUMNS = [
@@ -181,7 +181,7 @@ const COLUMNS = [
 //   },
 // ];
 
-const AgentsTable = () => {
+const AgentsTable = ( ) => {
   const columns = useMemo(() => COLUMNS, []);
   const data = useMemo(() => advancedTable, []);
 
@@ -229,7 +229,7 @@ const AgentsTable = () => {
               <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
             </div>
             <div className="col-4 pt-1 text-end">
-              <Link to="#" className="text-primary">
+              <Link to="/agents-report" className="text-primary">
                 See All
               </Link>
             </div>

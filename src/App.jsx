@@ -116,9 +116,14 @@ const ProjectDetailsPage = lazy(() =>
 );
 const KanbanPage = lazy(() => import("./pages/app/kanban"));
 const ReportsPage = lazy(() => import("./pages/app/reports/reports"));
+const AgentsReportPage = lazy(() => import("./pages/app/reports/agentsReport"));
+const MostScannedEnrolleesPage= lazy(() => import("./pages/app/reports/mostScanned"));
+const RecentScannedEnrolleesPage= lazy(() => import("./pages/app/reports/recentlyScannedReport"));
 const AgentsPage = lazy(() => import("./pages/app/agents/agents"));
 const AgentsDetailsPage = lazy(() => import("./pages/app/agents/agentsDetails"));
 import Loading from "@/components/Loading";
+
+
 function App() {
   return (
     <main className="App  relative">
@@ -147,54 +152,54 @@ function App() {
             </Suspense>
           }
         /> */}
-        <Route
+        {/* <Route
           path="/register"
           element={
             <Suspense fallback={<Loading />}>
               <Register />
             </Suspense>
           }
-        />
+        /> */}
         <Route
-          path="/register2"
+          path="/register"
           element={
             <Suspense fallback={<Loading />}>
               <Register2 />
             </Suspense>
           }
         />
-        <Route
+        {/* <Route
           path="/register3"
           element={
             <Suspense fallback={<Loading />}>
               <Register3 />
             </Suspense>
           }
-        />
-        <Route
+        /> */}
+        {/* <Route
           path="/forgot-password"
           element={
             <Suspense fallback={<Loading />}>
               <ForgotPass />
             </Suspense>
           }
-        />
+        /> */}
         <Route
-          path="/forgot-password2"
+          path="/forgot-password"
           element={
             <Suspense fallback={<Loading />}>
               <ForgotPass2 />
             </Suspense>
           }
         />
-        <Route
+        {/* <Route
           path="/forgot-password3"
           element={
             <Suspense fallback={<Loading />}>
               <ForgotPass3 />
             </Suspense>
           }
-        />
+        /> */}
         <Route
           path="/lock-screen"
           element={
@@ -240,6 +245,9 @@ function App() {
           <Route path="project-details" element={<ProjectDetailsPage />} />
           <Route path="kanban" element={<KanbanPage />} />
           <Route path="reports" element={<ReportsPage />} />
+          <Route path="agents-report" element={<AgentsReportPage />} />
+          <Route path="most-scanned" element={<MostScannedEnrolleesPage />} />
+          <Route path="recently-scanned" element={<RecentScannedEnrolleesPage />} />
           {/* Components pages */}
           <Route path="button" element={<Button />} />
           <Route path="dropdown" element={<Dropdown />} />

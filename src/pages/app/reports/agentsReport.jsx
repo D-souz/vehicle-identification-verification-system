@@ -11,8 +11,8 @@ import {
   useGlobalFilter,
   usePagination,
 } from "react-table";
-import GlobalFilter from "../../../pages/table/react-tables/GlobalFilter";
-import { Link } from "react-router-dom";
+import GlobalFilter from "../../table/react-tables/GlobalFilter";
+import Button from "@/components/ui/Button";
 
 const COLUMNS = [
   {
@@ -38,8 +38,8 @@ const COLUMNS = [
     },
   },
   {
-    Header: "vin",
-    accessor: "vin",
+    Header: "role",
+    accessor: "role",
     Cell: (row) => {
       return (
         <span className="text-slate-500 dark:text-slate-400">
@@ -53,36 +53,21 @@ const COLUMNS = [
     },
   },
   {
-    Header: "model",
-    accessor: "model",
+    Header: "total scans",
+    accessor: "scans",
     Cell: (row) => {
       return (
         <span className="text-slate-500 dark:text-slate-400">
-          {row?.cell?.value}
-          <span className="inline-block ml-1">
-            {Math.floor(Math.random() * 12) + 1}:
-            {Math.floor(Math.random() * 60) + 1}
+          <span className="block text-slate-600 dark:text-slate-300">
+            15
           </span>
+          {/* <span className="block text-slate-500 text-xs">
+            Trans ID: 8HG654Pk32
+          </span> */}
         </span>
       );
     },
   },
-//   {
-//     Header: "scans",
-//     accessor: "scans",
-//     Cell: (row) => {
-//       return (
-//         <span className="text-slate-500 dark:text-slate-400">
-//           <span className="block text-slate-600 dark:text-slate-300">
-//             20
-//           </span>
-//           {/* <span className="block text-slate-500 text-xs">
-//             Trans ID: 8HG654Pk32
-//           </span> */}
-//         </span>
-//       );
-//     },
-//   },
   {
     Header: "contact",
     accessor: "contact",
@@ -116,22 +101,6 @@ const COLUMNS = [
     },
   },
   {
-    Header: "address",
-    accessor: "address",
-    Cell: (row) => {
-      return (
-        <span className="text-slate-500 dark:text-slate-400">
-          <span className="block text-slate-600 dark:text-slate-300">
-            Munyonyo
-          </span>
-          {/* <span className="block text-slate-500 text-xs">
-            Trans ID: 8HG654Pk32
-          </span> */}
-        </span>
-      );
-    },
-  },
-  {
     Header: "status",
     accessor: "status",
     Cell: (row) => {
@@ -154,65 +123,11 @@ const COLUMNS = [
       );
     },
   },
-  // {
-  //   Header: "action",
-  //   accessor: "action",
-  //   Cell: (row) => {
-  //     return (
-  //       <div className=" text-center">
-  //         <Dropdown
-  //           classMenuItems="right-0 w-[140px] top-[110%] "
-  //           label={
-  //             <span className="text-xl text-center block w-full">
-  //               <Icon icon="heroicons-outline:dots-vertical" />
-  //             </span>
-  //           }
-  //         >
-  //           <div className="divide-y divide-slate-100 dark:divide-slate-800">
-  //             {actions.map((item, i) => (
-  //               <Menu.Item key={i}>
-  //                 <div
-  //                   className={`
-                
-  //                 ${
-  //                   item.name === "delete"
-  //                     ? "bg-danger-500 text-danger-500 bg-opacity-30   hover:bg-opacity-100 hover:text-white"
-  //                     : "hover:bg-slate-900 hover:text-white dark:hover:bg-slate-600 dark:hover:bg-opacity-50"
-  //                 }
-  //                  w-full border-b border-b-gray-500 border-opacity-10 px-4 py-2 text-sm  last:mb-0 cursor-pointer 
-  //                  first:rounded-t last:rounded-b flex  space-x-2 items-center rtl:space-x-reverse `}
-  //                 >
-  //                   <span className="text-base">
-  //                     <Icon icon={item.icon} />
-  //                   </span>
-  //                   <span>{item.name}</span>
-  //                 </div>
-  //               </Menu.Item>
-  //             ))}
-  //           </div>
-  //         </Dropdown>
-  //       </div>
-  //     );
-  //   },
-  // },
+ 
 ];
 
-// const actions = [
-//   {
-//     name: "view",
-//     icon: "heroicons-outline:eye",
-//   },
-//   {
-//     name: "edit",
-//     icon: "heroicons:pencil-square",
-//   },
-//   {
-//     name: "delete",
-//     icon: "heroicons-outline:trash",
-//   },
-// ];
 
-const RecentEnrolleesTable = () => {
+const AgentsReportPage = ( ) => {
   const columns = useMemo(() => COLUMNS, []);
   const data = useMemo(() => advancedTable, []);
 
@@ -254,15 +169,27 @@ const RecentEnrolleesTable = () => {
     <>
       <Card noborder>
         <div className="md:flex justify-between items-center mb-6">
-          <h4 className="card-title">Recently scanned enrollees</h4>
+          <h4 className="card-title">Most active agents</h4>
           <div className="row">
-            <div className="col-8">
+            <div className="col-6">
               <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
             </div>
-            <div className="col-4 pt-1 text-end">
-              <Link to="/recently-scanned" className="text-primary">
-                See All
-              </Link>
+            <div className="col-5">
+              <div className="row">
+                <div className="col-6">
+                  <Button 
+                    icon="ion:print-outline" 
+                    text="print"
+                    className="btn-outline-secondary p-2 text-muted"
+                  />
+                </div>
+                <div className="col-6">
+                  <Button 
+                    text="Download"
+                    className="btn-outline-secondary p-2 text-muted"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -328,4 +255,4 @@ const RecentEnrolleesTable = () => {
   );
 };
 
-export default RecentEnrolleesTable;
+export default AgentsReportPage;
