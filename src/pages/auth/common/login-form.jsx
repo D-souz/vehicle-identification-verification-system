@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import Checkbox from "@/components/ui/Checkbox";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { handleLogin } from "./store";
+import { loginAgent, reset } from "./store";
 import { toast } from "react-toastify";
 const schema = yup
   .object({
@@ -17,7 +17,7 @@ const schema = yup
   .required();
 const LoginForm = () => {
   const dispatch = useDispatch();
-  const { users } = useSelector((state) => state.auth);
+  const { agent, isLoading, isError, isSuccess, message } = useSelector((state) => state.auth);
   const {
     register,
     formState: { errors },
@@ -29,36 +29,63 @@ const LoginForm = () => {
   });
   const navigate = useNavigate();
   const onSubmit = (data) => {
-    const user = users.find(
-      (user) => user.email === data.email && user.password === data.password
-    );
-    if (user) {
-      dispatch(handleLogin(true));
-      setTimeout(() => {
-        navigate("/dashboard");
-      }, 1500);
-    } else {
-      toast.error("Invalid credentials", {
-        position: "top-right",
-        autoClose: 1500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    }
+      dispatch(loginAgent(data));
+
+      if (isError) {
+        toast.error("Invalid credentials", {
+          position: "top-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+
+      if (isSuccess || agent) {
+        toast.success("Agent logged in successfully", {
+          position: "top-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 1500);
+      }
+
+    // reset the state
+    dispatch(reset()); 
   };
 
   const [checked, setChecked] = useState(false);
+
+  if (isLoading) {
+    toast.info("Loggingin agent...", {
+      position: "top-right",
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 ">
       <Textinput
         name="email"
         label="email"
-        defaultValue={users[0].email}
+        // defaultValue={users[0].email}
+        placeholder="Enter your email"
         type="email"
         register={register}
         error={errors.email}
@@ -68,7 +95,8 @@ const LoginForm = () => {
         name="password"
         label="passwrod"
         type="password"
-        defaultValue={users[0].password}
+        placeholder="Enter your password"
+        // defaultValue={users[0].password}
         register={register}
         error={errors.password}
         className="h-[48px]"
@@ -87,7 +115,7 @@ const LoginForm = () => {
         </Link>
       </div>
 
-      <button className="btn btn-dark block w-full text-center">Sign in</button>
+      <button type="submit" className="btn btn-dark block w-full text-center">Sign in</button>
     </form>
   );
 };

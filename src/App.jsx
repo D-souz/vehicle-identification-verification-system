@@ -6,8 +6,8 @@ import { Routes, Route, Navigate } from "react-router-dom";
 const Dashboard = lazy(() => import("./pages/dashboard"));
 const VehicleRegistartion = lazy(() => import("./pages/dashboard/registervehicle"));
 const ScanPage = lazy(() => import("./pages/dashboard/scan"));
-const ProjectPage = lazy(() => import("./pages/dashboard/project"));
-const BankingPage = lazy(() => import("./pages/dashboard/banking"));
+// const ProjectPage = lazy(() => import("./pages/dashboard/project"));
+// const BankingPage = lazy(() => import("./pages/dashboard/banking"));
 
 // const Login = lazy(() => import("./pages/auth/login"));
 const Login2 = lazy(() => import("./pages/auth/login2"));
@@ -234,8 +234,8 @@ function App() {
           <Route path={"agents"} element={<AgentsPage/>} />
           <Route path={"agents-details/:id"} element={<AgentsDetailsPage/>} />
           <Route path={"agents-details"} element={<AgentsDetailsPage/>} />
-          <Route path="project" element={<ProjectPage />} />
-          <Route path="banking" element={<BankingPage />} />
+          {/* <Route path="project" element={<ProjectPage />} />
+          <Route path="banking" element={<BankingPage />} /> */}
           {/* App pages */}
           <Route path="todo" element={<TodoPage />} />
           <Route path="email" element={<EmailPage />} />

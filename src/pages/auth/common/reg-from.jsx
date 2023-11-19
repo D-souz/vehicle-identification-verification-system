@@ -7,7 +7,8 @@ import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import Checkbox from "@/components/ui/Checkbox";
 import { useDispatch, useSelector } from "react-redux";
-import { handleRegister } from "./store";
+import { registerAgent, reset } from "./store";
+
 
 const schema = yup
   .object({
@@ -22,11 +23,14 @@ const schema = yup
     confirmpassword: yup
       .string()
       .oneOf([yup.ref("password"), null], "Passwords must match"),
+      role: yup.string().required("A role is Required"),
+      telephone: yup.string().required("Telephone is Required"),
   })
   .required();
 
 const RegForm = () => {
   const dispatch = useDispatch();
+  const { agent, isLoading, isError, isSuccess, message } = useSelector((state) => state.auth);
 
   const [checked, setChecked] = useState(false);
   const {
@@ -41,22 +45,65 @@ const RegForm = () => {
   const navigate = useNavigate();
 
   const onSubmit = (data) => {
-    dispatch(handleRegister(data));
-    setTimeout(() => {
-      navigate("/");
-    }, 1500);
+    dispatch(registerAgent(data));
+
+    if (isError) {
+      toast.error(message, {
+        position: "top-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+    if (isSuccess || agent) {
+      toast.success("Agent registered successfully", {
+        position: "top-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      
+      setTimeout(() => {
+        navigate("/");
+      }, 1500);
+      // console.log(data);
+    }
+    // reset the state
+    dispatch(reset()); 
   };
+
+  if (isLoading) {
+    toast.info("Registering agent...", {
+      position: "top-right",
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 ">
       <Textinput
         name="name"
         label="name"
         type="text"
-        placeholder=" Enter your name"
+        placeholder="Enter your name"
         register={register}
         error={errors.name}
         className="h-[48px]"
-      />{" "}
+      />
       <Textinput
         name="email"
         label="email"
@@ -77,11 +124,29 @@ const RegForm = () => {
       />
       <Textinput
         name="confirmpassword"
-        label="Comfirm passwrod"
+        label="Comfirm password"
         type="password"
         placeholder=" Confirm your password"
         register={register}
-        error={errors.password}
+        error={errors.confirmpassword}
+        className="h-[48px]"
+      />
+       <Textinput
+        name="role"
+        label="role"
+        type="text"
+        placeholder=" Enter your role"
+        register={register}
+        error={errors.role}
+        className="h-[48px]"
+      />
+       <Textinput
+        name="telephone"
+        label="telephone"
+        type="tel"
+        placeholder=" Enter your telephone"
+        register={register}
+        error={errors.telephone}
         className="h-[48px]"
       />
       <Checkbox
@@ -89,7 +154,7 @@ const RegForm = () => {
         value={checked}
         onChange={() => setChecked(!checked)}
       />
-      <button className="btn btn-dark block w-full text-center">
+      <button type="submit" className="btn btn-dark block w-full text-center">
         Create an account
       </button>
     </form>

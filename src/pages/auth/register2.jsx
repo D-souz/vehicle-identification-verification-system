@@ -65,7 +65,7 @@ const register2 = () => {
             }}
           >
             <div className="flex flex-col h-full justify-center">
-              <div className="text-center text-white fw-bold display-5">
+              <div className="text-center text-white fw-bold display-6">
                 {/* <Link to="/">
                   <img src={LogoWhite} alt="" className="mb-10" />
                 </Link> */}
