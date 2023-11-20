@@ -1,5 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 
 // home pages  & dashboard
 //import Dashboard from "./pages/dashboard";
@@ -98,10 +100,10 @@ const BasicWidget = lazy(() => import("./pages/widget/basic-widget"));
 const StatisticWidget = lazy(() => import("./pages/widget/statistic-widget"));
 
 // app page
-const TodoPage = lazy(() => import("./pages/app/todo"));
-const EmailPage = lazy(() => import("./pages/app/email"));
-const ChatPage = lazy(() => import("./pages/app/chat"));
-const ProjectPostPage = lazy(() => import("./pages/app/projects"));
+// const TodoPage = lazy(() => import("./pages/app/todo"));
+// const EmailPage = lazy(() => import("./pages/app/email"));
+// const ChatPage = lazy(() => import("./pages/app/chat"));
+// const ProjectPostPage = lazy(() => import("./pages/app/projects"));
 
 // enrollees detail page
 const EnrolleesPage = lazy(() =>
@@ -111,10 +113,10 @@ const EnrolleeDetailsPage = lazy(() =>
   import("./pages/app/enrollees/enrollees-details")
 );
 
-const ProjectDetailsPage = lazy(() =>
-  import("./pages/app/projects/project-details")
-);
-const KanbanPage = lazy(() => import("./pages/app/kanban"));
+// const ProjectDetailsPage = lazy(() =>
+//   import("./pages/app/projects/project-details")
+// );
+// const KanbanPage = lazy(() => import("./pages/app/kanban"));
 const ReportsPage = lazy(() => import("./pages/app/reports/reports"));
 const AgentsReportPage = lazy(() => import("./pages/app/reports/agentsReport"));
 const MostScannedEnrolleesPage= lazy(() => import("./pages/app/reports/mostScanned"));
@@ -125,6 +127,10 @@ import Loading from "@/components/Loading";
 
 
 function App() {
+
+// getting the agent from the state
+const { agent } = useSelector((state) => state.auth);
+
   return (
     <main className="App  relative">
       <Routes>
@@ -237,13 +243,13 @@ function App() {
           {/* <Route path="project" element={<ProjectPage />} />
           <Route path="banking" element={<BankingPage />} /> */}
           {/* App pages */}
-          <Route path="todo" element={<TodoPage />} />
-          <Route path="email" element={<EmailPage />} />
+          {/* <Route path="todo" element={<TodoPage />} /> */}
+          {/* <Route path="email" element={<EmailPage />} />
           <Route path="chat" element={<ChatPage />} />
           <Route path="projects" element={<ProjectPostPage />} />
           <Route path={"projects/:id"} element={<ProjectDetailsPage />} />
-          <Route path="project-details" element={<ProjectDetailsPage />} />
-          <Route path="kanban" element={<KanbanPage />} />
+          <Route path="project-details" element={<ProjectDetailsPage />} /> */}
+          {/* <Route path="kanban" element={<KanbanPage />} /> */}
           <Route path="reports" element={<ReportsPage />} />
           <Route path="agents-report" element={<AgentsReportPage />} />
           <Route path="most-scanned" element={<MostScannedEnrolleesPage />} />

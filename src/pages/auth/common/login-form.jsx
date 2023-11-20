@@ -29,9 +29,25 @@ const LoginForm = () => {
   });
   const navigate = useNavigate();
   const onSubmit = (data) => {
-      dispatch(loginAgent(data));
+    dispatch(loginAgent(data));
+      if (isSuccess || agent) {
+        // navigate("/dashboard");
+        // dispatch(loginAgent(data));
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 1500);
 
-      if (isError) {
+         toast.success("Agent logged in successfully", {
+            position: "top-right",
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+      } else {
         toast.error("Invalid credentials", {
           position: "top-right",
           autoClose: 1500,
@@ -43,26 +59,41 @@ const LoginForm = () => {
           theme: "light",
         });
       }
+        // reset the state
+        dispatch(reset()); 
+    };
+      // if (isError) {
+      //   toast.error("Invalid credentials", {
+      //     position: "top-right",
+      //     autoClose: 1500,
+      //     hideProgressBar: false,
+      //     closeOnClick: true,
+      //     pauseOnHover: true,
+      //     draggable: true,
+      //     progress: undefined,
+      //     theme: "light",
+      //   });
+      // }
 
-      if (isSuccess || agent) {
-        toast.success("Agent logged in successfully", {
-          position: "top-right",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-        setTimeout(() => {
-          navigate("/dashboard");
-        }, 1500);
-      }
+      // if (isSuccess || agent) {
+      //   toast.success("Agent logged in successfully", {
+      //     position: "top-right",
+      //     autoClose: 1500,
+      //     hideProgressBar: false,
+      //     closeOnClick: true,
+      //     pauseOnHover: true,
+      //     draggable: true,
+      //     progress: undefined,
+      //     theme: "light",
+      //   });
+      //   setTimeout(() => {
+      //     navigate("/dashboard");
+      //   }, 1500);
+      // }
 
-    // reset the state
-    dispatch(reset()); 
-  };
+  //   // reset the state
+  //   dispatch(reset()); 
+  // };
 
   const [checked, setChecked] = useState(false);
 
