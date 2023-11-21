@@ -144,12 +144,15 @@ export const menuItems = [
   //   icon: "heroicons-outline:cog",
   //   link: "settings",
   // },
-  {
-    title: "Logout",
-    isHide: true,
-    icon: "tabler:logout-2",
-    link: "#",
-  },
+  // {
+  //   title: "Logout",
+  //   isHide: true,
+  //   icon: "tabler:logout-2",
+  //   link: "#",
+  //   action: () => {
+
+  //   }
+  // },
   
   // {
   //   isHeadr: true,

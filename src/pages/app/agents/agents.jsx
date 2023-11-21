@@ -1,79 +1,62 @@
-import React, { useState } from "react";
-import Card from "@/components/ui/Card";
-import Image from "@/components/ui/Image";
-import responsiveImage4 from "@/assets/images/all-img/thumb-4.png";
-import { Icon } from "@iconify/react";
-import { Link } from "react-router-dom";
-import Button from "@/components/ui/Button";
-import Tooltip from "@/components/ui/Tooltip";
+import React, { useState, useEffect } from "react";
+// import Card from "@/components/ui/Card";
+// import Image from "@/components/ui/Image";
+// import responsiveImage4 from "@/assets/images/all-img/thumb-4.png";
+// import { Icon } from "@iconify/react";
+// import { Link } from "react-router-dom";
 // import Button from "@/components/ui/Button";
+// import Tooltip from "@/components/ui/Tooltip";
+// import Button from "@/components/ui/Button";
+import { useDispatch, useSelector } from "react-redux";
+import { getAgents, reset } from "./agentsStore";
+import AgentCard from "./agentsCard";
 
 const AgentsPage = () => {
+  const dispatch = useDispatch();
+  const { agent } = useSelector((state) => state.auth);
+  const { agents, isLoading, isError, message } = useSelector((state) => state.agents);
+
+// fetching the agents when the page loads
+useEffect(() =>{
+
+  if (isError) {
+    console.log(message);
+  }
+
+  dispatch(getAgents());
+  console.log(getAgents)
+
+  // reset the state when a leaves the page
+  return () => {
+    dispatch(reset());
+  }
+}, [agent, message, isError, dispatch])
+
   return (
     <div>
       <h4 className="font-medium lg:text-2xl text-xl capitalize text-slate-900 inline-block ltr:pr-4 rtl:pl-4 mb-6">
         Agents list
       </h4>
-      <div className="grid grid-cols-12 gap-4">
-        <Card className="lg:col-span-10 col-span-12">
-          <div className="row">
-            <div className="col-3">
-              <Image src={responsiveImage4}  className="rounded-md  border-slate-300" />
-            </div>
-            <div className="col-9">
-              <div className="pb-6 d-flex flex-row justify-content-between">
-                <div>
-                  <p>Karen Eilla Boyette</p>
-                  <p>Agent ID: #18457 865 8745</p>
-                </div>
-                <div>
-                  {/* <Button 
-                    text="view" className=" btn-secondary block-btn"
-                    link="/dashboard"
-                  /> */}
-                  <Link to="/agents-details">
-                    <Tooltip content="View" placement="top" arrow animation="shift-away">
-                      <button className="action-btn" type="button">
-                        <Icon icon="heroicons:eye" />
-                      </button>
-                    </Tooltip>
-                  </Link>
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="col-6">
-
-                  <div className="d-flex flex-row ">
-                    <div className="pt-1 pb-2"><Icon icon="ic:outline-email" /></div>
-                    <div className="pl-4">kareneboyette@armyspy.com</div>
-                  </div>
-
-                  <div className="d-flex flex-row ">
-                    <div className="pt-1"><Icon icon={"solar:phone-bold"} /></div>
-                    <div className="pl-4"><p>+502-324-4194</p></div>
-                  </div>
-                </div>
-
-                <div className="col-6">
-
-                  <div className="d-flex flex-row ">
-                    <div className="pt-1">status: <span className="text-success">active</span></div>
-                    {/* <div className="pl-4"><p>active</p></div> */}
-                  </div>
-
-                  <div className="d-flex flex-row ">
-                    <div className="pt-1">Role: Security officer</div>
-                    {/* <div className="pl-4"><p>12 Scans</p></div> */}
-                  </div>
-                </div>
-
-              </div>
-
-            </div>
+        {agents.length > 0 ? (
+          <div>
+            {agents.map((agent) => (
+              <AgentCard 
+                key={agent._id}
+                agentID={agent._id}
+                name={agent.name}
+                email={agent.email}
+                contact={agent.telephone}
+                role={agent.role}
+              />
+            ))}
           </div>
-        </Card>
-      </div>
+        ) 
+        : 
+        (
+          <div>
+            <h3>No agents available</h3>
+          </div>
+        )}
     </div>
   );
 };

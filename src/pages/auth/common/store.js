@@ -16,17 +16,6 @@ import axios from "axios";
 //         },
 //       ];
 // };
-// save users in local storage
-
-// const initialIsAuth = () => {
-//   const item = window.localStorage.getItem("isAuth");
-//   return item ? JSON.parse(item) : false;
-// };
-
-
-// // fetching the agent from local storage
-// const agent = JSON.parse(localStorage.getItem("agent"));
-
 
 // getting agent from local storage
 const agent = JSON.parse(localStorage.getItem('agent')); 
@@ -77,21 +66,7 @@ export const registerAgent = createAsyncThunk(
       //         progress: undefined,
       //         theme: "light",
       // });
-    } else { 
-      // const error = (error.response && error.response.data && error.response.data.message ) ||
-      // error.message || error.toString();
-
-      // toast.error(error, {
-      //   position: "top-right",
-      //   autoClose: 1500,
-      //   hideProgressBar: false,
-      //   closeOnClick: true,
-      //   pauseOnHover: true,
-      //   draggable: true,
-      //   progress: undefined,
-      //   theme: "light",
-      // });
-    }
+    } 
     } catch (error) {
       console.log(error);
 
@@ -121,17 +96,6 @@ export const loginAgent = createAsyncThunk(
       // Saving the Agent into local storage
         if (response.data) {
           localStorage.setItem("agent", JSON.stringify(response.data));
-
-          // toast.success("Agent logged in successfully", {
-          //   position: "top-right",
-          //   autoClose: 1500,
-          //   hideProgressBar: false,
-          //   closeOnClick: true,
-          //   pauseOnHover: true,
-          //   draggable: true,
-          //   progress: undefined,
-          //   theme: "light",
-          // });
         }
         console.log(response.data);
         return response.data;
@@ -148,18 +112,27 @@ export const loginAgent = createAsyncThunk(
   }
 );
 
+// logging out the Agent
+export const logoutAgent = createAsyncThunk(
+  "agent/logout",
+  async () => {
+    localStorage.removeItem("agent");
+    toast.success("Agent logged out successfully", {
+      position: "top-right",
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      });
+  }
+);
+
 export const authSlice = createSlice({
   name: "auth",
   initialState,
-  // initialState: {
-  //   // users: initialUsers(),
-  //   // isAuth: initialIsAuth(),
-  //   isError: false,
-  //   isSuccess: false,
-  //   isLoading: false,
-  //   // userInfo: {}, // for user object
-  //   // userToken: null, // for storing the JWT
-  // },
   reducers: {
     reset: (state) => {
       state.isError = false
@@ -167,73 +140,6 @@ export const authSlice = createSlice({
       state.isSuccess = false
       state.message = ""
   }
-    // handleRegister:(state, action) => {
-    //   const { name, email, password, role, telephone } = action.payload;
-
-    //   // submit ro backend
-    //   // const user = axios.post........
-
-    //   // if(user.data) save to local storage
-
-    //   //catch error and toast that error as defined in the backend
-
-    //   // const user = state.users.find((user) => user.email === email);
-
-    //   if (user) {
-    //     toast.error("User already exists", {
-    //       position: "top-right",
-    //       autoClose: 1500,
-    //       hideProgressBar: false,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //       theme: "light",
-    //     });
-    //   } else {
-    //     state.users.push({
-    //       id: uuidv4(),
-    //       name,
-    //       email,
-    //       password,
-    //     });
-    //     window.localStorage.setItem("users", JSON.stringify(state.users));
-    //     toast.success("User registered successfully", {
-    //       position: "top-right",
-    //       autoClose: 1500,
-    //       hideProgressBar: false,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //       theme: "light",
-    //     });
-    //   }
-    // },
-
-    // handleLogin: (state, action) => {
-    //   state.isAuth = action.payload;
-    //   // save isAuth in local storage
-    //   window.localStorage.setItem("isAuth", JSON.stringify(state.isAuth));
-    //   toast.success("User logged in successfully", {
-    //     position: "top-right",
-    //     autoClose: 1500,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //     theme: "light",
-    //   });
-    // },
-    // handleLogout: (state, action) => {
-    //   state.isAuth = action.payload;
-    //   // remove isAuth from local storage
-    //   window.localStorage.removeItem("isAuth");
-    //   toast.success("User logged out successfully", {
-    //     position: "top-right",
-    //   });
-    // },
   },
   extraReducers: (builder) => {
     builder
@@ -267,8 +173,11 @@ export const authSlice = createSlice({
       state.message = action.payload;
       state.agent = null;
     })
+    .addCase(logoutAgent.fulfilled, (state) =>{
+      state.agent = null;
+    })
   }
 });
 
-export const { handleRegister, handleLogin, handleLogout, reset } = authSlice.actions;
+export const { reset } = authSlice.actions;
 export default authSlice.reducer;

@@ -6,6 +6,7 @@ import layout from "./layout";
 // import kanban from "../pages/app/kanban/store";
 // import calendar from "../pages/app/calender/store";
 import auth from "../pages/auth/common/store";
+import agents from "../pages/app/agents/agentsStore";
 
 const rootReducer = {
   layout,
@@ -16,5 +17,6 @@ const rootReducer = {
   // kanban,
   // calendar,
   auth,
+  agents,
 };
 export default rootReducer;

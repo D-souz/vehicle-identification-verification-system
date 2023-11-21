@@ -4,7 +4,7 @@ import Icon from "@/components/ui/Icon";
 import { Menu, Transition } from "@headlessui/react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { handleLogout } from "@/pages/auth/common/store";
+import { logoutAgent, reset } from "@/pages/auth/common/store";
 
 import UserAvatar from "@/assets/images/all-img/user.png";
 
@@ -35,6 +35,7 @@ const profileLabel = () => {
 const Profile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { agent } = useSelector((state) => state.auth);
 
   const ProfileMenu = [
     {
@@ -91,7 +92,19 @@ const Profile = () => {
       label: "Logout",
       icon: "heroicons-outline:login",
       action: () => {
-        dispatch(handleLogout(false));
+        dispatch(logoutAgent());
+        dispatch(reset());
+        toast.success("Agent logged out successfully", {
+          position: "top-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          });
+        navigate("/");
       },
     },
   ];
