@@ -6,8 +6,12 @@ import { Icon } from "@iconify/react";
 import { Link } from "react-router-dom";
 // import Button from "@/components/ui/Button";
 import Tooltip from "@/components/ui/Tooltip";
+import { useDispatch} from 'react-redux';
+import { deleteAgent } from "./agentsStore"
 
 const AgentCard = ({agentID, name, email, contact, role}) => {
+const dispatch = useDispatch();
+
   return (
     <div className="grid grid-cols-12 gap-4 p-2">
         <Card className="lg:col-span-10 col-span-12">
@@ -21,18 +25,23 @@ const AgentCard = ({agentID, name, email, contact, role}) => {
                   <p>{name}</p>
                   <p>Agent ID: {agentID.slice(0, 10)}</p>
                 </div>
-                <div>
-                  {/* <Button 
-                    text="view" className=" btn-secondary block-btn"
-                    link="/dashboard"
-                  /> */}
-                  <Link to="/agents-details">
-                    <Tooltip content="View" placement="top" arrow animation="shift-away">
-                      <button className="action-btn" type="button">
-                        <Icon icon="heroicons:eye" />
-                      </button>
-                    </Tooltip>
-                  </Link>
+                <div className='row'>
+                  <div className='col-6'>
+                    <Tooltip content="Delete agent" placement="top" arrow animation="shift-away" theme="danger">
+                        <button className="action-btn" type="button" onClick={() => dispatch(deleteAgent(agentID))}>
+                          <Icon icon="heroicons:trash" />
+                        </button>
+                      </Tooltip>
+                  </div>
+                  <div className='col-6'>
+                    <Link to={`/agents-details/${agentID}`}>
+                      <Tooltip content="View" placement="top" arrow animation="shift-away">
+                        <button className="action-btn" type="button">
+                          <Icon icon="heroicons:eye" />
+                        </button>
+                      </Tooltip>
+                    </Link>
+                  </div>
                 </div>
               </div>
 

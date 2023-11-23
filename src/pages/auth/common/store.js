@@ -50,7 +50,7 @@ export const registerAgent = createAsyncThunk(
         }
     });
 
-    console.log(response.data);
+    // console.log(response.data);
 
     if (response.data) {
       // save the user into local storage

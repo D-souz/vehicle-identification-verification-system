@@ -24,7 +24,7 @@ useEffect(() =>{
   }
 
   dispatch(getAgents());
-  console.log(getAgents)
+  // console.log(getAgents)
 
   // reset the state when a leaves the page
   return () => {

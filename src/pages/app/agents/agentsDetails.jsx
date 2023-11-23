@@ -1,14 +1,37 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
 import Icon from "@/components/ui/Icon";
 import Card from "@/components/ui/Card";
 import BasicArea from "../../chart/appex-chart/BasicArea";
+import { toast } from "react-toastify";
 
 // import images
 // import ProfileImage from "@/assets/images/users/user-1.jpg";
 import responsiveImage4 from "@/assets/images/all-img/thumb-4.png";
+import { useDispatch, useSelector } from "react-redux";
+import { getSingleAgent, reset } from "./agentsStore"
+
 
 const AgentsDetailsPage = () => {
+const params = useParams();
+const dispatch = useDispatch();
+const {isLoading, isSuccess, isError } = useSelector((state) => state.agents);
+const agent = useSelector((state) => state.agents.agent);
+
+// const DOR = new Date(agent.createdAt).toLocalString("en-Us");
+// fetch the agent
+useEffect(() => {
+  if (isError) {
+    console.log(message);
+  }
+  dispatch(getSingleAgent(params.id))
+
+
+  return () => {
+    dispatch(reset())
+  }
+}, [params.id, dispatch])
+
   return (
     <div>
       <div className="space-y-5 AgentsDetailsPage-page">
@@ -33,7 +56,7 @@ const AgentsDetailsPage = () => {
               </div>
               <div className="flex-1">
                 <div className="text-2xl font-medium text-slate-900 dark:text-slate-200 mb-[3px]">
-                  Karen Eilla Boyette
+                  {agent.name}
                 </div>
                 <div className="text-sm font-light text-slate-600 dark:text-slate-400">
                   active
@@ -57,7 +80,7 @@ const AgentsDetailsPage = () => {
                 Security officer
               </div>
               <div className="text-sm text-slate-600 font-light dark:text-slate-300">
-                Role
+                {agent.role}
               </div>
             </div>
 
@@ -87,7 +110,7 @@ const AgentsDetailsPage = () => {
                       href="#"
                       className="text-base text-slate-600 dark:text-slate-50"
                     >
-                      #18457 865 8745
+                      {agent._id}
                     </a>
                   </div>
                 </li>
@@ -103,7 +126,7 @@ const AgentsDetailsPage = () => {
                       href="mailto:someone@example.com"
                       className="text-base text-slate-600 dark:text-slate-50"
                     >
-                      info-500@dashcode.com
+                      {agent.email}
                     </a>
                   </div>
                 </li>
@@ -120,24 +143,24 @@ const AgentsDetailsPage = () => {
                       href="tel:0189749676767"
                       className="text-base text-slate-600 dark:text-slate-50"
                     >
-                      +1-202-555-0151
+                     {agent.telephone}
                     </a>
                   </div>
                 </li>
 
-                {/* <li className="flex space-x-3 rtl:space-x-reverse">
-                  <div className="flex-none text-2xl text-slate-600 dark:text-slate-300">
+                <li className="flex space-x-3 rtl:space-x-reverse">
+                  {/* <div className="flex-none text-2xl text-slate-600 dark:text-slate-300">
                     <Icon icon="mdi:location" />
-                  </div>
+                  </div> */}
                   <div className="flex-1">
                     <div className="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]">
-                      LOCATION
+                      REGISTERED ON
                     </div>
-                    <div className="text-base text-slate-600 dark:text-slate-50">
-                      Home# 320/N, Road# 71/B, Mohakhali, Dhaka-1207, Bangladesh
+                    <div className="text-base text-slate-600 dark:text-slate-50 text-success">
+                      { new Date(agent.createdAt).toLocaleString("en-Us")}
                     </div>
                   </div>
-                </li> */}
+                </li>
               </ul>
             </Card>
           </div>
