@@ -156,7 +156,7 @@ export const agentSlice = createSlice({
         .addCase(deleteAgent.fulfilled, (state, action) => {
             state.isSuccess = true;
             state.isLoading = false;
-            state.agents = state.agents.filter((agent) => agent._id !== action.payload.id )
+            state.agents = state.agents.filter((item) => item._id !== action.payload.id )
         })
         .addCase(deleteAgent.rejected, (state, action) => {
             state.isSuccess = false;

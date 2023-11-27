@@ -1,5 +1,4 @@
-import React, { useState, useMemo } from "react";
-import { advancedTable } from "../../../constant/table-data";
+import React, {  useMemo, useEffect, useRef } from "react";
 import Card from "@/components/ui/Card";
 import Icon from "@/components/ui/Icon";
 import Tooltip from "@/components/ui/Tooltip";
@@ -14,7 +13,10 @@ import GlobalFilter from "./GlobalFilter";
 import { Link } from "react-router-dom";
 import Modal from "@/components/ui/Modal";
 import MultiValidation from "../../forms/form-validation/multiple-rules";
-import Button from "@/components/ui/Button";
+import { useDispatch, useSelector } from "react-redux";
+import { getEnrollees } from "../../app/enrollees/enrolleeStore";
+import jsPDF from "jspdf";
+import 'jspdf-autotable';
 
 const COLUMNS = [
   {
@@ -29,35 +31,36 @@ const COLUMNS = [
     accessor: "name",
     Cell: (row) => {
       return (
-        <div>
-          <span className="inline-flex items-center">
-            {/* <span className="w-7 h-7 rounded-full ltr:mr-3 rtl:ml-3 flex-none bg-slate-600">
-              <img
-                src={row?.cell?.value.image}
-                alt=""
-                className="object-cover w-full h-full rounded-full"
-                />
-            </span> */}
-            {/* <span className="text-sm text-slate-600 dark:text-slate-300 capitalize">
-              {row?.cell?.value.name}
-            </span> */}
-          </span>
-        </div>
+        // <div>
+        //   {/* <span className="inline-flex items-center"> */}
+        //     {/* <span className="w-7 h-7 rounded-full ltr:mr-3 rtl:ml-3 flex-none bg-slate-600">
+        //       <img
+        //         src={row?.cell?.value.image}
+        //         alt=""
+        //         className="object-cover w-full h-full rounded-full"
+        //         />
+        //     </span> */}
+        //     <span className="text-sm text-slate-600 dark:text-slate-300 capitalize">
+        //       {/* {row?.cell?.value} */}
+        //     </span>
+        //   {/* </span> */}
+        // </div>
+        <span>{row?.cell?.value}</span>
       );
     },
   },
   {
     Header: "contact",
-    accessor: "contact",
+    accessor: "telephone",
     Cell: (row) => {
-      return <span>#{row?.cell?.value}</span>;
+      return <span>{row?.cell?.value}</span>;
     },
   },
   {
     Header: "registration date",
-    accessor: "date",
+    accessor: "createdAt",
     Cell: (row) => {
-      return <span>{row?.cell?.value}</span>;
+      return <span>{new Date(row?.cell?.value).toLocaleString("en-Us")}</span>;
     },
   },
   {
@@ -69,7 +72,7 @@ const COLUMNS = [
   },
   {
     Header: "location",
-    accessor: "location",
+    accessor: "address",
     Cell: (row) => {
       return <span>{row?.cell?.value}</span>;
     },
@@ -166,7 +169,16 @@ const IndeterminateCheckbox = React.forwardRef(
 
 const ExampleTwo = ({ title = "Enrollees" }) => {
   const columns = useMemo(() => COLUMNS, []);
-  const data = useMemo(() => advancedTable, []);
+  const dispatch = useDispatch();
+  const { isLoading, message } = useSelector((state) => state.enrollees);
+  const data = useSelector((state) => state.enrollees.enrollees);
+  const tableRef = useRef(null);
+
+  // dispatching the fetching action
+  useEffect(() => {
+    dispatch(getEnrollees());
+    // console.log(getEnrollees);
+  }, [dispatch])
 
   const tableInstance = useTable(
     {
@@ -218,6 +230,49 @@ const ExampleTwo = ({ title = "Enrollees" }) => {
   } = tableInstance;
 
   const { globalFilter, pageIndex, pageSize } = state;
+
+  const handleDownload = () => {
+  const doc = new jsPDF();
+
+  const tableData = [];
+
+  // Generate table header
+  const header = columns.map((column) => column.Header);
+  tableData.push(header);
+
+  // Generate table body
+  page.forEach((row) => {
+    const rowData = row.cells.map((cell) => cell.value);
+    tableData.push(rowData);
+
+    // const rowData = row.cells
+    // .slice(0, -1) // Exclude the last column
+    // .map((cell) => cell.value);
+    // tableData.push(rowData);
+  });
+
+  // Set table column widths
+  const columnWidths = columns.map(() => 'auto');
+  // const columnWidths = columns.slice(0, -1).map(() => 'auto'); // Exclude the last column
+
+   // Define column styles
+   const columnStyles = {
+    // Increase horizontal padding within the columns
+    cellPadding: { left: 10, right: 2 },
+  };
+
+  // Add the table to the PDF document
+  doc.autoTable({
+    head: [tableData[0]],
+    body: tableData.slice(1),
+    columns: columnWidths,
+    startY: 10, // Adjust the starting Y position as needed
+    columnStyles: columnStyles,
+  });
+
+  // Download the PDF
+  doc.save('enrollees.pdf');
+};
   return (
     <>
       <Card>
@@ -239,8 +294,15 @@ const ExampleTwo = ({ title = "Enrollees" }) => {
                     <MultiValidation />
                   </Modal>
                 </div>
+                {/* downloading button */}
                 <div>
-                  <button type="button" className="btn btn-outline-secondary p-2" style={{color:"#94a3b8"}}>Download</button>
+                  <button 
+                    type="button" 
+                    className="btn btn-outline-secondary p-2" 
+                    style={{color:"#94a3b8"}} 
+                    onClick={handleDownload}>
+                      Download
+                  </button>
                 </div>
               </div>
             </div>
@@ -252,6 +314,7 @@ const ExampleTwo = ({ title = "Enrollees" }) => {
               <table
                 className="min-w-full divide-y divide-slate-100 table-fixed dark:divide-slate-700"
                 {...getTableProps}
+                ref={tableRef}
               >
                 <thead className="bg-slate-200 dark:bg-slate-700">
                   {headerGroups.map((headerGroup) => (

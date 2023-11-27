@@ -7,6 +7,7 @@ import layout from "./layout";
 // import calendar from "../pages/app/calender/store";
 import auth from "../pages/auth/common/store";
 import agents from "../pages/app/agents/agentsStore";
+import enrollees from "../pages/app/enrollees/enrolleeStore";
 
 const rootReducer = {
   layout,
@@ -18,5 +19,6 @@ const rootReducer = {
   // calendar,
   auth,
   agents,
+  enrollees,
 };
 export default rootReducer;
