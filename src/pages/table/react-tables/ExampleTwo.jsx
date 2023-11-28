@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getEnrollees } from "../../app/enrollees/enrolleeStore";
 import jsPDF from "jspdf";
 import 'jspdf-autotable';
+import Loading from "@/components/Loading";
 
 const COLUMNS = [
   {
@@ -83,7 +84,8 @@ const COLUMNS = [
     Cell: (row) => {
       return (
         <span className="block w-full">
-          <span
+          active
+          {/* <span
             className={` inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25 ${
               row?.cell?.value === "paid"
                 ? "text-success-500 bg-success-500"
@@ -103,7 +105,7 @@ const COLUMNS = [
              `}
           >
             {row?.cell?.value}
-          </span>
+          </span> */}
         </span>
       );
     },
@@ -273,6 +275,9 @@ const ExampleTwo = ({ title = "Enrollees" }) => {
   // Download the PDF
   doc.save('enrollees.pdf');
 };
+if (isLoading) {
+  <Loading />
+}
   return (
     <>
       <Card>

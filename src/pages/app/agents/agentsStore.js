@@ -58,7 +58,7 @@ export const getSingleAgent = createAsyncThunk(
                     theme: "light",
                   });
             }
-            console.log(response.data);
+            // console.log(response.data);
             return response.data;
 
         } catch (error) {

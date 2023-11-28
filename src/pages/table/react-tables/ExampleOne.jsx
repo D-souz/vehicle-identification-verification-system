@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from "react";
-import { advancedTable } from "../../../constant/table-data";
+import React, { useEffect, useMemo } from "react";
+// import { advancedTable } from "../../../constant/table-data";
 import Card from "@/components/ui/Card";
 import Icon from "@/components/ui/Icon";
 import Dropdown from "@/components/ui/Dropdown";
@@ -16,7 +16,10 @@ import GlobalFilter from "./GlobalFilter";
 import Modal from "@/components/ui/Modal";
 // import Textinput from "@/components/ui/Textinput";
 import MultiValidation from "../../forms/form-validation/multiple-rules";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+// import Loading from "@/components/Loading";
+import { useDispatch, useSelector } from "react-redux";
+import { getEnrollees } from "../../app/enrollees/enrolleeStore";
 
 
 const COLUMNS = [
@@ -29,38 +32,39 @@ const COLUMNS = [
   },
   {
     Header: "number plate",
-    accessor: "numberplate",
+    accessor: "numberPlate",
     Cell: (row) => {
-      return <span>#{row?.cell?.value}</span>;
+      return <span>{row?.cell?.value}</span>;
     },
   },
   {
     Header: "owner",
-    accessor: "owner                                                                        ",
+    accessor: "name",
     Cell: (row) => {
       return (
-        <div>
-          <span className="inline-flex items-center">
-            <span className="w-7 h-7 rounded-full ltr:mr-3 rtl:ml-3 flex-none bg-slate-600">
-              {/* <img
-                src={row?.cell?.value.image}
-                alt=""
-                className="object-cover w-full h-full rounded-full"
-              /> */}
-            </span>
-            <span className="text-sm text-slate-600 dark:text-slate-300 capitalize">
-              {/* {row?.cell?.value.name} */}
-            </span>
-          </span>
-        </div>
+        // <div>
+        //   {/* <span className="inline-flex items-center"> */}
+        //     {/* <span className="w-7 h-7 rounded-full ltr:mr-3 rtl:ml-3 flex-none bg-slate-600">
+        //       <img
+        //         src={row?.cell?.value.image}
+        //         alt=""
+        //         className="object-cover w-full h-full rounded-full"
+        //         />
+        //     </span> */}
+        //     <span className="text-sm text-slate-600 dark:text-slate-300 capitalize">
+        //       {/* {row?.cell?.value} */}
+        //     </span>
+        //   {/* </span> */}
+        // </div>
+        <span>{row?.cell?.value}</span>
       );
     },
   },
   {
     Header: "date of registration",
-    accessor: "date",
+    accessor: "createdAt",
     Cell: (row) => {
-      return <span>{row?.cell?.value}</span>;
+      return <span>{new Date(row?.cell?.value).toLocaleString("en-Us")}</span>;
     },
   },
   {
@@ -83,7 +87,8 @@ const COLUMNS = [
     Cell: (row) => {
       return (
         <span className="block w-full">
-          <span
+          active
+          {/* <span
             className={` inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25 ${
               row?.cell?.value === "paid"
                 ? "text-success-500 bg-success-500"
@@ -103,7 +108,7 @@ const COLUMNS = [
              `}
           >
             {row?.cell?.value}
-          </span>
+          </span> */}
         </span>
       );
     },
@@ -123,7 +128,6 @@ const COLUMNS = [
               </span>
             }
           >
-            {/* <Link to="/enrollee-details"> */}
               <div className="divide-y divide-slate-100 dark:divide-slate-800">
                 {actions.map((item, i) => (
                   <Menu.Item key={i}>
@@ -143,16 +147,14 @@ const COLUMNS = [
                         <Icon icon={item.icon} />
                       </span>
                       <span>
-                        {item.name} 
-                        {/* {item.link} */}
-                        {/* { item.name === "view" ? <Link to="enrollee-details"></Link> : item.name === "edit" ? <Link to="enrollee-details"></Link> : item.name} */}
+                        {item.name}
+                        {/* {item.name = "view" ? <Link to="/enrollee-details">view</Link> : item.name = "edit" ? <Link to="/enrollee-details">edit</Link> : item.name = "delete"} */}
+                        {/* {item.name = "edit" ? <Navigate to="/enrollee-details" /> : item.name}  */}
                       </span>
                      </div>
                   </Menu.Item>
                 ))}
               </div>
-            
-            {/* </Link> */}
           </Dropdown>
         </div>
       );
@@ -201,8 +203,17 @@ const IndeterminateCheckbox = React.forwardRef(
 
 const ExamapleOne = () => {
   const columns = useMemo(() => COLUMNS, []);
-  const data = useMemo(() => advancedTable, []);
+  // const data = useMemo(() => advancedTable, []);
+  const dispatch = useDispatch();
+  const { isLoading, message } = useSelector((state) => state.enrollees);
+  const data = useSelector((state) => state.enrollees.enrollees);
   // const navigate = useNavigate();
+
+// dispatching the fetching action
+useEffect(() => {
+  dispatch(getEnrollees());
+  // console.log(getEnrollees);
+}, [dispatch])
 
   const tableInstance = useTable(
     {
