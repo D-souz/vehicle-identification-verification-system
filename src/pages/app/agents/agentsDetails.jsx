@@ -18,7 +18,7 @@ const dispatch = useDispatch();
 const {isLoading, isSuccess, isError } = useSelector((state) => state.agents);
 const agent = useSelector((state) => state.agents.agent);
 
-// const DOR = new Date(agent.createdAt).toLocalString("en-Us");
+
 // fetch the agent
 useEffect(() => {
   if (isError) {

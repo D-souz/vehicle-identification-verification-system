@@ -9,143 +9,16 @@ import {
   useGlobalFilter,
   usePagination,
 } from "react-table";
-import GlobalFilter from "./GlobalFilter";
-import { Link } from "react-router-dom";
+import GlobalFilter from "../../table/react-tables/GlobalFilter";
+import { Link, useNavigate} from "react-router-dom";
 import Modal from "@/components/ui/Modal";
 import MultiValidation from "../../forms/form-validation/multiple-rules";
 import { useDispatch, useSelector } from "react-redux";
-import { getEnrollees } from "../../app/enrollees/enrolleeStore";
+import { getEnrollees } from "./enrolleeStore";
 import jsPDF from "jspdf";
 import 'jspdf-autotable';
 import Loading from "@/components/Loading";
 
-const COLUMNS = [
-  {
-    Header: "vin",
-    accessor: "vin",
-    Cell: (row) => {
-      return <span>{row?.cell?.value}</span>;
-    },
-  },
-  {
-    Header: "name",
-    accessor: "name",
-    Cell: (row) => {
-      return (
-        // <div>
-        //   {/* <span className="inline-flex items-center"> */}
-        //     {/* <span className="w-7 h-7 rounded-full ltr:mr-3 rtl:ml-3 flex-none bg-slate-600">
-        //       <img
-        //         src={row?.cell?.value.image}
-        //         alt=""
-        //         className="object-cover w-full h-full rounded-full"
-        //         />
-        //     </span> */}
-        //     <span className="text-sm text-slate-600 dark:text-slate-300 capitalize">
-        //       {/* {row?.cell?.value} */}
-        //     </span>
-        //   {/* </span> */}
-        // </div>
-        <span>{row?.cell?.value}</span>
-      );
-    },
-  },
-  {
-    Header: "contact",
-    accessor: "telephone",
-    Cell: (row) => {
-      return <span>{row?.cell?.value}</span>;
-    },
-  },
-  {
-    Header: "registration date",
-    accessor: "createdAt",
-    Cell: (row) => {
-      return <span>{new Date(row?.cell?.value).toLocaleString("en-Us")}</span>;
-    },
-  },
-  {
-    Header: "email",
-    accessor: "email",
-    Cell: (row) => {
-      return <span>{row?.cell?.value}</span>;
-    },
-  },
-  {
-    Header: "location",
-    accessor: "address",
-    Cell: (row) => {
-      return <span>{row?.cell?.value}</span>;
-    },
-  },
-  {
-    Header: "status",
-    accessor: "status",
-    Cell: (row) => {
-      return (
-        <span className="block w-full">
-          active
-          {/* <span
-            className={` inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25 ${
-              row?.cell?.value === "paid"
-                ? "text-success-500 bg-success-500"
-                : ""
-            } 
-            ${
-              row?.cell?.value === "due"
-                ? "text-warning-500 bg-warning-500"
-                : ""
-            }
-            ${
-              row?.cell?.value === "cancled"
-                ? "text-danger-500 bg-danger-500"
-                : ""
-            }
-            
-             `}
-          >
-            {row?.cell?.value}
-          </span> */}
-        </span>
-      );
-    },
-  },
-  {
-    Header: "action",
-    accessor: "action",
-    Cell: (row) => {
-      return (
-        <div className="flex space-x-3 rtl:space-x-reverse">
-          <Link to="/enrollee-details">
-            <Tooltip content="View" placement="top" arrow animation="shift-away">
-              <button className="action-btn" type="button">
-                <Icon icon="heroicons:eye" />
-              </button>
-            </Tooltip>
-          </Link>
-          <Link to="/enrollee-details">
-            <Tooltip content="Edit" placement="top" arrow animation="shift-away">
-              <button className="action-btn" type="button">
-                <Icon icon="heroicons:pencil-square" />
-              </button>
-            </Tooltip>
-          </Link>
-          <Tooltip
-            content="Delete"
-            placement="top"
-            arrow
-            animation="shift-away"
-            theme="danger"
-          >
-            <button className="action-btn" type="button">
-              <Icon icon="heroicons:trash" />
-            </button>
-          </Tooltip>
-        </div>
-      );
-    },
-  },
-];
 
 const IndeterminateCheckbox = React.forwardRef(
   ({ indeterminate, ...rest }, ref) => {
@@ -169,12 +42,157 @@ const IndeterminateCheckbox = React.forwardRef(
   }
 );
 
-const ExampleTwo = ({ title = "Enrollees" }) => {
+export const EnrolleesTable = ({ title = "Enrollees"}) => {
+
+// console.log(handleClick())
+  const COLUMNS = [
+    // {
+    //   Header: "id",
+    //   accessor: "_id"
+    // }
+    // ,
+    {
+      Header: "vin",
+      accessor: "vin",
+      Cell: (row) => {
+        return <span>{row?.cell?.value}</span>;
+      },
+    },
+    {
+      Header: "name",
+      accessor: "name",
+      Cell: (row) => {
+        return (
+          // <div>
+          //   {/* <span className="inline-flex items-center"> */}
+          //     {/* <span className="w-7 h-7 rounded-full ltr:mr-3 rtl:ml-3 flex-none bg-slate-600">
+          //       <img
+          //         src={row?.cell?.value.image}
+          //         alt=""
+          //         className="object-cover w-full h-full rounded-full"
+          //         />
+          //     </span> */}
+          //     <span className="text-sm text-slate-600 dark:text-slate-300 capitalize">
+          //       {/* {row?.cell?.value} */}
+          //     </span>
+          //   {/* </span> */}
+          // </div>
+          <span>{row?.cell?.value}</span>
+        );
+      },
+    },
+    {
+      Header: "contact",
+      accessor: "telephone",
+      Cell: (row) => {
+        return <span>{row?.cell?.value}</span>;
+      },
+    },
+    {
+      Header: "registration date",
+      accessor: "createdAt",
+      Cell: (row) => {
+        return <span>{new Date(row?.cell?.value).toLocaleString("en-Us")}</span>;
+      },
+    },
+    {
+      Header: "email",
+      accessor: "email",
+      Cell: (row) => {
+        return <span>{row?.cell?.value}</span>;
+      },
+    },
+    {
+      Header: "location",
+      accessor: "address",
+      Cell: (row) => {
+        return <span>{row?.cell?.value}</span>;
+      },
+    },
+    {
+      Header: "status",
+      accessor: "status",
+      Cell: (row) => {
+        return (
+          <span className="block w-full">
+            active
+            {/* <span
+              className={` inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25 ${
+                row?.cell?.value === "paid"
+                  ? "text-success-500 bg-success-500"
+                  : ""
+              } 
+              ${
+                row?.cell?.value === "due"
+                  ? "text-warning-500 bg-warning-500"
+                  : ""
+              }
+              ${
+                row?.cell?.value === "cancled"
+                  ? "text-danger-500 bg-danger-500"
+                  : ""
+              }
+              
+               `}
+            >
+              {row?.cell?.value}
+            </span> */}
+          </span>
+        );
+      },
+    },
+    {
+      Header: "action",
+      accessor: "_id",
+      Cell: (row) => {
+        return (
+          <div className="flex space-x-3 rtl:space-x-reverse">
+              <Tooltip content="View" placement="top" arrow animation="shift-away">
+                <button 
+                  className="action-btn"
+                  type="button"
+                  onClick={() => handleClick(row?.cell?.value)}
+                >
+                  <Icon icon="heroicons:eye" />
+                </button>
+              </Tooltip>
+              <Tooltip content="Edit" placement="top" arrow animation="shift-away">
+                <button 
+                  className="action-btn" 
+                  type="button"
+                  onClick={() => handleClick(row?.cell?.value)}
+                >
+                  <Icon icon="heroicons:pencil-square" />
+                </button>
+              </Tooltip>
+            <Tooltip
+              content="Delete"
+              placement="top"
+              arrow
+              animation="shift-away"
+              theme="danger"
+            >
+              <button className="action-btn" type="button">
+                <Icon icon="heroicons:trash" />
+              </button>
+            </Tooltip>
+          </div>
+        );
+      },
+    },
+  ];
+  const navigate = useNavigate();
+
+  const handleClick = (id) => {
+    navigate(`/enrollee-details/${id}`)
+  }
+
   const columns = useMemo(() => COLUMNS, []);
   const dispatch = useDispatch();
   const { isLoading, message } = useSelector((state) => state.enrollees);
   const data = useSelector((state) => state.enrollees.enrollees);
   const tableRef = useRef(null);
+
 
   // dispatching the fetching action
   useEffect(() => {
@@ -457,4 +475,4 @@ if (isLoading) {
   );
 };
 
-export default ExampleTwo;
+// export default EnrolleesTable;

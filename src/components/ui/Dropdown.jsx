@@ -2,7 +2,6 @@ import { Menu, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import Icon from "@/components/ui/Icon";
-
 const Dropdown = ({
   label = "Dropdown",
   wrapperClass = "inline-block",
@@ -12,7 +11,7 @@ const Dropdown = ({
   items = [
     {
       label: "Action",
-      link: "/enrollee-details",
+      link: "/enrollee-details/:id",
     },
     {
       label: "Another action",
@@ -20,7 +19,7 @@ const Dropdown = ({
     },
     {
       label: "Something else here",
-      link: "/enrollee-details",
+      // link: "/enrollee-details",
     },
   ],
   classItem = "px-4 py-2",
@@ -64,6 +63,7 @@ const Dropdown = ({
                               ? "border-t border-slate-100 dark:border-slate-700"
                               : ""
                           }`}
+                          onClick={console.log("clicked!")}
                         >
                           {item.link ? (
                             <NavLink

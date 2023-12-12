@@ -16,7 +16,7 @@ import GlobalFilter from "./GlobalFilter";
 import Modal from "@/components/ui/Modal";
 // import Textinput from "@/components/ui/Textinput";
 import MultiValidation from "../../forms/form-validation/multiple-rules";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate} from "react-router-dom";
 // import Loading from "@/components/Loading";
 import { useDispatch, useSelector } from "react-redux";
 import { getEnrollees } from "../../app/enrollees/enrolleeStore";
@@ -115,8 +115,7 @@ const COLUMNS = [
   },
   {
     Header: "action",
-    accessor: "action",
-    // link: "/enrollee-details",
+    accessor: "_id",
     Cell: (row) => {
       return (
         <div>
@@ -130,7 +129,8 @@ const COLUMNS = [
           >
               <div className="divide-y divide-slate-100 dark:divide-slate-800">
                 {actions.map((item, i) => (
-                  <Menu.Item key={i}>
+                  <Menu.Item key={i}
+                  >
                     <div
                       className={`
                   
@@ -141,15 +141,12 @@ const COLUMNS = [
                     }
                     w-full border-b border-b-gray-500 border-opacity-10 px-4 py-2 text-sm  last:mb-0 cursor-pointer 
                     first:rounded-t last:rounded-b flex  space-x-2 items-center rtl:space-x-reverse `}
-                    >
-                    
+                   >
                       <span className="text-base">
                         <Icon icon={item.icon} />
                       </span>
                       <span>
                         {item.name}
-                        {/* {item.name = "view" ? <Link to="/enrollee-details">view</Link> : item.name = "edit" ? <Link to="/enrollee-details">edit</Link> : item.name = "delete"} */}
-                        {/* {item.name = "edit" ? <Navigate to="/enrollee-details" /> : item.name}  */}
                       </span>
                      </div>
                   </Menu.Item>
@@ -166,12 +163,10 @@ const actions = [
   {
     name: "view",
     icon: "heroicons-outline:eye",
-    // link: "/enrollee-details"
   },
   {
     name: "edit",
     icon: "heroicons:pencil-square",
-    // link: "/enrollee-details"
   },
   {
     name: "delete",

@@ -3,6 +3,7 @@ import { Tab, Disclosure, Transition } from "@headlessui/react";
 import Icon from "@/components/ui/Icon";
 import Card from "@/components/ui/Card";
 import cardImage2 from "@/assets/images/all-img/card-2.png";
+import { useSelector } from "react-redux";
 
 // tab buttons headings
 const buttons = [
@@ -25,6 +26,7 @@ const buttons = [
   ];
 
 function TabMenu() {
+    const { enrollee } = useSelector((state) => state.enrollees);
   return (
     <div>
      <Tab.Group>
@@ -72,23 +74,23 @@ function TabMenu() {
                                     <tbody>
                                     <tr>
                                         <td>Name</td>
-                                        <td className="p-2">James Doe</td>
+                                        <td className="p-2">{enrollee.name}</td>
                                     </tr>
                                     <tr>
                                         <td>Email</td>
-                                        <td className="p-2">jamesdoe34@gmail.com</td>
+                                        <td className="p-2">j{enrollee.email}</td>
                                     </tr>
                                     <tr>
                                         <td>Contact</td>
-                                        <td className="p-2">0785423678</td>
+                                        <td className="p-2">{enrollee.telephone}</td>
                                     </tr>
                                     <tr>
                                         <td>Address</td>
-                                        <td className="p-2">Munyonyo</td>
+                                        <td className="p-2">{enrollee.address}</td>
                                     </tr>
                                     <tr>
                                         <td>NIN</td>
-                                        <td className="p-2">CMTYI799LIT98</td>
+                                        <td className="p-2">{enrollee.nin}</td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -118,19 +120,19 @@ function TabMenu() {
                                 <tbody>
                                     <tr>
                                         <td>VIN</td>
-                                        <td className="p-2">JTYUIJM894OVJUNK</td>
+                                        <td className="p-2">{enrollee.vin}</td>
                                     </tr>
                                     <tr>
                                         <td>Model</td>
-                                        <td className="p-2">Toyota</td>
+                                        <td className="p-2">{enrollee.model}</td>
                                     </tr>
                                     <tr>
                                         <td>Lisence Number</td>
-                                        <td className="p-2">UAB 034L</td>
+                                        <td className="p-2">{enrollee.numberPlate}</td>
                                     </tr>
                                     <tr>
                                         <td>Date of registration</td>
-                                        <td className="p-2">02/05/2023</td>
+                                        <td className="p-2">{new Date(enrollee.createdAt).toLocaleString("en-Us")}</td>
                                     </tr>
                                     {/* <tr>
                                         <td>NIN</td>

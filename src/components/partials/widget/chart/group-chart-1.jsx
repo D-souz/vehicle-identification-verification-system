@@ -1,249 +1,61 @@
-import React from "react";
-import Chart from "react-apexcharts";
+import React, { useEffect } from "react";
+import Icon from "@/components/ui/Icon";
+import { useDispatch, useSelector } from "react-redux";
+import { getAgents } from "../../../../pages/app/agents/agentsStore";
+import { getEnrollees } from "../../../../pages/app/enrollees/enrolleeStore";
 
-const shapeLine1 = {
-  series: [
-    {
-      data: [800, 600, 1000, 800, 600, 1000, 800, 900],
-    },
-  ],
-  options: {
-    chart: {
-      toolbar: {
-        autoSelected: "pan",
-        show: false,
-      },
-      offsetX: 0,
-      offsetY: 0,
-      zoom: {
-        enabled: false,
-      },
-      sparkline: {
-        enabled: true,
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    stroke: {
-      curve: "smooth",
-      width: 2,
-    },
-    colors: ["#00EBFF"],
-    tooltip: {
-      theme: "light",
-    },
-    grid: {
-      show: false,
-      padding: {
-        left: 0,
-        right: 0,
-      },
-    },
-    yaxis: {
-      show: false,
-    },
-    fill: {
-      type: "solid",
-      opacity: [0.1],
-    },
-    legend: {
-      show: false,
-    },
-    xaxis: {
-      low: 0,
-      offsetX: 0,
-      offsetY: 0,
-      show: false,
-      labels: {
-        low: 0,
-        offsetX: 0,
-        show: false,
-      },
-      axisBorder: {
-        low: 0,
-        offsetX: 0,
-        show: false,
-      },
-    },
-  },
-};
-const shapeLine2 = {
-  series: [
-    {
-      data: [800, 600, 1000, 800, 600, 1000, 800, 900],
-    },
-  ],
-  options: {
-    chart: {
-      toolbar: {
-        autoSelected: "pan",
-        show: false,
-      },
-      offsetX: 0,
-      offsetY: 0,
-      zoom: {
-        enabled: false,
-      },
-      sparkline: {
-        enabled: true,
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    stroke: {
-      curve: "smooth",
-      width: 2,
-    },
-    colors: ["#FB8F65"],
-    tooltip: {
-      theme: "light",
-    },
-    grid: {
-      show: false,
-      padding: {
-        left: 0,
-        right: 0,
-      },
-    },
-    yaxis: {
-      show: false,
-    },
-    fill: {
-      type: "solid",
-      opacity: [0.1],
-    },
-    legend: {
-      show: false,
-    },
-    xaxis: {
-      low: 0,
-      offsetX: 0,
-      offsetY: 0,
-      show: false,
-      labels: {
-        low: 0,
-        offsetX: 0,
-        show: false,
-      },
-      axisBorder: {
-        low: 0,
-        offsetX: 0,
-        show: false,
-      },
-    },
-  },
-};
-const shapeLine3 = {
-  series: [
-    {
-      data: [800, 600, 1000, 800, 600, 1000, 800, 900],
-    },
-  ],
-  options: {
-    chart: {
-      toolbar: {
-        autoSelected: "pan",
-        show: false,
-      },
-      offsetX: 0,
-      offsetY: 0,
-      zoom: {
-        enabled: false,
-      },
-      sparkline: {
-        enabled: true,
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    stroke: {
-      curve: "smooth",
-      width: 2,
-    },
-    colors: ["#5743BE"],
-    tooltip: {
-      theme: "light",
-    },
-    grid: {
-      show: false,
-      padding: {
-        left: 0,
-        right: 0,
-      },
-    },
-    yaxis: {
-      show: false,
-    },
-    fill: {
-      type: "solid",
-      opacity: [0.1],
-    },
-    legend: {
-      show: false,
-    },
-    xaxis: {
-      low: 0,
-      offsetX: 0,
-      offsetY: 0,
-      show: false,
-      labels: {
-        low: 0,
-        offsetX: 0,
-        show: false,
-      },
-      axisBorder: {
-        low: 0,
-        offsetX: 0,
-        show: false,
-      },
-    },
-  },
-};
-
-const statistics = [
-  {
-    name: shapeLine1,
-    title: "Total enrolles",
-    count: "3,258",
-    bg: "bg-[#E5F9FF] dark:bg-slate-900	",
-  },
-  {
-    name: shapeLine1,
-    title: "Agents",
-    count: "3,564",
-    bg: "bg-[#E5F9FF] dark:bg-slate-900	",
-  },
-  {
-    name: shapeLine2,
-    title: "Registered vehicles",
-    count: "564",
-    bg: "bg-[#FFEDE5] dark:bg-slate-900	",
-  },
-  {
-    name: shapeLine3,
-    title: "Growth",
-    count: "+5.0%",
-    bg: "bg-[#EAE5FF] dark:bg-slate-900	",
-  },
-];
 const GroupChart1 = () => {
+  const dispatch = useDispatch();
+  const { agents } = useSelector((state) => state.agents);
+  const { enrollees } = useSelector((state) => state.enrollees);
+
+  // fetching agents and enrollees
+  useEffect(() => {
+    dispatch(getEnrollees());
+    dispatch(getAgents());
+    // get generated qrcodes
+  }, [dispatch]);
+  
+
+// returning the total counts
+  const enrolleesCount = enrollees.length;
+  const agentCount = agents.length;
+
+  // calculating percentage increase
+   
+
+  const statistics = [
+    {
+      title: "Total enrolles",
+      count: enrolleesCount,
+      bg: "bg-[#E7FDF1] dark:bg-slate-900	",
+      icon: "heroicons-outline:user",
+    },
+    {
+      title: "Agents",
+      count: agentCount,
+      bg: "bg-[#E5F9FF] dark:bg-slate-900	",
+      icon: "heroicons-outline:user-group",
+    },
+    {
+      title: "Generated Qrcodes",
+      count: "564",
+      bg: "bg-[#FFEDE5] dark:bg-slate-900	",
+      icon: "ic:round-qr-code-scanner",
+    },
+    {
+      title: "Growth",
+      count: "+5.0%",
+      bg: "bg-[#EAE5FF] dark:bg-slate-900	",
+      icon: "heroicons:arrow-trending-up-solid",
+    },
+  ];
   return (
     <>
       {statistics.map((item, i) => (
         <div className={`py-[18px] px-4 rounded-[6px] ${item.bg}`} key={i}>
           <div className="flex items-center space-x-6 rtl:space-x-reverse">
-            <div className="flex-none">
-              <Chart
-                options={item.name.options}
-                series={item.name.series}
-                type="area"
-                height={48}
-                width={48}
-              />
-            </div>
+             <Icon icon={item.icon} className="h-12 w-12 rounded-full bg-[#cbd5e1]"/>
             <div className="flex-1">
               <div className="text-slate-800 dark:text-slate-300 text-sm mb-1 font-medium">
                 {item.title}

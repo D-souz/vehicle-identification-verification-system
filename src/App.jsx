@@ -235,7 +235,7 @@ const { agent } = useSelector((state) => state.auth);
           <Route path="register-vehicle" element={<VehicleRegistartion />} />
           <Route path={"enrollees"} element={<EnrolleesPage />} />
           <Route path={"enrollee-details/:id"} element={<EnrolleeDetailsPage />} />
-          <Route path={"enrollee-details"} element={<EnrolleeDetailsPage />} />
+          {/* <Route path={"enrollee-details"} element={<EnrolleeDetailsPage />} /> */}
           <Route path="scan" element={<ScanPage />} />
           <Route path={"agents"} element={<AgentsPage/>} />
           <Route path={"agents-details/:id"} element={<AgentsDetailsPage/>} />

@@ -12,7 +12,7 @@ import RecentActivity from "@/components/partials/widget/recent-activity";
 import HomeBredCurbs from "./HomeBredCurbs";
 
 const Dashboard = () => {
-  const [filterMap, setFilterMap] = useState("usa");
+  // const [filterMap, setFilterMap] = useState("usa");
   return (
     <div>
       <HomeBredCurbs title="Dashboard" />
