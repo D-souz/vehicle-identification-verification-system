@@ -14,11 +14,11 @@ import { Link, useNavigate} from "react-router-dom";
 import Modal from "@/components/ui/Modal";
 import MultiValidation from "../../forms/form-validation/multiple-rules";
 import { useDispatch, useSelector } from "react-redux";
-import { getEnrollees } from "./enrolleeStore";
+import { getEnrollees, deleteEnrollee } from "./enrolleeStore";
 import jsPDF from "jspdf";
 import 'jspdf-autotable';
 import Loading from "@/components/Loading";
-
+import { EditEnrollee } from "./editEnrollee";
 
 const IndeterminateCheckbox = React.forwardRef(
   ({ indeterminate, ...rest }, ref) => {
@@ -156,15 +156,15 @@ export const EnrolleesTable = ({ title = "Enrollees"}) => {
                   <Icon icon="heroicons:eye" />
                 </button>
               </Tooltip>
-              <Tooltip content="Edit" placement="top" arrow animation="shift-away">
+              {/* <Tooltip content="Edit" placement="top" arrow animation="shift-away">
                 <button 
                   className="action-btn" 
                   type="button"
-                  onClick={() => handleClick(row?.cell?.value)}
+                  onClick={() => handleEdit(row?.cell?.value)}
                 >
                   <Icon icon="heroicons:pencil-square" />
                 </button>
-              </Tooltip>
+              </Tooltip> */}
             <Tooltip
               content="Delete"
               placement="top"
@@ -172,7 +172,11 @@ export const EnrolleesTable = ({ title = "Enrollees"}) => {
               animation="shift-away"
               theme="danger"
             >
-              <button className="action-btn" type="button">
+              <button 
+                className="action-btn" 
+                type="button"
+                onClick={() => dispatch(deleteEnrollee(row?.cell?.value))}
+                >
                 <Icon icon="heroicons:trash" />
               </button>
             </Tooltip>
@@ -185,6 +189,10 @@ export const EnrolleesTable = ({ title = "Enrollees"}) => {
 
   const handleClick = (id) => {
     navigate(`/enrollee-details/${id}`)
+  }
+
+  const handleEdit = (id) =>{
+    return <EditEnrollee />
   }
 
   const columns = useMemo(() => COLUMNS, []);

@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 
 
 // home pages  & dashboard
@@ -129,7 +129,7 @@ import Loading from "@/components/Loading";
 function App() {
 
 // getting the agent from the state
-const { agent } = useSelector((state) => state.auth);
+// const { agent } = useSelector((state) => state.auth);
 
   return (
     <main className="App  relative">

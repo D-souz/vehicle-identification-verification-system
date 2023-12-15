@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Card from "@/components/ui/Card";
 import Icon from "@/components/ui/Icon";
+import Modal from "@/components/ui/Modal";
+import { EditEnrollee } from "./editEnrollee";
 // import GroupChart4 from "@/components/partials/widget/chart/group-chart-4";
 // import DonutChart from "@/components/partials/widget/chart/donut-chart";
 // import { meets, files } from "@/constant/data";
@@ -52,13 +54,22 @@ const EnrolleeDetailsPage = () => {
                       className="btn-outline-secondary p-2 text-muted"
                     />
                     </div>
+                    {/* updating the enrollee data */}
                   <div className="col-3">
-                    <Button 
+                    {/* <Button 
                       icon="heroicons-outline:pencil"
                       text="Edit"
                       className="btn-outline-secondary p-2 text-muted"
-
-                    />
+                      onClick={() => <Modal> <p>hello</p></Modal>}
+                    /> */}
+                    <Modal
+                      title="Edit Enrollee"
+                      label="Edit"
+                      labelClass="btn-outline-secondary p-2 w-20 text-muted"  
+                      uncontrol
+                    >
+                      <EditEnrollee />
+                    </Modal>
                     </div>
                     <div className="col-4">
                     <Button 

@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo } from "react";
-// import { advancedTable } from "../../../constant/table-data";
 import Card from "@/components/ui/Card";
 import Icon from "@/components/ui/Icon";
 import Dropdown from "@/components/ui/Dropdown";
@@ -16,12 +15,48 @@ import GlobalFilter from "./GlobalFilter";
 import Modal from "@/components/ui/Modal";
 // import Textinput from "@/components/ui/Textinput";
 import MultiValidation from "../../forms/form-validation/multiple-rules";
-import { Link, Navigate} from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 // import Loading from "@/components/Loading";
 import { useDispatch, useSelector } from "react-redux";
-import { getEnrollees } from "../../app/enrollees/enrolleeStore";
+import { getEnrollees, deleteEnrollee } from "../../app/enrollees/enrolleeStore";
 
+const IndeterminateCheckbox = React.forwardRef(
+  ({ indeterminate, ...rest }, ref) => {
+    const defaultRef = React.useRef();
+    const resolvedRef = ref || defaultRef;
 
+    React.useEffect(() => {
+      resolvedRef.current.indeterminate = indeterminate;
+    }, [resolvedRef, indeterminate]);
+
+    return (
+      <>
+        <input
+          type="checkbox"
+          ref={resolvedRef}
+          {...rest}
+          className="table-checkbox"
+        />
+      </>
+    );
+  }
+);
+
+const ExamapleOne = () => {
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  // handling dropdown navigation and actions
+  const handleClick = (id, name) => {
+    if (name == "view" || name == "edit") {
+      navigate(`/enrollee-details/${id}`)
+    }
+    if (name == "delete") {
+      dispatch(deleteEnrollee(id))
+    }
+  }
+
+  
 const COLUMNS = [
   {
     Header: "vin",
@@ -130,6 +165,7 @@ const COLUMNS = [
               <div className="divide-y divide-slate-100 dark:divide-slate-800">
                 {actions.map((item, i) => (
                   <Menu.Item key={i}
+                    onClick={() => handleClick(row?.cell?.value, item.name)}
                   >
                     <div
                       className={`
@@ -164,45 +200,20 @@ const actions = [
     name: "view",
     icon: "heroicons-outline:eye",
   },
-  {
-    name: "edit",
-    icon: "heroicons:pencil-square",
-  },
+  // {
+  //   name: "edit",
+  //   icon: "heroicons:pencil-square",
+  // },
   {
     name: "delete",
     icon: "heroicons-outline:trash",
   },
 ];
 
-const IndeterminateCheckbox = React.forwardRef(
-  ({ indeterminate, ...rest }, ref) => {
-    const defaultRef = React.useRef();
-    const resolvedRef = ref || defaultRef;
-
-    React.useEffect(() => {
-      resolvedRef.current.indeterminate = indeterminate;
-    }, [resolvedRef, indeterminate]);
-
-    return (
-      <>
-        <input
-          type="checkbox"
-          ref={resolvedRef}
-          {...rest}
-          className="table-checkbox"
-        />
-      </>
-    );
-  }
-);
-
-const ExamapleOne = () => {
   const columns = useMemo(() => COLUMNS, []);
   // const data = useMemo(() => advancedTable, []);
-  const dispatch = useDispatch();
   const { isLoading, message } = useSelector((state) => state.enrollees);
   const data = useSelector((state) => state.enrollees.enrollees);
-  // const navigate = useNavigate();
 
 // dispatching the fetching action
 useEffect(() => {

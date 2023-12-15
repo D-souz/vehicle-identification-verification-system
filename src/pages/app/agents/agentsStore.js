@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { toast } from "react-toastify";
 
+
 // initial agents state
 const initialState = {
     agents: [],
@@ -21,7 +22,13 @@ export const getAgents = createAsyncThunk(
     async (_, thunkAPI) =>{
 
         try {
-            const response = await axios.get(API_URL + "/api/agent/agents")
+            const token = thunkAPI.getState().auth.agent.token;
+            const config = {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+            const response = await axios.get(API_URL + "/api/agent/agents", config)
             // console.log(response.data);
             return response.data;
 
@@ -44,7 +51,13 @@ export const getSingleAgent = createAsyncThunk(
     async (id, thunkAPI) =>{
 
         try {
-            const response = await axios.get(API_URL + `/api/agent/${id}`)
+            const token = thunkAPI.getState().auth.agent.token;
+            const config = {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+            const response = await axios.get(API_URL + `/api/agent/${id}`, config)
 
             if (!response.data) {
                 toast.error("No such agent found with that id!", {
@@ -79,7 +92,13 @@ export const deleteAgent = createAsyncThunk(
     async (id, thunkAPI) =>{
 
         try {
-            const response = await axios.delete(API_URL + `/api/agent/${id}`)
+            const token = thunkAPI.getState().auth.agent.token;
+            const config = {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+            const response = await axios.delete(API_URL + `/api/agent/${id}`, config)
 
             if (!response.data) {
                 toast.error("No such agent found with that id!", {
@@ -108,6 +127,49 @@ export const deleteAgent = createAsyncThunk(
         }
     }
 )
+
+// updating a single agent
+export const updateAgent = createAsyncThunk(
+    "agents/updateAgent",
+    async ({ id, data }, thunkAPI) =>{
+
+        try {
+            const token = thunkAPI.getState().auth.agent.token;
+            const config = {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+            const response = await axios.patch(API_URL + `/api/agent/${id}`, data, config)
+
+            if (!response.data) {
+                toast.error("No such agent found with that id!", {
+                    position: "top-right",
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                  });
+            }
+            console.log(response.data);
+            return response.data;
+
+        } catch (error) {
+            console.log(error);
+            const message =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+              error.message ||
+              error.toString();
+          return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
 export const agentSlice = createSlice({
     name: "agents",
     initialState,
@@ -159,6 +221,20 @@ export const agentSlice = createSlice({
             state.agents = state.agents.filter((item) => item._id !== action.payload.id )
         })
         .addCase(deleteAgent.rejected, (state, action) => {
+            state.isSuccess = false;
+            state.isLoading = false;
+            state.isError = true;
+            state.message = action.payload;
+        })
+        .addCase(updateAgent.pending, (state) => {
+            state.isLoading = true;
+        })
+        .addCase(updateAgent.fulfilled, (state, action) => {
+            state.isSuccess = true;
+            state.isLoading = false;
+            state.agent = action.payload;
+        })
+        .addCase(updateAgent.rejected, (state, action) => {
             state.isSuccess = false;
             state.isLoading = false;
             state.isError = true;

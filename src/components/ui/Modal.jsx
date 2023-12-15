@@ -16,6 +16,7 @@ const Modal = ({
   title = "Basic Modal",
   uncontrol,
   label = "Basic Modal",
+  name,
   labelClass,
   ref,
 }) => {
@@ -42,6 +43,7 @@ const Modal = ({
             className={`btn ${labelClass}`}
           >
             {label}
+            {name}
           </button>
           <Transition appear show={showModal} as={Fragment}>
             <Dialog

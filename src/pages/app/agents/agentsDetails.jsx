@@ -4,6 +4,8 @@ import Icon from "@/components/ui/Icon";
 import Card from "@/components/ui/Card";
 import BasicArea from "../../chart/appex-chart/BasicArea";
 import { toast } from "react-toastify";
+import Modal from "../../../components/ui/Modal";
+import EditAgent from "./editAgent";
 
 // import images
 // import ProfileImage from "@/assets/images/users/user-1.jpg";
@@ -13,7 +15,7 @@ import { getSingleAgent, reset } from "./agentsStore"
 
 
 const AgentsDetailsPage = () => {
-const params = useParams();
+const { id } = useParams();
 const dispatch = useDispatch();
 const {isLoading, isSuccess, isError } = useSelector((state) => state.agents);
 const agent = useSelector((state) => state.agents.agent);
@@ -24,13 +26,13 @@ useEffect(() => {
   if (isError) {
     console.log(message);
   }
-  dispatch(getSingleAgent(params.id))
+  dispatch(getSingleAgent(id))
 
 
   return () => {
     dispatch(reset())
   }
-}, [params.id, dispatch])
+}, [id, dispatch])
 
   return (
     <div>
@@ -46,12 +48,15 @@ useEffect(() => {
                     alt=""
                     className="w-full h-full object-cover rounded-full"
                   />
-                  <Link
-                    to="#"
-                    className="absolute right-2 h-8 w-8 bg-slate-50 text-slate-600 rounded-full shadow-sm flex flex-col items-center justify-center md:top-[140px] top-[100px]"
+                  <Modal
+                    title="Edit Agent"
+                    label={<Icon icon="heroicons:pencil-square" />}
+                    name="Edit"
+                    labelClass="absolute right-2  bg-slate-50 text-slate-600 rounded-full shadow-sm flex flex-col items-center justify-center md:top-[140px] top-[100px]"
+                    uncontrol
                   >
-                    <Icon icon="heroicons:pencil-square" />
-                  </Link>
+                    <EditAgent />
+                  </Modal>
                 </div>
               </div>
               <div className="flex-1">
