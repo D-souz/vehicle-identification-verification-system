@@ -7,7 +7,9 @@ import { Routes, Route, Navigate } from "react-router-dom";
 //import Dashboard from "./pages/dashboard";
 const Dashboard = lazy(() => import("./pages/dashboard"));
 const VehicleRegistartion = lazy(() => import("./pages/dashboard/registervehicle"));
-const ScanPage = lazy(() => import("./pages/dashboard/scan"));
+const ScanPage = lazy(() => import("./pages/app/scan/scanEnrollee"));
+const ScanDetails = lazy(() => import("./pages/app/scan/scanDetails"));
+// const DownloadQrcode = lazy(() => import("./pages/app/scan/downloadQrcode"));
 // const ProjectPage = lazy(() => import("./pages/dashboard/project"));
 // const BankingPage = lazy(() => import("./pages/dashboard/banking"));
 
@@ -237,6 +239,8 @@ function App() {
           <Route path={"enrollee-details/:id"} element={<EnrolleeDetailsPage />} />
           {/* <Route path={"enrollee-details"} element={<EnrolleeDetailsPage />} /> */}
           <Route path="scan" element={<ScanPage />} />
+          <Route path="scan-details" element={<ScanDetails />} />
+          {/* <Route path="download-qrcode" element={<DownloadQrcode />} /> */}
           <Route path={"agents"} element={<AgentsPage/>} />
           <Route path={"agents-details/:id"} element={<AgentsDetailsPage/>} />
           {/* <Route path={"agents-details"} element={<AgentsDetailsPage/>} /> */}

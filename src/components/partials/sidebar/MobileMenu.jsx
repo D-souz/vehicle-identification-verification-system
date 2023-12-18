@@ -41,17 +41,28 @@ const MobileMenu = ({ className = "custom-class" }) => {
       <div className="logo-segment flex justify-between items-center bg-white dark:bg-slate-800 z-[9] h-[85px]  px-4 ">
         <Link to="/dashboard">
           <div className="flex items-center space-x-4">
-            <div className="logo-icon">
+            {/* <div className="logo-icon">
               {!isDark && !isSemiDark ? (
                 <img src={MobileLogo} alt="" />
               ) : (
                 <img src={MobileLogoWhite} alt="" />
               )}
-            </div>
+            </div> */}
             <div>
-              <h1 className="text-xl font-semibold text-slate-900 dark:text-slate-100">
-                DashCode
-              </h1>
+              {
+                !isDark && !isSemiDark ? (
+                  <h1 className="text-xl font-semibold text-slate-900 dark:text-slate-900">
+                    VIVS
+                  </h1>
+                ) : (
+                  <h1 className="text-xl font-semibold text-slate-900 dark:text-slate-900">
+                    VIVS
+                  </h1>
+                )
+              }
+              {/* <h1 className="text-xl font-semibold text-slate-900 dark:text-slate-100">
+                VIVS
+              </h1> */}
             </div>
           </div>
         </Link>
@@ -74,7 +85,7 @@ const MobileMenu = ({ className = "custom-class" }) => {
         scrollableNodeProps={{ ref: scrollableNodeRef }}
       >
         <Navmenu menus={menuItems} />
-        <div className="bg-slate-900 mb-24 lg:mb-10 mt-24 p-4 relative text-center rounded-2xl text-white">
+        {/* <div className="bg-slate-900 mb-24 lg:mb-10 mt-24 p-4 relative text-center rounded-2xl text-white">
           <img
             src={svgRabitImage}
             alt=""
@@ -91,7 +102,7 @@ const MobileMenu = ({ className = "custom-class" }) => {
               Upgrade
             </button>
           </div>
-        </div>
+        </div> */}
       </SimpleBar>
     </div>
   );

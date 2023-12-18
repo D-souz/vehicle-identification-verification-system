@@ -1,9 +1,13 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useRef } from "react";
 import { Tab, Disclosure, Transition } from "@headlessui/react";
 import Icon from "@/components/ui/Icon";
 import Card from "@/components/ui/Card";
 import cardImage2 from "@/assets/images/all-img/card-2.png";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import Button from "@/components/ui/Button";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
 
 // tab buttons headings
 const buttons = [
@@ -19,14 +23,37 @@ const buttons = [
       title: "History",
     //   icon: "heroicons-outline:chat-alt-2",
     },
-    // {
-    //   title: "Settings",
-    //   icon: "heroicons-outline:cog",
-    // },
   ];
 
 function TabMenu() {
-    const { enrollee } = useSelector((state) => state.enrollees);
+    const { enrollee, qrcode } = useSelector((state) => state.enrollees);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+// scanning qrcode
+const handleScan = () => {
+    navigate('/scan');
+}
+
+// // downloading qrcode
+const handleQrCodeDownload = () =>{
+    const link = document.createElement('a');
+    link.href = qrcode;
+    link.download = 'qrcode.png';
+    link.click();
+
+    toast.success("Qr code downloaded successfully", {
+        position: "top-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+}
+
   return (
     <div>
      <Tab.Group>
@@ -59,7 +86,7 @@ function TabMenu() {
             <div className="text-slate-600 dark:text-slate-400 text-sm font-normal">
                 <div className="fw-bold pb-2">Personal Details</div>
                     <div className="row p-2">
-                        <div className="col-5">
+                        <div className="col-6">
                             <Card bodyClass="p-2">
                             <div className="h-[140px] w-full">
                                 <img
@@ -98,23 +125,38 @@ function TabMenu() {
                             </div>
                             </Card>
                      </div>
-                     <div className="col-4"></div>
-                     <div className="col-3">
+                     <div className="col-6">
                         <div>
                             <Card>
-                                <h5>The qrcode goes here</h5>
+                                {qrcode ? 
+                                <div>
+                                    <div className="pl-14">
+                                        <img src={qrcode} alt="qr code" id="qrcode"/>
+                                    </div>
+                                    <div className="pl-6">
+                                        <Button 
+                                            text="Download qr code"
+                                            className="btn-outline-secondary p-2 mr-4 text-muted"
+                                            onClick={handleQrCodeDownload}
+                                        />
+                                        <Button 
+                                            text="Scan"
+                                            className="btn-outline-secondary p-2 text-muted w-40"
+                                            onClick={handleScan}
+                                        />
+                                    </div>
+                                </div>
+                                 :
+                                 <h3>No Qr code generated! </h3>
+                                }
                             </Card>
-                            <div>
-                                <h5>Actions</h5>
-                                <p>print</p>
-                                <p>scan</p>
-                            </div>
                         </div>
                         
                     </div>
                     </div>
                     <div>
                         <div className="fw-bold pt-4">Vehicle Details</div>
+                        <div id="qr-code-scanner"></div>
                         <div className="text-sm">
                             <table>
                                 <tbody>
@@ -134,14 +176,14 @@ function TabMenu() {
                                         <td>Date of registration</td>
                                         <td className="p-2">{new Date(enrollee.createdAt).toLocaleString("en-Us")}</td>
                                     </tr>
-                                    {/* <tr>
+                                    <tr>
                                         <td>NIN</td>
                                         <td className="p-2">CMTYI799LIT98</td>
-                                    </tr> */}
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
-                    </div>
+                    </div> 
                 
             </div>
         </Tab.Panel>
@@ -151,6 +193,7 @@ function TabMenu() {
             Sunt qui esse pariatur duis deserunt mollit dolore cillum minim
             tempor enim.
             </div>
+
         </Tab.Panel>
         <Tab.Panel>
             <div className="text-slate-600 dark:text-slate-400 text-sm font-normal">
@@ -172,4 +215,4 @@ function TabMenu() {
   )
 }
 
-export default TabMenu
+export default TabMenu;

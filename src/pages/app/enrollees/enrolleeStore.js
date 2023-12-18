@@ -9,7 +9,8 @@ const initialState = {
   isLoading :false,
   isSuccess :false,
   message :"",
-  enrollee: []
+  enrollee: [],
+  qrcode: null,
 }
 
 // // ROUTES API
@@ -237,7 +238,59 @@ export const updateEnrollee = createAsyncThunk(
       }
   }
 )
+// fetching generated qrcode from the backend
+export const getQrcode = createAsyncThunk(
+  "enrollees/getQrcode",
+  async (id, thunkAPI) =>{
 
+      try {
+        const token = thunkAPI.getState().auth.agent.token;
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        };
+          const response = await axios.get(API_URL + `/api/qrcode/${id}`, config)
+
+          if (!response.data) {
+              toast.error("Qrcode generation failed!", {
+                  position: "top-right",
+                  autoClose: 1500,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                });
+          } 
+          // else {
+          //     toast.success("Qrcode generated successfully", {
+          //     position: "top-right",
+          //     autoClose: 1500,
+          //     hideProgressBar: false,
+          //     closeOnClick: true,
+          //     pauseOnHover: true,
+          //     draggable: true,
+          //     progress: undefined,
+          //     theme: "light",
+          //   });
+          // }
+          // console.log(response.data);
+          return response.data;
+
+      } catch (error) {
+          console.log(error);
+          const message =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+            error.message ||
+            error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
+  }
+);
 export const EnrolleeSlice = createSlice({
   name: "enrollees",
   initialState,
@@ -247,7 +300,7 @@ export const EnrolleeSlice = createSlice({
       state.isLoading = false
       state.isSuccess = false
       state.message = ""
-  }
+  },
   },
   extraReducers: (builder) => {
     builder
@@ -316,6 +369,20 @@ export const EnrolleeSlice = createSlice({
         state.enrollee = action.payload;
     })
     .addCase(updateEnrollee.rejected, (state, action) => {
+        state.isSuccess = false;
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+    })
+    .addCase(getQrcode.pending, (state) => {
+      state.isLoading = true;
+    })
+    .addCase(getQrcode.fulfilled, (state, action) => {
+        state.isSuccess = true;
+        state.isLoading = false;
+        state.qrcode = action.payload;
+    })
+    .addCase(getQrcode.rejected, (state, action) => {
         state.isSuccess = false;
         state.isLoading = false;
         state.isError = true;
