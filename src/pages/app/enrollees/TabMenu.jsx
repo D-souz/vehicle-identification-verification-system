@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Button from "@/components/ui/Button";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { getQrcodeDownloads, getQrcodeScans } from "../agents/agentsStore";
 
 
 // tab buttons headings
@@ -27,12 +28,20 @@ const buttons = [
 
 function TabMenu() {
     const { enrollee, qrcode } = useSelector((state) => state.enrollees);
+    const { enrolleeStats } = useSelector((state) => state.stats);
+    const { agent } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const id = agent._id;
+    // console.log(id)
 
 // scanning qrcode
 const handleScan = () => {
     navigate('/scan');
+
+    // updating agent's qrcode Scans
+    dispatch(getQrcodeScans({ id }));
 }
 
 // // downloading qrcode
@@ -52,6 +61,9 @@ const handleQrCodeDownload = () =>{
         progress: undefined,
         theme: "light",
       });
+
+    // updating agent's qrcode downloads
+      dispatch(getQrcodeDownloads({ id }));
 }
 
   return (
@@ -105,7 +117,7 @@ const handleQrCodeDownload = () =>{
                                     </tr>
                                     <tr>
                                         <td>Email</td>
-                                        <td className="p-2">j{enrollee.email}</td>
+                                        <td className="p-2">{enrollee.email}</td>
                                     </tr>
                                     <tr>
                                         <td>Contact</td>
@@ -118,6 +130,10 @@ const handleQrCodeDownload = () =>{
                                     <tr>
                                         <td>NIN</td>
                                         <td className="p-2">{enrollee.nin}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Gender</td>
+                                        <td className="p-2">{enrollee.gender}</td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -156,7 +172,6 @@ const handleQrCodeDownload = () =>{
                     </div>
                     <div>
                         <div className="fw-bold pt-4">Vehicle Details</div>
-                        <div id="qr-code-scanner"></div>
                         <div className="text-sm">
                             <table>
                                 <tbody>
@@ -176,10 +191,10 @@ const handleQrCodeDownload = () =>{
                                         <td>Date of registration</td>
                                         <td className="p-2">{new Date(enrollee.createdAt).toLocaleString("en-Us")}</td>
                                     </tr>
-                                    <tr>
+                                    {/* <tr>
                                         <td>NIN</td>
                                         <td className="p-2">CMTYI799LIT98</td>
-                                    </tr>
+                                    </tr> */}
                                 </tbody>
                             </table>
                         </div>
@@ -188,26 +203,34 @@ const handleQrCodeDownload = () =>{
             </div>
         </Tab.Panel>
         <Tab.Panel>
-            <div className="text-slate-600 dark:text-slate-400 text-sm font-normal">
-            Aliqua id fugiat nostrud irure ex duis ea quis id quis ad et.
-            Sunt qui esse pariatur duis deserunt mollit dolore cillum minim
-            tempor enim.
+        <div className="text-slate-600 dark:text-slate-400 text-sm font-normal">
+        <div className="fw-bold pb-2">Access History</div>
+            <Card>
+                <div className="text-sm">
+                        <table>
+                            <tbody>
+                            <tr>
+                                <td className="text-success-500 fw-bold">Total times granted access in</td>
+                                <td className="p-2 fw-bold">{enrolleeStats.totalGrantedIn}</td>
+                            </tr>
+                            <tr>
+                                <td className="text-danger">Total times granted access out</td>
+                                <td className="p-2 fw-bold">{enrolleeStats.totalGrantedOut}</td>
+                            </tr>
+                            <tr>
+                                <td className="text-info-600">Total times denied access</td>
+                                <td className="p-2 fw-bold">{enrolleeStats.totalDenied}</td>
+                            </tr>
+                            <tr>
+                                <td className="text-primary-800">Date of registration</td>
+                                <td className="p-2 fw-bold">{new Date(enrollee.createdAt).toLocaleString("en-Us")}</td>
+                            </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                </Card>
             </div>
 
-        </Tab.Panel>
-        <Tab.Panel>
-            <div className="text-slate-600 dark:text-slate-400 text-sm font-normal">
-            Aliqua id fugiat nostrud irure ex duis ea quis id quis ad et.
-            Sunt qui
-            </div>
-        </Tab.Panel>
-        <Tab.Panel>
-            <div className="text-slate-600 dark:text-slate-400 text-sm font-normal">
-            Aliqua id fugiat nostrud irure ex duis ea quis id quis ad et.
-            Sunt qui esse pariatur duis deserunt mollit dolore cillum minim
-            tempor enim. Elit aute irure tempor cupidatat incididunt sint
-            deserunt ut voluptate aute id deserunt nisi.
-            </div>
         </Tab.Panel>
         </Tab.Panels>
      </Tab.Group>

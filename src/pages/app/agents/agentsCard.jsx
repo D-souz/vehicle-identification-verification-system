@@ -6,11 +6,12 @@ import { Icon } from "@iconify/react";
 import { Link } from "react-router-dom";
 // import Button from "@/components/ui/Button";
 import Tooltip from "@/components/ui/Tooltip";
-import { useDispatch} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { deleteAgent } from "./agentsStore"
 
-const AgentCard = ({agentID, name, email, contact, role}) => {
+const AgentCard = ({agentID, name, email, contact, role, gender }) => {
 const dispatch = useDispatch();
+
 
   return (
     <div className="grid grid-cols-12 gap-4 p-2">
@@ -62,12 +63,24 @@ const dispatch = useDispatch();
                 <div className="col-6">
 
                   <div className="d-flex flex-row ">
-                    <div className="pt-1">status: <span className="text-success">active</span></div>
-                    {/* <div className="pl-4"><p>active</p></div> */}
+                    <div className="pt-1 inline">
+                      Gender: <span className="text-sm font-bold text-info-500" >{gender}</span>
+                      {/* {
+                        isActive 
+                        ?
+                        <span className="text-sm font-bold text-success-500">
+                          Active
+                        </span>
+                        :
+                        <span className="text-sm font-bold text-danger-500">
+                          Inactive
+                        </span>
+                      } */}
+                     </div>
                   </div>
 
                   <div className="d-flex flex-row ">
-                    <div className="pt-1">Role: {role}</div>
+                    <div className="pt-1">Role: <span className=' text-sm font-bold text-primary-600'>{role}</span></div>
                     {/* <div className="pl-4"><p>12 Scans</p></div> */}
                   </div>
                 </div>

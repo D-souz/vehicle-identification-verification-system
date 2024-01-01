@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from "react";
-import { advancedTable } from "@/constant/table-data";
+import React, { useState, useMemo, useEffect } from "react";
+// import { advancedTable } from "@/constant/table-data";
 import Card from "@/components/ui/Card";
 import Icon from "@/components/ui/Icon";
 import Dropdown from "@/components/ui/Dropdown";
@@ -13,6 +13,10 @@ import {
 } from "react-table";
 import GlobalFilter from "../../../pages/table/react-tables/GlobalFilter";
 import { Link } from "react-router-dom";
+import { getMostScans } from "../agents/agentsStore";
+import { useDispatch, useSelector } from "react-redux";
+
+const EnrolleesTable = () => {
 
 const COLUMNS = [
   {
@@ -32,69 +36,45 @@ const COLUMNS = [
             {/* <span className="text-sm text-slate-600 dark:text-slate-300 capitalize font-medium">
               {row?.cell?.value.name}
             </span> */}
+            {row?.cell?.value}
           </span>
         </div>
       );
     },
   },
   {
-    Header: "vin",
-    accessor: "vin",
+    Header: "gender",
+    accessor: "gender",
     Cell: (row) => {
       return (
         <span className="text-slate-500 dark:text-slate-400">
           {row?.cell?.value}
-          <span className="inline-block ml-1">
-            {Math.floor(Math.random() * 12) + 1}:
-            {Math.floor(Math.random() * 60) + 1}
-          </span>
-        </span>
-      );
-    },
-  },
-  {
-    Header: "model",
-    accessor: "model",
-    Cell: (row) => {
-      return (
-        <span className="text-slate-500 dark:text-slate-400">
-          {row?.cell?.value}
-          <span className="inline-block ml-1">
-            {Math.floor(Math.random() * 12) + 1}:
-            {Math.floor(Math.random() * 60) + 1}
-          </span>
         </span>
       );
     },
   },
   {
     Header: "scans",
-    accessor: "scans",
+    accessor: "scansCount",
     Cell: (row) => {
       return (
         <span className="text-slate-500 dark:text-slate-400">
           <span className="block text-slate-600 dark:text-slate-300">
-            20
-          </span>
-          {/* <span className="block text-slate-500 text-xs">
-            Trans ID: 8HG654Pk32
-          </span> */}
+          {row?.cell?.value}
+          </span>       
         </span>
       );
     },
   },
   {
     Header: "contact",
-    accessor: "contact",
+    accessor: "telephone",
     Cell: (row) => {
       return (
         <span className="text-slate-500 dark:text-slate-400">
           <span className="block text-slate-600 dark:text-slate-300">
-            0785697415
+            {row?.cell?.value}
           </span>
-          {/* <span className="block text-slate-500 text-xs">
-            Trans ID: 8HG654Pk32
-          </span> */}
         </span>
       );
     },
@@ -106,122 +86,70 @@ const COLUMNS = [
       return (
         <span className="text-slate-500 dark:text-slate-400">
           <span className="block text-slate-600 dark:text-slate-300">
-            kareneboyette@armyspy.com
+          {row?.cell?.value}
           </span>
-          {/* <span className="block text-slate-500 text-xs">
-            Trans ID: 8HG654Pk32
-          </span> */}
-        </span>
+           </span>
       );
     },
   },
   {
-    Header: "address",
-    accessor: "address",
+    Header: "role",
+    accessor: "role",
     Cell: (row) => {
       return (
         <span className="text-slate-500 dark:text-slate-400">
           <span className="block text-slate-600 dark:text-slate-300">
-            Munyonyo
+          {row?.cell?.value}
           </span>
-          {/* <span className="block text-slate-500 text-xs">
-            Trans ID: 8HG654Pk32
-          </span> */}
         </span>
       );
     },
   },
   {
-    Header: "status",
-    accessor: "status",
+    Header: "qr codes generated",
+    accessor: "generationsCount",
     Cell: (row) => {
       return (
-        <span className="block w-full">
-          <span
-            className={`${
-              row?.cell?.value === "paid" ? "text-success-500 " : ""
-            } 
-            ${row?.cell?.value === "due" ? "text-warning-500 " : ""}
-            // ${row?.cell?.value === "cancled" ? "text-danger-500" : ""}
-            
-             `}
-          >
-            {row?.cell?.value === "due" && <span>active</span>}
-            {row?.cell?.value === "paid" && <span>inacvtive</span>}
-            {/* {row?.cell?.value === "cancled" && <span>+$ 1400.00</span>} */}
+        <span className="text-slate-500 dark:text-slate-400">
+          <span className="block text-slate-600 dark:text-slate-300">
+          {row?.cell?.value}
           </span>
         </span>
       );
     },
   },
-  // {
-  //   Header: "action",
-  //   accessor: "action",
-  //   Cell: (row) => {
-  //     return (
-  //       <div className=" text-center">
-  //         <Dropdown
-  //           classMenuItems="right-0 w-[140px] top-[110%] "
-  //           label={
-  //             <span className="text-xl text-center block w-full">
-  //               <Icon icon="heroicons-outline:dots-vertical" />
-  //             </span>
-  //           }
-  //         >
-  //           <div className="divide-y divide-slate-100 dark:divide-slate-800">
-  //             {actions.map((item, i) => (
-  //               <Menu.Item key={i}>
-  //                 <div
-  //                   className={`
-                
-  //                 ${
-  //                   item.name === "delete"
-  //                     ? "bg-danger-500 text-danger-500 bg-opacity-30   hover:bg-opacity-100 hover:text-white"
-  //                     : "hover:bg-slate-900 hover:text-white dark:hover:bg-slate-600 dark:hover:bg-opacity-50"
-  //                 }
-  //                  w-full border-b border-b-gray-500 border-opacity-10 px-4 py-2 text-sm  last:mb-0 cursor-pointer 
-  //                  first:rounded-t last:rounded-b flex  space-x-2 items-center rtl:space-x-reverse `}
-  //                 >
-  //                   <span className="text-base">
-  //                     <Icon icon={item.icon} />
-  //                   </span>
-  //                   <span>{item.name}</span>
-  //                 </div>
-  //               </Menu.Item>
-  //             ))}
-  //           </div>
-  //         </Dropdown>
-  //       </div>
-  //     );
-  //   },
-  // },
+  {
+    Header: "qr codes downloaded",
+    accessor: "downloadsCount",
+    Cell: (row) => {
+      return (
+        <span className="text-slate-500 dark:text-slate-400">
+          <span className="block text-slate-600 dark:text-slate-300">
+          {row?.cell?.value}
+          </span>
+        </span>
+      );
+    },
+  },
 ];
 
-// const actions = [
-//   {
-//     name: "view",
-//     icon: "heroicons-outline:eye",
-//   },
-//   {
-//     name: "edit",
-//     icon: "heroicons:pencil-square",
-//   },
-//   {
-//     name: "delete",
-//     icon: "heroicons-outline:trash",
-//   },
-// ];
-
-const EnrolleesTable = () => {
+  const dispatch = useDispatch();
   const columns = useMemo(() => COLUMNS, []);
-  const data = useMemo(() => advancedTable, []);
+  const data = useSelector((state) => state.agents.mostScans);
+  // console.log(data)
+
+  // dispatching the fetching action
+  useEffect(() => {
+    dispatch(getMostScans());
+    // console.log(getEnrollees);
+  }, [dispatch])
 
   const tableInstance = useTable(
     {
       columns,
       data,
       initialState: {
-        pageSize: 4,
+        pageSize: 5,
       },
     },
 
@@ -254,7 +182,7 @@ const EnrolleesTable = () => {
     <>
       <Card noborder>
         <div className="md:flex justify-between items-center mb-6">
-          <h4 className="card-title">Most scanned enrollees</h4>
+          <h4 className="card-title">Agents Activity</h4>
           <div className="row">
             <div className="col-8">
               <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />

@@ -1,28 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Textinput from "@/components/ui/Textinput";
+import Select from "../../../components/ui/Select";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { updateAgent } from "./agentsStore";
 
+const options = [
+  {
+    value: "Male",
+    label: "Male",
+  },
+  {
+    value: "Female",
+    label: "Female",
+  }
+];
 
 const schema = yup
   .object({
     name: yup.string().required("Name is Required"),
     email: yup.string().email("Invalid email").required("Email is Required"),
-    // password: yup
-    //   .string()
-    //   .min(6, "Password must be at least 8 characters")
-    //   .max(20, "Password shouldn't be more than 20 characters")
-    //   .required("Please enter password"),
-    // // confirm password
-    // confirmpassword: yup
-    //   .string()
-    //   .oneOf([yup.ref("password"), null], "Passwords must match"),
-      role: yup.string().required("A role is Required"),
-      telephone: yup.string().required("Telephone is Required"),
+    role: yup.string().required("A role is Required"),
+    telephone: yup.string().required("Telephone is Required"),
+    gender: yup.string().required("Select a gender"),
   })
   .required();
 
@@ -47,7 +50,7 @@ const EditAgent = () => {
     setValue("telephone", agent.telephone);
     setValue("role", agent.role);
     // setValue("age", enrollee.age);
-    // setValue("gender", enrollee.gender);
+    setValue("gender", agent.gender);
 
  }, [setValue]);
 
@@ -149,6 +152,14 @@ const EditAgent = () => {
         // placeholder=" Enter your telephone"
         register={register}
         error={errors.telephone}
+        className="h-[48px]"
+      />
+      <Select
+        name="gender"
+        label="gender"
+        options={options}
+        register={register}
+        error={errors.gender}
         className="h-[48px]"
       />
       {/* <Checkbox

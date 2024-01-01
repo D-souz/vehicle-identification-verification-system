@@ -11,15 +11,16 @@ import EditAgent from "./editAgent";
 // import ProfileImage from "@/assets/images/users/user-1.jpg";
 import responsiveImage4 from "@/assets/images/all-img/thumb-4.png";
 import { useDispatch, useSelector } from "react-redux";
-import { getSingleAgent, reset } from "./agentsStore"
+import { getSingleAgent, reset } from "./agentsStore";
 
 
 const AgentsDetailsPage = () => {
 const { id } = useParams();
 const dispatch = useDispatch();
+const { isActive } = useSelector((state) => state.auth);
 const {isLoading, isSuccess, isError } = useSelector((state) => state.agents);
 const agent = useSelector((state) => state.agents.agent);
-
+// console.log(isActive);
 
 // fetch the agent
 useEffect(() => {
@@ -29,9 +30,9 @@ useEffect(() => {
   dispatch(getSingleAgent(id))
 
 
-  return () => {
-    dispatch(reset())
-  }
+  // return () => {
+  //   dispatch(reset())
+  // }
 }, [id, dispatch])
 
   return (
@@ -63,9 +64,17 @@ useEffect(() => {
                 <div className="text-2xl font-medium text-slate-900 dark:text-slate-200 mb-[3px]">
                   {agent.name}
                 </div>
-                <div className="text-sm font-light text-slate-600 dark:text-slate-400">
-                  active
-                </div>
+                {
+                  isActive 
+                  ?
+                  <div className="text-sm font-bold text-success-500">
+                    Active
+                  </div>
+                  :
+                  <div className="text-sm font-bold text-danger-500">
+                    Inactive
+                  </div>
+                }
               </div>
             </div>
           </div>
@@ -73,19 +82,19 @@ useEffect(() => {
           <div className="AgentsDetailsPage-info-500 md:flex md:text-start text-center flex-1 max-w-[516px] md:space-y-0 space-y-4">
             <div className="flex-1">
               <div className="text-base text-slate-900 dark:text-slate-300 font-medium mb-1">
-                40
+                {agent.scansCount}
               </div>
               <div className="text-sm text-slate-600 font-light dark:text-slate-300">
-                Vehicles Scanned
+                  <span>Scans</span>
               </div>
             </div>
 
             <div className="flex-1">
               <div className="text-base text-slate-900 dark:text-slate-300 font-medium mb-1">
-                Security officer
+                {agent.role}
               </div>
               <div className="text-sm text-slate-600 font-light dark:text-slate-300">
-                {agent.role}
+                Role
               </div>
             </div>
 
@@ -95,6 +104,14 @@ useEffect(() => {
               </div>
               <div className="text-sm text-slate-600 font-light dark:text-slate-300">
                 Vehicles verified
+              </div>
+            </div>
+            <div className="flex-1">
+              <div className="text-base text-slate-900 dark:text-slate-300 font-medium mb-1">
+                {agent.downloadsCount}
+              </div>
+              <div className="text-sm text-slate-600 font-light dark:text-slate-300">
+                Qr code Downloads
               </div>
             </div>
           </div>

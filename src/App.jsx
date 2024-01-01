@@ -121,7 +121,7 @@ const EnrolleeDetailsPage = lazy(() =>
 // const KanbanPage = lazy(() => import("./pages/app/kanban"));
 const ReportsPage = lazy(() => import("./pages/app/reports/reports"));
 const AgentsReportPage = lazy(() => import("./pages/app/reports/agentsReport"));
-const MostScannedEnrolleesPage= lazy(() => import("./pages/app/reports/mostScanned"));
+const AgentActivityPage= lazy(() => import("./pages/app/reports/agentActivity"));
 const RecentScannedEnrolleesPage= lazy(() => import("./pages/app/reports/recentlyScannedReport"));
 const AgentsPage = lazy(() => import("./pages/app/agents/agents"));
 const AgentsDetailsPage = lazy(() => import("./pages/app/agents/agentsDetails"));
@@ -256,7 +256,7 @@ function App() {
           {/* <Route path="kanban" element={<KanbanPage />} /> */}
           <Route path="reports" element={<ReportsPage />} />
           <Route path="agents-report" element={<AgentsReportPage />} />
-          <Route path="most-scanned" element={<MostScannedEnrolleesPage />} />
+          <Route path="most-scanned" element={<AgentActivityPage />} />
           <Route path="recently-scanned" element={<RecentScannedEnrolleesPage />} />
           {/* Components pages */}
           <Route path="button" element={<Button />} />

@@ -2,11 +2,16 @@ import React from "react";
 import Chart from "react-apexcharts";
 import useDarkMode from "@/hooks/useDarkMode";
 import useWidth from "@/hooks/useWidth";
+import { useSelector } from "react-redux";
 
 const RadialsChart = () => {
+  const { allStats, isError } = useSelector((state) => state.stats);
+  const {totalGrantedIn, totalGrantedOut } = allStats;
   const [isDark] = useDarkMode();
   const { width, breakpoints } = useWidth();
-  const series = [44, 55];
+  const series = [totalGrantedIn, totalGrantedOut ];
+  const totalCount = (totalGrantedIn + totalGrantedOut) / 100;
+
   const options = {
     chart: {
       toolbar: {
@@ -29,7 +34,7 @@ const RadialsChart = () => {
             label: "Total",
             color: isDark ? "#CBD5E1" : "#475569",
             formatter: function () {
-              return 249;
+              return totalCount;
             },
           },
         },
@@ -39,7 +44,7 @@ const RadialsChart = () => {
         },
       },
     },
-    labels: ["Registered vehicles", "Vehicles exiting"],
+    labels: ["Vehicles in", "Vehicles out"],
     colors: ["#4669FA", "#FA916B"],
   };
 

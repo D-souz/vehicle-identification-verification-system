@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import Textinput from "@/components/ui/Textinput";
+import Select from "../../../components/ui/Select";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -9,6 +10,16 @@ import Checkbox from "@/components/ui/Checkbox";
 import { useDispatch, useSelector } from "react-redux";
 import { registerAgent, reset } from "./store";
 
+const options = [
+  {
+    value: "Male",
+    label: "Male",
+  },
+  {
+    value: "Female",
+    label: "Female",
+  }
+];
 
 const schema = yup
   .object({
@@ -25,6 +36,7 @@ const schema = yup
       .oneOf([yup.ref("password"), null], "Passwords must match"),
       role: yup.string().required("A role is Required"),
       telephone: yup.string().required("Telephone is Required"),
+      gender: yup.string().required("Select a gender"),
   })
   .required();
 
@@ -95,11 +107,16 @@ const RegForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 ">
+      <div>
+        Sign up As
+        An agent
+        Admin
+      </div>
       <Textinput
         name="name"
         label="name"
         type="text"
-        placeholder="Enter your name"
+        placeholder="Enter Full name"
         register={register}
         error={errors.name}
         className="h-[48px]"
@@ -108,7 +125,7 @@ const RegForm = () => {
         name="email"
         label="email"
         type="email"
-        placeholder=" Enter your email"
+        placeholder="Enter email"
         register={register}
         error={errors.email}
         className="h-[48px]"
@@ -117,7 +134,7 @@ const RegForm = () => {
         name="password"
         label="passwrod"
         type="password"
-        placeholder=" Enter your password"
+        placeholder="8+ characters, 1 capitat letter "
         register={register}
         error={errors.password}
         className="h-[48px]"
@@ -135,7 +152,7 @@ const RegForm = () => {
         name="role"
         label="role"
         type="text"
-        placeholder=" Enter your role"
+        placeholder="Enter role"
         register={register}
         error={errors.role}
         className="h-[48px]"
@@ -144,9 +161,17 @@ const RegForm = () => {
         name="telephone"
         label="telephone"
         type="tel"
-        placeholder=" Enter your telephone"
+        placeholder="Enter telephone"
         register={register}
         error={errors.telephone}
+        className="h-[48px]"
+      />
+      <Select
+        name="gender"
+        label="gender"
+        options={options}
+        register={register}
+        error={errors.gender}
         className="h-[48px]"
       />
       <Checkbox

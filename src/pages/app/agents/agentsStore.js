@@ -10,7 +10,10 @@ const initialState = {
     isLoading :false,
     isSuccess :false,
     message :"",
-    agent: []
+    agent: [],
+    qrcodeDownloads: null,
+    qrcodeScans: null,
+    mostScans:[],
 }
 
 // ROUTES API
@@ -170,6 +173,119 @@ export const updateAgent = createAsyncThunk(
     }
 );
 
+// getting number of downloaded qr codes
+export const getQrcodeDownloads = createAsyncThunk(
+    "agents/getQrcodeDownloads",
+    async ({ id, data }, thunkAPI) =>{
+
+        try {
+            const token = thunkAPI.getState().auth.agent.token;
+            const config = {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+            const response = await axios.patch(API_URL + `/api/qrcode-stats/download/${id}`, data, config)
+
+            // if (!response.data) {
+            //     toast.error("No such agent found with that id!", {
+            //         position: "top-right",
+            //         autoClose: 1500,
+            //         hideProgressBar: false,
+            //         closeOnClick: true,
+            //         pauseOnHover: true,
+            //         draggable: true,
+            //         progress: undefined,
+            //         theme: "light",
+            //       });
+            // }
+            // console.log(response.data);
+            return response.data;
+
+        } catch (error) {
+            console.log(error);
+            const message =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+              error.message ||
+              error.toString();
+          return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+// getting number of scanned qr codes
+export const getQrcodeScans = createAsyncThunk(
+    "agents/getQrcodeScans",
+    async ({ id, data }, thunkAPI) =>{
+
+        try {
+            const token = thunkAPI.getState().auth.agent.token;
+            const config = {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+            const response = await axios.patch(API_URL + `/api/qrcode-stats/scans/${id}`, data, config)
+
+            // if (!response.data) {
+            //     toast.error("No such agent found with that id!", {
+            //         position: "top-right",
+            //         autoClose: 1500,
+            //         hideProgressBar: false,
+            //         closeOnClick: true,
+            //         pauseOnHover: true,
+            //         draggable: true,
+            //         progress: undefined,
+            //         theme: "light",
+            //       });
+            // }
+            console.log(response.data);
+            return response.data;
+
+        } catch (error) {
+            console.log(error);
+            const message =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+              error.message ||
+              error.toString();
+          return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+// getting agents with most scans from db
+export const getMostScans = createAsyncThunk(
+    "agents/getMostScans",
+    async (_, thunkAPI) =>{
+
+        try {
+            const token = thunkAPI.getState().auth.agent.token;
+            const config = {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+            const response = await axios.get(API_URL + "/api/qrcode-stats/agent-scans", config)
+            // console.log(response.data);
+            return response.data;
+
+        } catch (error) {
+            console.log(error);
+            const message =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+              error.message ||
+              error.toString();
+          return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
 export const agentSlice = createSlice({
     name: "agents",
     initialState,
@@ -235,6 +351,48 @@ export const agentSlice = createSlice({
             state.agent = action.payload;
         })
         .addCase(updateAgent.rejected, (state, action) => {
+            state.isSuccess = false;
+            state.isLoading = false;
+            state.isError = true;
+            state.message = action.payload;
+        })
+        .addCase(getQrcodeDownloads.pending, (state) => {
+            state.isLoading = true;
+        })
+        .addCase(getQrcodeDownloads.fulfilled, (state, action) => {
+            state.isSuccess = true;
+            state.isLoading = false;
+            state.qrcodeDownloads = action.payload;
+        })
+        .addCase(getQrcodeDownloads.rejected, (state, action) => {
+            state.isSuccess = false;
+            state.isLoading = false;
+            state.isError = true;
+            state.message = action.payload;
+        })
+        .addCase(getQrcodeScans.pending, (state) => {
+            state.isLoading = true;
+        })
+        .addCase(getQrcodeScans.fulfilled, (state, action) => {
+            state.isSuccess = true;
+            state.isLoading = false;
+            state.qrcodeScans = action.payload;
+        })
+        .addCase(getQrcodeScans.rejected, (state, action) => {
+            state.isSuccess = false;
+            state.isLoading = false;
+            state.isError = true;
+            state.message = action.payload;
+        })
+        .addCase(getMostScans.pending, (state) => {
+            state.isLoading = true;
+        })
+        .addCase(getMostScans.fulfilled, (state, action) => {
+            state.isSuccess = true;
+            state.isLoading = false;
+            state.mostScans = action.payload;
+        })
+        .addCase(getMostScans.rejected, (state, action) => {
             state.isSuccess = false;
             state.isLoading = false;
             state.isError = true;

@@ -3,11 +3,14 @@ import Icon from "@/components/ui/Icon";
 import { useDispatch, useSelector } from "react-redux";
 import { getAgents } from "../../../../pages/app/agents/agentsStore";
 import { getEnrollees } from "../../../../pages/app/enrollees/enrolleeStore";
+import { getStatistics } from "../../../../pages/app/reports/reportStore";
+
 
 const GroupChart1 = () => {
   const dispatch = useDispatch();
   const { agents } = useSelector((state) => state.agents);
   const { enrollees } = useSelector((state) => state.enrollees);
+  const { allStats } = useSelector((state) => state.stats);
 
   // fetching agents and enrollees
   useEffect(() => {

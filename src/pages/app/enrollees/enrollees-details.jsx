@@ -19,6 +19,7 @@ import TabMenu from "./TabMenu";
 import Button from "@/components/ui/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { getSingleEnrollee, getQrcode, reset } from "./enrolleeStore";
+import { getEnrolleeStats } from "../reports/reportStore";
 
 const EnrolleeDetailsPage = () => {
   const { id } = useParams();
@@ -33,6 +34,7 @@ const EnrolleeDetailsPage = () => {
     console.log(message);
   }
   dispatch(getSingleEnrollee(id));
+  dispatch(getEnrolleeStats({id}));
   
   return () => {
     dispatch(reset())

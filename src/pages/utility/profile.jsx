@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 import Icon from "@/components/ui/Icon";
 import Card from "@/components/ui/Card";
 import BasicArea from "../chart/appex-chart/BasicArea";
+import { useSelector } from "react-redux";
 
 // import images
 import ProfileImage from "@/assets/images/users/user-1.jpg";
 
 const profile = () => {
+  const { agent, isActive } = useSelector((state) => state.auth);
   return (
     <div>
       <div className="space-y-5 profile-page">
@@ -32,10 +34,20 @@ const profile = () => {
               </div>
               <div className="flex-1">
                 <div className="text-2xl font-medium text-slate-900 dark:text-slate-200 mb-[3px]">
-                  Albert Flores
+                  {agent.name}
                 </div>
                 <div className="text-sm font-light text-slate-600 dark:text-slate-400">
-                  Front End Developer
+                {
+                  isActive 
+                  ?
+                  <div className="text-sm font-bold text-success-500">
+                    Active
+                  </div>
+                  :
+                  <div className="text-sm font-bold text-danger-500">
+                    Inactive
+                  </div>
+                }
                 </div>
               </div>
             </div>
@@ -44,19 +56,19 @@ const profile = () => {
           <div className="profile-info-500 md:flex md:text-start text-center flex-1 max-w-[516px] md:space-y-0 space-y-4">
             <div className="flex-1">
               <div className="text-base text-slate-900 dark:text-slate-300 font-medium mb-1">
-                $32,400
+                {agent.role}
               </div>
               <div className="text-sm text-slate-600 font-light dark:text-slate-300">
-                Total Balance
+                Role
               </div>
             </div>
 
             <div className="flex-1">
               <div className="text-base text-slate-900 dark:text-slate-300 font-medium mb-1">
-                200
+                20
               </div>
               <div className="text-sm text-slate-600 font-light dark:text-slate-300">
-                Board Card
+                Qr codes Downloaded
               </div>
             </div>
 
@@ -65,7 +77,7 @@ const profile = () => {
                 3200
               </div>
               <div className="text-sm text-slate-600 font-light dark:text-slate-300">
-                Calender Events
+                Vehicles verified
               </div>
             </div>
           </div>
@@ -83,10 +95,10 @@ const profile = () => {
                       EMAIL
                     </div>
                     <a
-                      href="mailto:someone@example.com"
+                      href="#"
                       className="text-base text-slate-600 dark:text-slate-50"
                     >
-                      info-500@dashcode.com
+                     {agent.email}
                     </a>
                   </div>
                 </li>
@@ -100,25 +112,27 @@ const profile = () => {
                       PHONE
                     </div>
                     <a
-                      href="tel:0189749676767"
+                      href="#"
                       className="text-base text-slate-600 dark:text-slate-50"
                     >
-                      +1-202-555-0151
+                      {agent.telephone}
                     </a>
                   </div>
                 </li>
-
                 <li className="flex space-x-3 rtl:space-x-reverse">
                   <div className="flex-none text-2xl text-slate-600 dark:text-slate-300">
-                    <Icon icon="heroicons:map" />
+                    <Icon icon="heroicons:phone-arrow-up-right" />
                   </div>
                   <div className="flex-1">
                     <div className="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]">
-                      LOCATION
+                      Gender
                     </div>
-                    <div className="text-base text-slate-600 dark:text-slate-50">
-                      Home# 320/N, Road# 71/B, Mohakhali, Dhaka-1207, Bangladesh
-                    </div>
+                    <a
+                      href="tel:0189749676767"
+                      className="text-base text-slate-600 dark:text-slate-50"
+                    >
+                      {agent.gender}
+                    </a>
                   </div>
                 </li>
               </ul>

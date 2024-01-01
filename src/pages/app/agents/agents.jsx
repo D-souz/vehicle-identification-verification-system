@@ -47,6 +47,7 @@ useEffect(() =>{
                 email={agent.email}
                 contact={agent.telephone}
                 role={agent.role}
+                gender={agent.gender}
               />
             ))}
           </div>

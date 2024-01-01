@@ -169,7 +169,7 @@ const AgentsReportPage = ( ) => {
     <>
       <Card noborder>
         <div className="md:flex justify-between items-center mb-6">
-          <h4 className="card-title">Most active agents</h4>
+          <h4 className="card-title">Enrollee Access log</h4>
           <div className="row">
             <div className="col-6">
               <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />

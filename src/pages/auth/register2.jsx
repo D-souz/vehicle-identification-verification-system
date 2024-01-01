@@ -21,11 +21,12 @@ const register2 = () => {
               <div className="auth-box h-full flex flex-col justify-center">
                 <div className="mobile-logo text-center mb-6 lg:hidden block">
                   <Link to="/">
-                    <img
+                    {/* <img
                       src={isDark ? LogoWhite : Logo}
                       alt=""
                       className="mx-auto"
-                    />
+                    /> */}
+                    <h4 className="text-slate-600 dark:text-slate-400 font-medium">VIVS</h4>
                   </Link>
                 </div>
                 <div className="text-center 2xl:mb-10 mb-5">

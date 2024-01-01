@@ -2,12 +2,13 @@ import React, { useEffect, useRef } from 'react';
 import { Html5QrcodeScanner } from "html5-qrcode";
 import { saveScanResult } from './scanStore';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 
 const ScanPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { scanResult } = useSelector((state) => state.qrCodeScanner);
 
 
@@ -41,10 +42,11 @@ const ScanPage = () => {
       {
         scanResult
         ?
+        //  navigate('/scan-details')
         <div>
            <h4 className="font-medium lg:text-2xl text-xl capitalize text-success inline-block ltr:pr-4 rtl:pl-4">Scanning successful: </h4>
-        <div className="font-medium lg:text-2xl text-xl capitalize text-slate-900 inline-block ltr:pr-4 rtl:pl-4">
-          <Link to='/scan-details'>View scanned details</Link>
+            <div className=" p-2 text-slate-600 dark:text-slate-300">
+            <Link to='/scan-details'>View details</Link>
         </div>
         </div>
         : 

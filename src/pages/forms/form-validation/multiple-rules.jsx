@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Textinput from "@/components/ui/Textinput";
-// import Card from "../../../components/ui/Card";
+import Select from "../../../components/ui/Select";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -21,8 +21,20 @@ const FormValidationSchema = yup
     vin: yup.string().required("VIN is Required"),
     numberPlate: yup.string().required("Vehicle number plate is Required"),
     model: yup.string().required("Vehicle model is Required"),
+    gender: yup.string().required("Select a gender"),
   })
   .required();
+
+  const options = [
+    {
+      value: "Male",
+      label: "Male",
+    },
+    {
+      value: "Female",
+      label: "Female",
+    }
+  ];
 
 const MultiValidation = () => {
   const dispatch = useDispatch();
@@ -162,6 +174,13 @@ const MultiValidation = () => {
           register={register}
           error={errors.model}
           placeholder="Enter vehicle model"
+        />
+        <Select
+          name="gender"
+          label="gender"
+          options={options}
+          register={register}
+          error={errors.gender}
         />
         <Fileinput 
           selectedFiles={selectedFiles}

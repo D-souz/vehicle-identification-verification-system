@@ -1,21 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-// import { v4 as uuidv4 } from "uuid";
 import { toast } from "react-toastify";
 import axios from "axios";
 
-// const initialUsers = () => {
-//   const item = window.localStorage.getItem("users");
-//   return item
-//     ? JSON.parse(item)
-//     : [
-//         {
-//           id: uuidv4(),
-//           name: "admin",
-//           email: "admin@gmail.com",
-//           password: "admin",
-//         },
-//       ];
-// };
 
 // getting agent from local storage
 const agent = JSON.parse(localStorage.getItem('agent')); 
@@ -26,7 +12,8 @@ const initialState = {
   isLoading: false,
   isError: false,
   isSuccess: false, // for monitoring the registration process.
-  message: ""
+  message: "",
+  isActive: agent ? true : false,
 }
 
 // ROUTES API
@@ -97,7 +84,7 @@ export const loginAgent = createAsyncThunk(
         if (response.data) {
           localStorage.setItem("agent", JSON.stringify(response.data));
         }
-        console.log(response.data);
+        // console.log(response.data);
         return response.data;
     } catch (error) {
       console.log(error);
@@ -139,7 +126,7 @@ export const authSlice = createSlice({
       state.isLoading = false
       state.isSuccess = false
       state.message = ""
-  }
+  },
   },
   extraReducers: (builder) => {
     builder
@@ -172,9 +159,11 @@ export const authSlice = createSlice({
       state.isError = true;
       state.message = action.payload;
       state.agent = null;
+      // state.isActive = false;
     })
     .addCase(logoutAgent.fulfilled, (state) =>{
       state.agent = null;
+      // state.isActive = false;
     })
   }
 });

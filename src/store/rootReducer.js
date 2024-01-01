@@ -8,7 +8,8 @@ import layout from "./layout";
 import auth from "../pages/auth/common/store";
 import agents from "../pages/app/agents/agentsStore";
 import enrollees from "../pages/app/enrollees/enrolleeStore";
-import qrCodeScanner from "../pages/app/scan/scanStore"
+import qrCodeScanner from "../pages/app/scan/scanStore";
+import stats from "../pages/app/reports/reportStore";
 
 const rootReducer = {
   layout,
@@ -22,5 +23,6 @@ const rootReducer = {
   agents,
   enrollees,
   qrCodeScanner,
+  stats,
 };
 export default rootReducer;

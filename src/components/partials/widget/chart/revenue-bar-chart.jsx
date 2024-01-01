@@ -1,24 +1,36 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Chart from "react-apexcharts";
 import useDarkMode from "@/hooks/useDarkMode";
 import useRtl from "@/hooks/useRtl";
+import { useDispatch, useSelector } from "react-redux";
+import { getStatistics } from "../../../../pages/app/reports/reportStore";
 
-const RevenueBarChart = ({ height = 400 }) => {
+const RevenueBarChart = ({ height = 430 }) => {
+  const dispatch = useDispatch();
+  const { allStats, isError } = useSelector((state) => state.stats);
+  const {totalGrantedIn, totalGrantedOut, totalDenied } = allStats;
   const [isDark] = useDarkMode();
   const [isRtl] = useRtl();
+
+  //  loading statistics
+useEffect(() => {
+  dispatch(getStatistics());
+  
+},[dispatch]);
+
   const series = [
     {
-      name: "Vehicles granted access",
-      data: [44, 55, 57, 56, 61, 58, 63, 60, 66],
+      name: "Granted in",
+      data: [44, 55, 57, 56, 61, 58, 63],
     },
     {
-      name: "Vehicles exiting",
-      data: [76, 85, 101, 98, 87, 105, 91, 114, 94],
+      name: "Granted out",
+      data: [76, 85, 101, 98, 87, 105, 91],
     },
-    // {
-    //   name: "Free Cash Flow",
-    //   data: [35, 41, 36, 26, 45, 48, 52, 53, 41],
-    // },
+    {
+      name: "Access Denied",
+      data: [35, 41, 36, 26, 45, 48, 52],
+    },
   ];
   const options = {
     chart: {
@@ -88,15 +100,13 @@ const RevenueBarChart = ({ height = 400 }) => {
     },
     xaxis: {
       categories: [
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thur",
+        "Fri",
+        "Sat",
+        "Sun"
       ],
       labels: {
         style: {
