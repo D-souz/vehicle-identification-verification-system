@@ -22,14 +22,17 @@ const API_URL = "http://localhost:3000";
 // register agent
 export const registerAgent = createAsyncThunk(
   "agent/register", 
-  async ({ name, email, password, role, telephone }, thunkAPI) => {
+  async ({ name, email, password, role, telephone, age, gender, userType}, thunkAPI) => {
     try {
       const response = await axios.post(API_URL + "/api/agent/register", {
         name,
         email, 
         password, 
         role, 
-        telephone
+        telephone,
+        age,
+        gender,
+        userType
     }, 
     {
         headers: {

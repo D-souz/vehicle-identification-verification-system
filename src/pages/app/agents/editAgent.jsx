@@ -31,6 +31,7 @@ const schema = yup
 
 const EditAgent = () => {
   const dispatch = useDispatch();
+  const { agentAuth } = useSelector((state) => state.auth);
   const { agent, isLoading, isError, isSuccess, message } = useSelector((state) => state.agents);
   const id = agent._id;
 
@@ -55,11 +56,9 @@ const EditAgent = () => {
  }, [setValue]);
 
   const onSubmit = (data) => {
-    dispatch(updateAgent({ id, data} ));
-    console.log(data)
 
-    if (isError) {
-      toast.error(message, {
+    if (agentAuth != "admin") {
+      toast.error("Not authorized to perform action", {
         position: "top-right",
         autoClose: 1500,
         hideProgressBar: false,
@@ -69,19 +68,36 @@ const EditAgent = () => {
         progress: undefined,
         theme: "light",
       });
-    }
-    if (isSuccess || agent) {
-      toast.success("Agent updated successfully", {
-        position: "top-right",
-        autoClose: 1500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-      
+    } else {
+
+      dispatch(updateAgent({ id, data} ));
+      console.log(data)
+  
+      if (isError) {
+        toast.error(message, {
+          position: "top-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+      if (isSuccess || agent) {
+        toast.success("Agent updated successfully", {
+          position: "top-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        
+      }
     }
   };
 

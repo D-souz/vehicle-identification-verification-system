@@ -105,7 +105,10 @@ const Profile = () => {
           progress: undefined,
           theme: "light",
           });
-        navigate("/");
+          
+          setTimeout(() => {
+            navigate("/");
+          }, 1500);
       },
     },
   ];

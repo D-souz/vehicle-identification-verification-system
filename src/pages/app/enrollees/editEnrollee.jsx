@@ -37,7 +37,7 @@ const FormValidationSchema = yup
   ];
 export const EditEnrollee = () => {
   const dispatch = useDispatch();
-
+  const { agent } = useSelector((state) => state.auth);
   const {isLoading, isError, isSuccess, message, enrollee } = useSelector((state) => state.enrollees)
   const id = enrollee._id;
 
@@ -51,9 +51,9 @@ export const EditEnrollee = () => {
   });
 
   const onSubmit = (data) => {
-    dispatch(updateEnrollee({ id, data }))
-    if (isSuccess || enrollee) {
-      toast.success("Enrollee updated successfully", {
+
+    if (agent.userType != "admin") {
+      toast.error("Not authorized to perform action", {
         position: "top-right",
         autoClose: 1500,
         hideProgressBar: false,
@@ -64,29 +64,44 @@ export const EditEnrollee = () => {
         theme: "light",
       });
     } else {
-      toast.error(message, {
-        position: "top-right",
-        autoClose: 1500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    }
+      dispatch(updateEnrollee({ id, data }))
+      if (isSuccess || enrollee) {
+        toast.success("Enrollee updated successfully", {
+          position: "top-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      } else {
+        toast.error(message, {
+          position: "top-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+  
+      if (isError) {
+        toast.error(message, {
+          position: "top-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
 
-    if (isError) {
-      toast.error(message, {
-        position: "top-right",
-        autoClose: 1500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
     }
   };
 

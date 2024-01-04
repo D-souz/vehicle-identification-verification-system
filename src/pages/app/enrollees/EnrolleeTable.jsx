@@ -19,6 +19,7 @@ import jsPDF from "jspdf";
 import 'jspdf-autotable';
 import Loading from "@/components/Loading";
 import { EditEnrollee } from "./editEnrollee";
+import { toast } from "react-toastify";
 
 const IndeterminateCheckbox = React.forwardRef(
   ({ indeterminate, ...rest }, ref) => {
@@ -43,14 +44,39 @@ const IndeterminateCheckbox = React.forwardRef(
 );
 
 export const EnrolleesTable = ({ title = "Enrollees"}) => {
+  const { agent } = useSelector((state) => state.auth);
 
-// console.log(handleClick())
+  // handle delete enrollee
+  const handleEnrolleeDel = (id) => {
+    if (agent.userType == "admin") {
+
+      dispatch(deleteEnrollee(id))
+  
+      toast.success("Enrollee successfully deleted!", {
+        position: "top-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } else {
+      toast.error("Not authorized to perform action", {
+        position: "top-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  }
+
   const COLUMNS = [
-    // {
-    //   Header: "id",
-    //   accessor: "_id"
-    // }
-    // ,
     {
       Header: "vin",
       accessor: "vin",
@@ -156,7 +182,7 @@ export const EnrolleesTable = ({ title = "Enrollees"}) => {
               <button 
                 className="action-btn" 
                 type="button"
-                onClick={() => dispatch(deleteEnrollee(row?.cell?.value))}
+                onClick={() => handleEnrolleeDel(row?.cell?.value)}
                 >
                 <Icon icon="heroicons:trash" />
               </button>

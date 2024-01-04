@@ -11,7 +11,7 @@ import {
   usePagination,
 } from "react-table";
 import GlobalFilter from "./GlobalFilter";
-// import Button from "@/components/ui/Button";
+import { toast } from "react-toastify";
 import Modal from "@/components/ui/Modal";
 // import Textinput from "@/components/ui/Textinput";
 import MultiValidation from "../../forms/form-validation/multiple-rules";
@@ -46,13 +46,41 @@ const ExamapleOne = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { agent } = useSelector((state) => state.auth);
+
   // handling dropdown navigation and actions
   const handleClick = (id, name) => {
     if (name == "view" || name == "edit") {
       navigate(`/enrollee-details/${id}`)
     }
     if (name == "delete") {
-      dispatch(deleteEnrollee(id))
+
+      if (agent.userType == "admin") {
+
+        dispatch(deleteEnrollee(id))
+    
+        toast.success("Enrollee successfully deleted!", {
+          position: "top-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      } else {
+        toast.error("Not authorized to perform action", {
+          position: "top-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
     }
   }
 
