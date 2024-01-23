@@ -2,7 +2,6 @@ import React, { lazy, Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 // import { useSelector } from "react-redux";
 
-
 // home pages  & dashboard
 //import Dashboard from "./pages/dashboard";
 const Dashboard = lazy(() => import("./pages/dashboard"));
@@ -122,7 +121,7 @@ const EnrolleeDetailsPage = lazy(() =>
 const ReportsPage = lazy(() => import("./pages/app/reports/reports"));
 const AgentsReportPage = lazy(() => import("./pages/app/reports/agentsReport"));
 const AgentActivityPage= lazy(() => import("./pages/app/reports/agentActivity"));
-const RecentScannedEnrolleesPage= lazy(() => import("./pages/app/reports/recentlyScannedReport"));
+// const RecentScannedEnrolleesPage= lazy(() => import("./pages/app/reports/recentlyScannedReport"));
 const AgentsPage = lazy(() => import("./pages/app/agents/agents"));
 const AgentsDetailsPage = lazy(() => import("./pages/app/agents/agentsDetails"));
 import Loading from "@/components/Loading";
@@ -257,7 +256,7 @@ function App() {
           <Route path="reports" element={<ReportsPage />} />
           <Route path="agents-report" element={<AgentsReportPage />} />
           <Route path="most-scanned" element={<AgentActivityPage />} />
-          <Route path="recently-scanned" element={<RecentScannedEnrolleesPage />} />
+          {/* <Route path="recently-scanned" element={<RecentScannedEnrolleesPage />} /> */}
           {/* Components pages */}
           <Route path="button" element={<Button />} />
           <Route path="dropdown" element={<Dropdown />} />

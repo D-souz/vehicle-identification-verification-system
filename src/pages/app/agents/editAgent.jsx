@@ -71,7 +71,7 @@ const EditAgent = () => {
     } else {
 
       dispatch(updateAgent({ id, data} ));
-      console.log(data)
+      // console.log(data)
   
       if (isError) {
         toast.error(message, {
@@ -120,7 +120,6 @@ const EditAgent = () => {
         name="name"
         label="name"
         type="text"
-        // placeholder="Enter your name"
         register={register}
         error={errors.name}
         className="h-[48px]"
@@ -129,29 +128,10 @@ const EditAgent = () => {
         name="email"
         label="email"
         type="email"
-        // placeholder=" Enter your email"
         register={register}
         error={errors.email}
         className="h-[48px]"
       />
-      {/* <Textinput
-        name="password"
-        label="passwrod"
-        type="password"
-        placeholder=" Enter your password"
-        register={register}
-        error={errors.password}
-        className="h-[48px]"
-      /> */}
-      {/* <Textinput
-        name="confirmpassword"
-        label="Comfirm password"
-        type="password"
-        placeholder=" Confirm your password"
-        register={register}
-        error={errors.confirmpassword}
-        className="h-[48px]"
-      /> */}
        <Textinput
         name="role"
         label="role"
@@ -165,7 +145,6 @@ const EditAgent = () => {
         name="telephone"
         label="telephone"
         type="tel"
-        // placeholder=" Enter your telephone"
         register={register}
         error={errors.telephone}
         className="h-[48px]"
@@ -178,11 +157,6 @@ const EditAgent = () => {
         error={errors.gender}
         className="h-[48px]"
       />
-      {/* <Checkbox
-        label="You accept our Terms and Conditions and Privacy Policy"
-        value={checked}
-        onChange={() => setChecked(!checked)}
-      /> */}
       <button type="submit" className="btn btn-dark block w-full text-center">
         Update
       </button>

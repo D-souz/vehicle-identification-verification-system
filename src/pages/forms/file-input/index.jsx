@@ -12,6 +12,7 @@ const FileinputPage = () => {
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
   };
+
   const handleFileChange2 = (e) => {
     setSelectedFile2(e.target.files[0]);
   };

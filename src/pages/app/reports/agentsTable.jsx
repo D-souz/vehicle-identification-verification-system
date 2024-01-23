@@ -13,14 +13,13 @@ import {
 } from "react-table";
 import GlobalFilter from "../../table/react-tables/GlobalFilter";
 import { Link } from "react-router-dom";
-import { getEnrollees } from "../enrollees/enrolleeStore";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "@/components/ui/Button";
 
 const COLUMNS = [
   {
     Header: "name",
-    accessor: "name",
+    accessor: "enrollee.name",
     Cell: (row) => {
       return (
         <div>
@@ -43,7 +42,7 @@ const COLUMNS = [
   },
   {
     Header: "vin",
-    accessor: "vin",
+    accessor: "enrollee.vin",
     Cell: (row) => {
       return (
         <span className="text-slate-500 dark:text-slate-400">
@@ -58,7 +57,7 @@ const COLUMNS = [
   },
   {
     Header: "model",
-    accessor: "model",
+    accessor: "enrollee.model",
     Cell: (row) => {
       return (
         <span className="text-slate-500 dark:text-slate-400">
@@ -74,7 +73,7 @@ const COLUMNS = [
   },
   {
     Header: "number plate",
-    accessor: "numberPlate",
+    accessor: "enrollee.numberPlate",
     Cell: (row) => {
       return (
         <span className="text-slate-500 dark:text-slate-400">
@@ -90,7 +89,7 @@ const COLUMNS = [
   },
   {
     Header: "contact",
-    accessor: "telephone",
+    accessor: "enrollee.telephone",
     Cell: (row) => {
       return (
         <span className="text-slate-500 dark:text-slate-400">
@@ -106,7 +105,7 @@ const COLUMNS = [
   },
   {
     Header: "email",
-    accessor: "email",
+    accessor: "enrollee.email",
     Cell: (row) => {
       return (
         <span className="text-slate-500 dark:text-slate-400">
@@ -120,14 +119,53 @@ const COLUMNS = [
       );
     },
   },
+  // {
+  //   Header: "status",
+  //   accessor: "status",
+  //   Cell: (row) => {
+  //     return (
+  //       <span className="text-slate-500 dark:text-slate-400">
+  //         <span className="block text-slate-600 dark:text-slate-300">
+  //           {row?.cell?.value}
+  //         </span>
+  //         {/* <span className="block text-slate-500 text-xs">
+  //           Trans ID: 8HG654Pk32
+  //         </span> */}
+  //       </span>
+  //     );
+  //   },
+  // },
   {
-    Header: "status",
-    accessor: "status",
+    Header: "access type",
+    accessor: "accessType",
+    Cell: (row) => {
+      return (
+        <span className="block w-full">
+          <span
+            className={`${
+              row?.cell?.value === "grant-in" ? "text-success-500 " : ""
+            }   
+            ${row?.cell?.value === "deny" ? "text-warning-500 " : ""}
+            ${row?.cell?.value === "grant-out" ? "text-primary-500" : ""}
+            
+             `}
+          >
+            {row?.cell?.value === "grant-in" && <span>granted in</span>}
+            {row?.cell?.value === "deny" && <span>denied</span>}
+            {row?.cell?.value === "grant-out" && <span>granted out</span>}
+          </span>
+        </span>
+      );
+    },
+  },
+  {
+    Header: "time",
+    accessor: "timestamp",
     Cell: (row) => {
       return (
         <span className="text-slate-500 dark:text-slate-400">
           <span className="block text-slate-600 dark:text-slate-300">
-            {row?.cell?.value}
+          {new Date(row?.cell?.value).toLocaleString("en-Us")}
           </span>
           {/* <span className="block text-slate-500 text-xs">
             Trans ID: 8HG654Pk32
@@ -168,116 +206,105 @@ const COLUMNS = [
   //     );
   //   },
   // },
-  // {
-  //   Header: "granted by",
-  //   accessor: "grantedBy",
-  //   Cell: (row) => {
-  //     return (
-  //       <span className="text-slate-500 dark:text-slate-400">
-  //         <span className="block text-slate-600 dark:text-slate-300">
-  //           {row?.cell?.value}
-  //         </span>
-  //         {/* <span className="block text-slate-500 text-xs">
-  //           Trans ID: 8HG654Pk32
-  //         </span> */}
-  //       </span>
-  //     );
-  //   },
-  // },
-  // {
-  //   Header: "status",
-  //   accessor: "status",
-  //   Cell: (row) => {
-  //     return (
-  //       <span className="block w-full">
-  //         {/* <span
-  //           className={`${
-  //             row?.cell?.value === "paid" ? "text-success-500 " : ""
-  //           }   
-  //           ${row?.cell?.value === "due" ? "text-warning-500 " : ""}
-  //           // ${row?.cell?.value === "cancled" ? "text-danger-500" : ""}
-            
-  //            `}
-  //         >
-  //           {row?.cell?.value === "due" && <span>active</span>}
-  //           {row?.cell?.value === "paid" && <span>inacvtive</span>}
-  //           {row?.cell?.value === "cancled" && <span>+$ 1400.00</span>}
-  //         </span> */}
-  //       </span>
-  //     );
-  //   },
-  // },
   {
-    Header: "action",
-    accessor: "action",
+    Header: "agent's name",
+    accessor: "agent.name",
     Cell: (row) => {
       return (
-        <div className=" text-center">
-          <Dropdown
-            classMenuItems="right-0 w-[140px] top-[110%] "
-            label={
-              <span className="text-xl text-center block w-full">
-                <Icon icon="heroicons-outline:dots-vertical" />
-              </span>
-            }
-          >
-            <div className="divide-y divide-slate-100 dark:divide-slate-800">
-              {actions.map((item, i) => (
-                <Menu.Item key={i}>
-                  <div
-                    className={`
-                
-                  ${
-                    item.name === "delete"
-                      ? "bg-danger-500 text-danger-500 bg-opacity-30   hover:bg-opacity-100 hover:text-white"
-                      : "hover:bg-slate-900 hover:text-white dark:hover:bg-slate-600 dark:hover:bg-opacity-50"
-                  }
-                   w-full border-b border-b-gray-500 border-opacity-10 px-4 py-2 text-sm  last:mb-0 cursor-pointer 
-                   first:rounded-t last:rounded-b flex  space-x-2 items-center rtl:space-x-reverse `}
-                  >
-                    <span className="text-base">
-                      <Icon icon={item.icon} />
-                    </span>
-                    <span>{item.name}</span>
-                  </div>
-                </Menu.Item>
-              ))}
-            </div>
-          </Dropdown>
-        </div>
+        <span className="text-slate-500 dark:text-slate-400">
+          <span className="block text-slate-600 dark:text-slate-300">
+            {row?.cell?.value}
+          </span>
+        </span>
       );
     },
   },
+  {
+    Header: "agent's role",
+    accessor: "agent.role",
+    Cell: (row) => {
+      return (
+        <span className="text-slate-500 dark:text-slate-400">
+          <span className="block text-slate-600 dark:text-slate-300">
+            {row?.cell?.value}
+          </span>
+        </span>
+      );
+    },
+  },
+  
+  // {
+  //   Header: "action",
+  //   accessor: "action",
+  //   Cell: (row) => {
+  //     return (
+  //       <div className=" text-center">
+  //         <Dropdown
+  //           classMenuItems="right-0 w-[140px] top-[110%] "
+  //           label={
+  //             <span className="text-xl text-center block w-full">
+  //               <Icon icon="heroicons-outline:dots-vertical" />
+  //             </span>
+  //           }
+  //         >
+  //           <div className="divide-y divide-slate-100 dark:divide-slate-800">
+  //             {actions.map((item, i) => (
+  //               <Menu.Item key={i}>
+  //                 <div
+  //                   className={`
+                
+  //                 ${
+  //                   item.name === "delete"
+  //                     ? "bg-danger-500 text-danger-500 bg-opacity-30   hover:bg-opacity-100 hover:text-white"
+  //                     : "hover:bg-slate-900 hover:text-white dark:hover:bg-slate-600 dark:hover:bg-opacity-50"
+  //                 }
+  //                  w-full border-b border-b-gray-500 border-opacity-10 px-4 py-2 text-sm  last:mb-0 cursor-pointer 
+  //                  first:rounded-t last:rounded-b flex  space-x-2 items-center rtl:space-x-reverse `}
+  //                 >
+  //                   <span className="text-base">
+  //                     <Icon icon={item.icon} />
+  //                   </span>
+  //                   <span>{item.name}</span>
+  //                 </div>
+  //               </Menu.Item>
+  //             ))}
+  //           </div>
+  //         </Dropdown>
+  //       </div>
+  //     );
+  //   },
+  // },
 ];
 
-const actions = [
-  {
-    name: "view",
-    icon: "heroicons-outline:eye",
-  },
-  // {
-  //   name: "edit",
-  //   icon: "heroicons:pencil-square",
-  // },
-  // {
-  //   name: "delete",
-  //   icon: "heroicons-outline:trash",
-  // },
-];
+// const actions = [
+//   {
+//     name: "view",
+//     icon: "heroicons-outline:eye",
+//   },
+//   // {
+//   //   name: "edit",
+//   //   icon: "heroicons:pencil-square",
+//   // },
+//   // {
+//   //   name: "delete",
+//   //   icon: "heroicons-outline:trash",
+//   // },
+// ];
 
 const AgentsTable = ( ) => {
   const dispatch = useDispatch();
   const columns = useMemo(() => COLUMNS, []);
-  const data = useSelector((state) => state.enrollees.enrollees);
-  console.log(data)
+  const data = useSelector((state) => state.stats.accessDetails);
+  // console.log(data)
+
 
   const tableInstance = useTable(
     {
       columns,
       data,
-      // initialState: {
-      //   pageSize: 4,
-      // },
+      initialState: {
+        pageSize: 4,
+      },
     },
 
     useGlobalFilter,
@@ -309,19 +336,19 @@ const AgentsTable = ( ) => {
     <>
       <Card noborder>
         <div className="md:flex justify-between items-center mb-6">
-          <h4 className="card-title">Enrollee Access log</h4>
+          <h4 className="card-title">Access log</h4>
           <div className="row">
             <div className="col-8">
               <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
             </div>
             <div className="col-4 pt-1 text-end">
-                  <Button 
+                  {/* <Button 
                     text="Download"
                     className="btn-outline-secondary p-2 text-muted"
-                  />
-              {/* <Link to="/agents-report" className="text-primary">
+                  /> */}
+              <Link to="/agents-report" className="text-primary">
                 See All
-              </Link> */}
+              </Link>
             </div>
           </div>
         </div>

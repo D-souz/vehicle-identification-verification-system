@@ -5,12 +5,12 @@ import AreaSpaLine from "../../chart/appex-chart/AreaSpaline";
 import TransactionsTable from "../../../components/partials/Table/transactions";
 import EnrolleesTable from "./enrolleesTable";
 import AgentsTable from "./agentsTable";
-import RecentEnrolleesTable from "./recentScans";
+// import RecentEnrolleesTable from "./recentScans";
 import { useDispatch, useSelector } from "react-redux";
 import { getStatistics } from "./reportStore";
 import { getAgents } from "../agents/agentsStore";
 import { getEnrollees } from "../enrollees/enrolleeStore";
-
+import { getAccessDetails } from "./reportStore";
 
 const ReportsPage = () => {
  const dispatch = useDispatch();
@@ -24,7 +24,7 @@ const successfulVerifications = allStats.totalGrantedIn + allStats.totalGrantedO
 //  loading statistics
 useEffect(() => {
   dispatch(getStatistics());
-  
+  dispatch(getAccessDetails());
   if (isError) {
     toast.error("Failed to load statistics", {
       position: "top-right",
@@ -42,7 +42,7 @@ useEffect(() => {
 useEffect(() => {
   dispatch(getEnrollees());
   dispatch(getAgents());
-},[])
+},[dispatch])
 
 // returning the total counts
 const enrolleesCount = enrollees.length;

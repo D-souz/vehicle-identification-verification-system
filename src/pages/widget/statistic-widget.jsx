@@ -43,7 +43,7 @@ const StatisticWidget = () => {
       <div className="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-3">
         <GroupChart3 />
       </div>
-      <div className="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-3">
+      <div className="">
         <GroupChart4 />
       </div>
       <div className="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-3">

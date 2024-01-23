@@ -124,6 +124,13 @@ const COLUMNS = [
     },
   },
   {
+    Header: "contact",
+    accessor: "telephone",
+    Cell: (row) => {
+      return <span>{row?.cell?.value}</span>;
+    },
+  },
+  {
     Header: "date of registration",
     accessor: "createdAt",
     Cell: (row) => {
@@ -135,45 +142,6 @@ const COLUMNS = [
     accessor: "model",
     Cell: (row) => {
       return <span>{row?.cell?.value}</span>;
-    },
-  },
-  // {
-  //   Header: "amount",
-  //   accessor: "amount",
-  //   Cell: (row) => {
-  //     return <span>{row?.cell?.value}</span>;
-  //   },
-  // },
-  {
-    Header: "status",
-    accessor: "status",
-    Cell: (row) => {
-      return (
-        <span className="block w-full">
-          active
-          {/* <span
-            className={` inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25 ${
-              row?.cell?.value === "paid"
-                ? "text-success-500 bg-success-500"
-                : ""
-            } 
-            ${
-              row?.cell?.value === "due"
-                ? "text-warning-500 bg-warning-500"
-                : ""
-            }
-            ${
-              row?.cell?.value === "cancled"
-                ? "text-danger-500 bg-danger-500"
-                : ""
-            }
-            
-             `}
-          >
-            {row?.cell?.value}
-          </span> */}
-        </span>
-      );
     },
   },
   {
@@ -246,7 +214,6 @@ const actions = [
 // dispatching the fetching action
 useEffect(() => {
   dispatch(getEnrollees());
-  // console.log(getEnrollees);
 }, [dispatch])
 
   const tableInstance = useTable(

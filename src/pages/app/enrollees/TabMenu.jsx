@@ -102,9 +102,9 @@ const handleQrCodeDownload = () =>{
                             <Card bodyClass="p-2">
                             <div className="h-[140px] w-full">
                                 <img
-                                src={cardImage2}
-                                alt=""
-                                className="block w-full h-full object-cover rounded-t-md"
+                                    src={'http://localhost:3000/uploads/'+enrollee.image}
+                                    alt="enrollee profile image"
+                                    className="block w-full h-full object-cover rounded-t-md"
                                 />
                             </div>
                             <div className="p-4">

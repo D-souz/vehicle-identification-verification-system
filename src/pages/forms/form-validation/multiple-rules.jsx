@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Fileinput from "@/components/ui/Fileinput";
-// import DropZone from "../file-input/DropZone";
 import { useDispatch, useSelector } from "react-redux";
 import { registerEnrollee } from "../../app/enrollees/enrolleeStore";
 import Loading from "@/components/Loading";
@@ -22,6 +21,8 @@ const FormValidationSchema = yup
     numberPlate: yup.string().required("Vehicle number plate is Required"),
     model: yup.string().required("Vehicle model is Required"),
     gender: yup.string().required("Select a gender"),
+    age: yup.number().required("Age is Required"),
+    image: yup.mixed()
   })
   .required();
 
@@ -39,7 +40,8 @@ const FormValidationSchema = yup
 const MultiValidation = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {isLoading, isError, isSuccess, message, enrollee } = useSelector((state) => state.enrollees)
+  const {isLoading, isError, isSuccess, message, enrollee } = useSelector((state) => state.enrollees);
+
   const {
     register,
     formState: { errors, isSubmitSuccessful },
@@ -52,7 +54,6 @@ const MultiValidation = () => {
 
   const onSubmit = (data) => {
     dispatch(registerEnrollee(data))
-    console.log(data);
 
     if (isSuccess || enrollee) {
       toast.success("Enrollee registered successfully", {
@@ -182,11 +183,21 @@ const MultiValidation = () => {
           register={register}
           error={errors.gender}
         />
-        <Fileinput 
-          selectedFiles={selectedFiles}
-          name="enrolleeImages"
-          multiple
-          preview
+        <Textinput
+          name="age"
+          label="age"
+          type="number"
+          register={register}
+          error={errors.age}
+          placeholder="Enter your age"
+        />
+        <Textinput
+          name="image"
+          label="profile image"
+          type="file"
+          register={register}
+          error={errors.image}
+          placeholder="Choose a file or drop it here..."
         />
         <div className="flex pt-6 mt-8">
           <div className="lg:col-span-2 col-span-1 col-6">

@@ -138,12 +138,32 @@ export const updateAgent = createAsyncThunk(
 
         try {
             const token = thunkAPI.getState().auth.agent.token;
+            const {
+                name,
+                email, 
+                role, 
+                telephone,
+                age,
+                gender,
+                image
+            } = data;
+
+            const updatedData = {
+                name,
+                email, 
+                role, 
+                telephone,
+                age,
+                gender,
+                profileImage: image[0] 
+            }
             const config = {
                 headers: {
+                    'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${token}`
                 }
             };
-            const response = await axios.patch(API_URL + `/api/agent/${id}`, data, config)
+            const response = await axios.patch(API_URL + `/api/agent/${id}`, updatedData, config)
 
             if (!response.data) {
                 toast.error("No such agent found with that id!", {

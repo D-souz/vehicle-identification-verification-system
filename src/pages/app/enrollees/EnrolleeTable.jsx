@@ -90,18 +90,18 @@ export const EnrolleesTable = ({ title = "Enrollees"}) => {
       Cell: (row) => {
         return (
           // <div>
-          //   {/* <span className="inline-flex items-center"> */}
-          //     {/* <span className="w-7 h-7 rounded-full ltr:mr-3 rtl:ml-3 flex-none bg-slate-600">
+          //   <span className="inline-flex items-center">
+          //     <span className="w-7 h-7 rounded-full ltr:mr-3 rtl:ml-3 flex-none bg-slate-600">
           //       <img
           //         src={row?.cell?.value.image}
           //         alt=""
           //         className="object-cover w-full h-full rounded-full"
           //         />
-          //     </span> */}
-          //     <span className="text-sm text-slate-600 dark:text-slate-300 capitalize">
-          //       {/* {row?.cell?.value} */}
           //     </span>
-          //   {/* </span> */}
+          //     <span className="text-sm text-slate-600 dark:text-slate-300 capitalize">
+          //       {row?.cell?.value}
+          //     </span>
+          //   </span>
           // </div>
           <span>{row?.cell?.value}</span>
         );
@@ -146,6 +146,13 @@ export const EnrolleesTable = ({ title = "Enrollees"}) => {
             </span>
           </span>
         );
+      },
+    },
+    {
+      Header: "age",
+      accessor: "age",
+      Cell: (row) => {
+        return <span>{row?.cell?.value}</span>;
       },
     },
     {

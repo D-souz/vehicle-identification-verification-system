@@ -9,6 +9,7 @@ const initialState = {
     isLoading :false,
     isSuccess :false,
     message :"",
+    accessDetails: [],
 }
 
 // // ROUTES API
@@ -17,7 +18,7 @@ const API_URL = "http://localhost:3000";
 // grant access in
 export const grantAccessIn = createAsyncThunk(
     "enrollees/grantAccessIn",
-    async ({id}, thunkAPI) =>{
+    async ({ enrolleeID, agentID }, thunkAPI) =>{
   
         try {
           const token = thunkAPI.getState().auth.agent.token;
@@ -26,7 +27,7 @@ export const grantAccessIn = createAsyncThunk(
                   'Authorization': `Bearer ${token}`
               }
           };
-            const response = await axios.post(API_URL + `/api/access/grant-in/${id}`, {id} ,config)
+            const response = await axios.post(API_URL + `/api/access/grant-in/${enrolleeID}`, {agentID} ,config)
   
             if (!response.data) {
                 toast.error("Access not granted!", {
@@ -59,7 +60,7 @@ export const grantAccessIn = createAsyncThunk(
 // deny access
 export const denyAcess = createAsyncThunk(
   "enrollees/denyAcess",
-  async ({id}, thunkAPI) =>{
+  async ({ enrolleeID, agentID }, thunkAPI) =>{
 
       try {
         const token = thunkAPI.getState().auth.agent.token;
@@ -68,7 +69,7 @@ export const denyAcess = createAsyncThunk(
                 'Authorization': `Bearer ${token}`
             }
         };
-          const response = await axios.post(API_URL + `/api/access/deny-access/${id}`, {id} ,config)
+          const response = await axios.post(API_URL + `/api/access/deny-access/${enrolleeID}`, {agentID} ,config)
 
           if (!response.data) {
               toast.error("Access not granted!", {
@@ -101,7 +102,7 @@ export const denyAcess = createAsyncThunk(
 // grant access out
 export const grantAccessOut = createAsyncThunk(
   "enrollees/grantAccessOut",
-  async ({id}, thunkAPI) =>{
+  async ({ enrolleeID, agentID }, thunkAPI) =>{
 
       try {
         const token = thunkAPI.getState().auth.agent.token;
@@ -110,7 +111,7 @@ export const grantAccessOut = createAsyncThunk(
                 'Authorization': `Bearer ${token}`
             }
         };
-          const response = await axios.post(API_URL + `/api/access/grant-out/${id}`, {id} ,config)
+          const response = await axios.post(API_URL + `/api/access/grant-out/${enrolleeID}`, {agentID} ,config)
 
           if (!response.data) {
               toast.error("Access not granted!", {
@@ -196,6 +197,33 @@ export const getEnrolleeStats = createAsyncThunk(
   }
 );
 
+// getting all access details
+export const getAccessDetails = createAsyncThunk(
+  "fetch/accessDetails",
+  async (_, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.agent.token;
+      const config = {
+          headers: {
+              'Authorization': `Bearer ${token}`
+          }
+      };
+      const response = await axios.get(API_URL + "/api/qrcode-stats/access", config)
+      // console.log(response.data);
+      return response.data;
+
+  } catch (error) {
+      console.log(error);
+      const message =
+      (error.response &&
+        error.response.data &&
+        error.response.data.message) ||
+        error.message ||
+        error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+  }
+);
 
 export const ReportSlice = createSlice({
     name: 'stats',
@@ -225,6 +253,7 @@ export const ReportSlice = createSlice({
       .addCase(grantAccessIn.fulfilled, (state, action) => {
           state.isSuccess = true;
           state.isLoading = false;
+          state.status = active;
           state.message = action.payload;
       })
       .addCase(grantAccessIn.rejected, (state, action) => {
@@ -259,6 +288,7 @@ export const ReportSlice = createSlice({
           state.isSuccess = false;
           state.isLoading = false;
           state.isError = true;
+          state.status = Inactive;
           state.message = action.payload;
       })
       .addCase(getEnrolleeStats.pending, (state) => {
@@ -270,6 +300,20 @@ export const ReportSlice = createSlice({
           state.enrolleeStats = action.payload;
       })
       .addCase(getEnrolleeStats.rejected, (state, action) => {
+          state.isSuccess = false;
+          state.isLoading = false;
+          state.isError = true;
+          state.message = action.payload;
+      })
+      .addCase(getAccessDetails.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAccessDetails.fulfilled, (state, action) => {
+          state.isSuccess = true;
+          state.isLoading = false;
+          state.accessDetails = action.payload;
+      })
+      .addCase(getAccessDetails.rejected, (state, action) => {
           state.isSuccess = false;
           state.isLoading = false;
           state.isError = true;

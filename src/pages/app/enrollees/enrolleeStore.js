@@ -10,7 +10,7 @@ const initialState = {
   isSuccess :false,
   message :"",
   enrollee: [],
-  qrcode: null,
+  qrcode: null
 }
 
 // // ROUTES API
@@ -28,7 +28,10 @@ export const registerEnrollee =  createAsyncThunk(
     vin,
     numberPlate,
     model,
-    picture },
+    gender,
+    age,
+    image
+  },
      thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.agent.token;
@@ -41,11 +44,13 @@ export const registerEnrollee =  createAsyncThunk(
         vin,
         numberPlate,
         model,
-        picture
+        gender,
+        age,
+        image: image[0]
     }, 
     {
         headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'multipart/form-data',
             'Authorization': `Bearer ${token}`
         }
     });
@@ -63,25 +68,23 @@ export const registerEnrollee =  createAsyncThunk(
         progress: undefined,
         theme: "light",
       });
-    } else {
-      toast.error("Enrollee registration failed!", {
-        position: "top-right",
-        autoClose: 1500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
     }
+
     } catch (error) {
       console.log(error);
-
-       // capturing the error message from the server
-       const message = (error.response && error.response.data && error.response.data.message ) ||
-       error.message || error.toString();
-
+      // capturing the error message from the server
+      const message = (error.response && error.response.data && error.response.data.message ) ||
+      error.message || error.toString();
+      toast.error("Enrollee registration failed!", {
+            position: "top-right",
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+      });
        return thunkAPI.rejectWithValue(message);
     }
   }
@@ -204,12 +207,39 @@ export const updateEnrollee = createAsyncThunk(
 
       try {
         const token = thunkAPI.getState().auth.agent.token;
+        const {
+          name,
+          email,
+          telephone,
+          address,
+          nin,
+          vin,
+          numberPlate,
+          model,
+          gender,
+          age,
+          image
+        } = data;
+        const updatedData = {
+          name,
+          email,
+          telephone,
+          address,
+          nin,
+          vin,
+          numberPlate,
+          model,
+          gender,
+          age,
+          image: image[0]
+        }
         const config = {
             headers: {
+                'Content-Type': 'multipart/form-data',
                 'Authorization': `Bearer ${token}`
             }
         };
-          const response = await axios.patch(API_URL + `/api/enrollee/${id}`, data, config)
+          const response = await axios.patch(API_URL + `/api/enrollee/${id}`, updatedData, config)
 
           if (!response.data) {
               toast.error("No such enrollee found with that id!", {
@@ -223,7 +253,6 @@ export const updateEnrollee = createAsyncThunk(
                   theme: "light",
                 });
           }
-          console.log(response.data);
           return response.data;
 
       } catch (error) {
@@ -264,19 +293,6 @@ export const getQrcode = createAsyncThunk(
                   theme: "light",
                 });
           } 
-          // else {
-          //     toast.success("Qrcode generated successfully", {
-          //     position: "top-right",
-          //     autoClose: 1500,
-          //     hideProgressBar: false,
-          //     closeOnClick: true,
-          //     pauseOnHover: true,
-          //     draggable: true,
-          //     progress: undefined,
-          //     theme: "light",
-          //   });
-          // }
-          // console.log(response.data);
           return response.data;
 
       } catch (error) {

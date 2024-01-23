@@ -1,15 +1,53 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Icon from "@/components/ui/Icon";
 import Card from "@/components/ui/Card";
+import Button from "@/components/ui/Button";
+import Modal from "@/components/ui/Modal";
+import Textinput from "@/components/ui/Textinput";
 import BasicArea from "../chart/appex-chart/BasicArea";
-import { useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { useDispatch, useSelector } from "react-redux";
+import { updateAgent } from "../app/agents/agentsStore";
 
 // import images
 import ProfileImage from "@/assets/images/users/user-1.jpg";
 
+const FormValidationSchema = yup
+  .object({
+    image: yup.mixed()
+  })
+  .required();
+
 const profile = () => {
   const { agent, isActive } = useSelector((state) => state.auth);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [previewImage, setPreviewImage] = useState('');
+  const dispatch = useDispatch();
+  const id = agent._id;
+
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm({
+    resolver: yupResolver(FormValidationSchema),
+  });
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setSelectedFile(file);
+      setPreviewImage(URL.createObjectURL(file));
+    }
+  }
+
+const onSubmit = (data) => {
+  console.log(data)
+  dispatch(updateAgent({ id, data }))
+}
   return (
     <div>
       <div className="space-y-5 profile-page">
@@ -20,16 +58,57 @@ const profile = () => {
               <div className="flex-none">
                 <div className="md:h-[186px] md:w-[186px] h-[140px] w-[140px] md:ml-0 md:mr-0 ml-auto mr-auto md:mb-0 mb-4 rounded-full ring-4 ring-slate-100 relative">
                   <img
-                    src={ProfileImage}
+                    src={'http://localhost:3000/uploads/'+agent.profileImage}
                     alt=""
                     className="w-full h-full object-cover rounded-full"
                   />
-                  <Link
-                    to="#"
+                  <div
                     className="absolute right-2 h-8 w-8 bg-slate-50 text-slate-600 rounded-full shadow-sm flex flex-col items-center justify-center md:top-[140px] top-[100px]"
                   >
-                    <Icon icon="heroicons:pencil-square" />
-                  </Link>
+                  <Modal
+                      title="Upload profile image"
+                      label={<Icon icon="heroicons:pencil-square" />}
+                      uncontrol
+                    >
+                      <h4 className="font-medium text-lg mb-3 text-slate-900">
+                        <form onSubmit={handleSubmit(onSubmit)}>
+                        <Textinput
+                          name="image"
+                          label="update profile image"
+                          type="file"
+                          register={register}
+                          onChange={handleFileChange}
+                        />
+                        <div className="text-base text-slate-600 dark:text-slate-300 mt-4">
+                          <h5>Preview</h5>
+                          <div className="md:h-[186px] md:w-[186px] h-[140px] w-[140px] md:ml-0 md:mr-0 ml-auto mr-auto md:mb-0 mb-4 rounded-full ring-4 ring-slate-100 relative">
+                          {
+                            previewImage ? 
+                            (
+                              <img
+                                src={previewImage}
+                                alt=""
+                                className="w-full h-full object-cover rounded-full"
+                              />
+                            )
+                            :
+                            (
+                              <img
+                                src={ProfileImage}
+                                alt=""
+                                className="w-full h-full object-cover rounded-full"
+                              />
+                            )
+                          }
+                          </div>
+                        </div>
+                        <div className="ltr:text-right rtl:text-left">
+                          <button type="submit" className="btn btn-dark text-center">Accept</button>
+                        </div>
+                        </form>
+                      </h4>
+                    </Modal>
+                  </div>
                 </div>
               </div>
               <div className="flex-1">
@@ -65,7 +144,7 @@ const profile = () => {
 
             <div className="flex-1">
               <div className="text-base text-slate-900 dark:text-slate-300 font-medium mb-1">
-                20
+              {agent.downloadsCount}
               </div>
               <div className="text-sm text-slate-600 font-light dark:text-slate-300">
                 Qr codes Downloaded
@@ -74,10 +153,19 @@ const profile = () => {
 
             <div className="flex-1">
               <div className="text-base text-slate-900 dark:text-slate-300 font-medium mb-1">
-                3200
+              {agent.scansCount}
               </div>
               <div className="text-sm text-slate-600 font-light dark:text-slate-300">
-                Vehicles verified
+                Scans
+              </div>
+            </div>
+
+            <div className="flex-1">
+              <div className="text-base text-slate-900 dark:text-slate-300 font-medium mb-1">
+              {agent.generationsCount}
+              </div>
+              <div className="text-sm text-slate-600 font-light dark:text-slate-300">
+                Generations
               </div>
             </div>
           </div>

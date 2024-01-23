@@ -22,6 +22,8 @@ const FormValidationSchema = yup
     numberPlate: yup.string().required("Vehicle number plate is Required"),
     model: yup.string().required("Vehicle model is Required"),
     gender: yup.string().required("Select a gender"),
+    age: yup.number().required("Age is required"),
+    image: yup.mixed()
   })
   .required();
 
@@ -65,6 +67,7 @@ export const EditEnrollee = () => {
       });
     } else {
       dispatch(updateEnrollee({ id, data }))
+
       if (isSuccess || enrollee) {
         toast.success("Enrollee updated successfully", {
           position: "top-right",
@@ -122,6 +125,7 @@ export const EditEnrollee = () => {
     setValue("vin", enrollee.vin); 
     setValue("model", enrollee.model);
     setValue("gender", enrollee.gender);
+    setValue("age", enrollee.age);
 
   }, [setValue]);
 
@@ -139,7 +143,6 @@ export const EditEnrollee = () => {
           type="text"
           register={register}
           error={errors.name}
-        //   placeholder="Enter fullname...."
         />
         <Textinput
           name="email"
@@ -147,7 +150,6 @@ export const EditEnrollee = () => {
           type="email"
           register={register}
           error={errors.email}
-        //   placeholder="Enter email...."
         />
         <Textinput
           name="telephone"
@@ -155,7 +157,6 @@ export const EditEnrollee = () => {
           type="text"
           register={register}
           error={errors.telephone}
-        //   placeholder="Enter phone number"
         />
         <Textinput
           name="address"
@@ -163,23 +164,20 @@ export const EditEnrollee = () => {
           type="text"
           register={register}
           error={errors.address}
-        //   placeholder="Enter the address"
         />
         <Textinput
           name="nin"
           label="national identification number"
           type="text"
           register={register}
-          error={errors.nin}
-        //   placeholder="Enter the NIN"
+          error={errors.nin} 
         />
         <Textinput
           name="vin"
           label="vehicle identification number"
           type="text"
           register={register}
-          error={errors.vin}
-        //   placeholder="Enter the VIN"
+          error={errors.vin} 
         />
         <Textinput
           name="numberPlate"
@@ -187,7 +185,6 @@ export const EditEnrollee = () => {
           type="text"
           register={register}
           error={errors.numberPlate}
-        //   placeholder="Enter plate number"
         />
         <Textinput
           name="model"
@@ -195,7 +192,6 @@ export const EditEnrollee = () => {
           type="text"
           register={register}
           error={errors.model}
-        //   placeholder="Enter vehicle model"
         />
         <Select
           name="gender"
@@ -205,16 +201,24 @@ export const EditEnrollee = () => {
           error={errors.gender}
           className="h-[48px]"
         />
-        {/* <Fileinput 
-          selectedFiles={selectedFiles}
-          name="enrolleeImages"
-          multiple
-          preview
-        /> */}
-        <div className="flex pt-6 mt-8">
-          <div className="lg:col-span-2 col-span-1 col-12">
+        <Textinput
+          name="age"
+          label="age"
+          type="text"
+          register={register}
+          error={errors.age}
+        />
+        <Textinput
+          name="image"
+          label="update profile image"
+          type="file"
+          register={register}
+          placeholder="Choose a file or drop it here..."
+        />
+        <div className="flex pt-2 mt-2">
+          <div className="lg:col-span-6 col-span-1 col-12">
             <div className="ltr:text-right rtl:text-left">
-              <button type="submit" className="btn btn-dark  text-center">Update</button>
+              <button type="submit" className="btn btn-dark text-center">Update</button>
             </div>
           </div>
         </div>

@@ -100,10 +100,10 @@ useEffect(() => {
 
             <div className="flex-1">
               <div className="text-base text-slate-900 dark:text-slate-300 font-medium mb-1">
-                12
+                {agent.generationsCount}
               </div>
               <div className="text-sm text-slate-600 font-light dark:text-slate-300">
-                Vehicles verified
+              Qr code Generated
               </div>
             </div>
             <div className="flex-1">

@@ -1,15 +1,7 @@
 import React, { useState, useEffect } from "react";
-// import Card from "@/components/ui/Card";
-// import Image from "@/components/ui/Image";
-// import responsiveImage4 from "@/assets/images/all-img/thumb-4.png";
-// import { Icon } from "@iconify/react";
-// import { Link } from "react-router-dom";
-// import Button from "@/components/ui/Button";
-// import Tooltip from "@/components/ui/Tooltip";
-// import Button from "@/components/ui/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { getAgents, reset } from "./agentsStore";
-import AgentCard from "./agentsCard";
+import { AgentCard } from "./agentsCard";
 
 const AgentsPage = () => {
   const dispatch = useDispatch();
@@ -24,7 +16,6 @@ useEffect(() =>{
   }
 
   dispatch(getAgents());
-  // console.log(getAgents)
 
   // reset the state when a leaves the page
   return () => {
@@ -48,6 +39,7 @@ useEffect(() =>{
                 contact={agent.telephone}
                 role={agent.role}
                 gender={agent.gender}
+                profile={agent.profileImage}
               />
             ))}
           </div>

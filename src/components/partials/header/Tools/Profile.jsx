@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutAgent, reset } from "@/pages/auth/common/store";
 
-import UserAvatar from "@/assets/images/all-img/user.png";
+
 
 const profileLabel = () => {
   const {agent} = useSelector((state) => state.auth);
@@ -15,7 +15,7 @@ const profileLabel = () => {
       <div className="flex-1 ltr:mr-[10px] rtl:ml-[10px]">
         <div className="lg:h-8 lg:w-8 h-7 w-7 rounded-full">
           <img
-            src={UserAvatar}
+            src={'http://localhost:3000/uploads/'+agent.profileImage}
             alt=""
             className="block w-full h-full object-cover rounded-full"
           />

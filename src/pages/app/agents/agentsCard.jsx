@@ -9,10 +9,9 @@ import Tooltip from "@/components/ui/Tooltip";
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteAgent } from "./agentsStore"
 
-const AgentCard = ({agentID, name, email, contact, role, gender }) => {
+export const AgentCard = ({agentID, name, email, contact, role, gender, profile }) => {
 const dispatch = useDispatch();
 const { agent } = useSelector((state) => state.auth);
-
 // handle agent deleting
 const handleAgentDel = (agentID) => {
   if (agent.userType == "admin") {
@@ -43,16 +42,19 @@ const handleAgentDel = (agentID) => {
   }
 }
   return (
-    <div className="grid grid-cols-12 gap-4 p-2">
-        <Card className="lg:col-span-10 col-span-12">
+    <div className="lg:col-span-10 col-span-12">
+        <Card className="mt-4">
+
           <div className="row">
-            <div className="col-3">
-              <Image src={responsiveImage4}  className="rounded-md  border-slate-300" />
+            <div className="col-2">
+              <Image src={'http://localhost:3000/uploads/'+profile}  className="rounded border-slate-300 " />
             </div>
+
             <div className="col-9">
               <div className="pb-6 d-flex flex-row justify-content-between">
+
                 <div>
-                  <p>{name}</p>
+                  <p>Name: {name}</p>
                   <p>Agent ID: {agentID.slice(0, 10)}</p>
                 </div>
                 <div className='row'>
@@ -74,45 +76,34 @@ const handleAgentDel = (agentID) => {
                   </div>
                 </div>
               </div>
-
-              <div className="row">
-                <div className="col-6">
-
-                  <div className="d-flex flex-row ">
-                    <div className="pt-1 pb-2"><Icon icon="ic:outline-email" /></div>
-                    <div className="pl-4">{email}</div>
-                  </div>
-
-                  <div className="d-flex flex-row ">
-                    <div className="pt-1"><Icon icon={"solar:phone-bold"} /></div>
-                    <div className="pl-4"><p>{contact}</p></div>
-                  </div>
-                </div>
-
-                <div className="col-6">
+{/* </div> */}
+              <div className="row text-sm">
+                <div className="col-4">
 
                   <div className="d-flex flex-row ">
                     <div className="pt-1 inline">
                       Gender: <span className="text-sm font-bold text-info-500" >{gender}</span>
-                      {/* {
-                        isActive 
-                        ?
-                        <span className="text-sm font-bold text-success-500">
-                          Active
-                        </span>
-                        :
-                        <span className="text-sm font-bold text-danger-500">
-                          Inactive
-                        </span>
-                      } */}
                      </div>
                   </div>
 
                   <div className="d-flex flex-row ">
                     <div className="pt-1">Role: <span className=' text-sm font-bold text-primary-600'>{role}</span></div>
-                    {/* <div className="pl-4"><p>12 Scans</p></div> */}
                   </div>
                 </div>
+
+                <div className="col-8">
+
+                  <div className="d-flex flex-row ">
+                    <div className="pt-1 pb-2"><Icon icon="ic:outline-email" /></div>
+                    <div className="pl-2">{email}</div>
+                  </div>
+
+                  <div className="d-flex flex-row ">
+                    <div className="pt-1"><Icon icon={"solar:phone-bold"} /></div>
+                    <div className="pl-2"><p>{contact}</p></div>
+                  </div>
+                </div>
+
 
               </div>
 
@@ -123,4 +114,4 @@ const handleAgentDel = (agentID) => {
   )
 }
 
-export default AgentCard;
+// export default AgentCard;

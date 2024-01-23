@@ -11,14 +11,16 @@ const ScanDetails = () => {
   const dispatch = useDispatch();
   const { scanResult } = useSelector((state) => state.qrCodeScanner);
   const { enrollee, isSuccess } = useSelector((state) => state.enrollees); 
+  const { agent } = useSelector((state) => state.auth);
+  const agentID = agent._id;
   const scanData = JSON.parse(scanResult);
-  const id = enrollee._id;
+  const enrolleeID = enrollee._id;
   const navigate = useNavigate();
 
   
   // grantting access in
   const handleAccessIn = () =>{
-    dispatch(grantAccessIn({id}))
+    dispatch(grantAccessIn({ enrolleeID, agentID }))
 
       toast.success("Access in grantted!", {
         position: "top-right",
@@ -38,7 +40,7 @@ const ScanDetails = () => {
 
   // denying access
 const handleDenyAccess = () =>{
-  dispatch(denyAcess({id}))
+  dispatch(denyAcess({ enrolleeID, agentID }))
 
       toast.error("Access denied!", {
         position: "top-right",
@@ -57,7 +59,7 @@ const handleDenyAccess = () =>{
 }
   // grantting access out
    const handleAccessOut = () =>{
-    dispatch(grantAccessOut({id}))
+    dispatch(grantAccessOut({ enrolleeID, agentID }))
 
       toast.success("Access out grantted!", {
         position: "top-right",
